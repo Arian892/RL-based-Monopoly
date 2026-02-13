@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap");
+
+body {
+  margin: 0;
+  background: radial-gradient(
+    circle at center,
+    #2b2b2b 0%,
+    #111 70%
+  );
+  color: #111;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* PROPERTY COLORS */
+.gray { background: #4b4b4b; }
+.lightblue { background: #9ec9e2; }
+.purple { background: #6a1b9a; }
+.orange { background: #ef6c00; }
+.red { background: #8b0000; }
+.yellow { background: #fbc02d; }
+.green { background: #2e7d32; }
+.darkblue { background: #1a237e; }

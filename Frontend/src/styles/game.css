@@ -1,0 +1,1013 @@
+.game-page {
+  height: 100vh;
+  background: radial-gradient(circle, #1b1b1b, #0b0b0b);
+  position: relative;
+  overflow: hidden;
+}
+
+/* =============================
+   BOARD (DO NOT MOVE)
+============================= */
+
+.board-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* =============================
+   PLAYER HUD (LEFT EMPTY SPACE)
+============================= */
+
+.player-hud {
+  position: absolute;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 340px;
+  padding: 24px;
+
+  background: linear-gradient(180deg, #141414, #0f0f0f);
+  border: 2px solid #2a2a2a;
+
+  font-family: "Cinzel", serif;
+  color: #e4dfd3;
+}
+
+.player-hud h2 {
+  font-size: 26px;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+}
+
+.player-card {
+  padding: 16px;
+  margin-bottom: 14px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+}
+
+.player-card.active {
+  border-color: #c9c3b8;
+  background: #242424;
+}
+
+.player-name {
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.player-money {
+  font-size: 16px;
+  opacity: 0.85;
+  margin-top: 6px;
+}
+/* =============================
+   CENTER CONTROLS (ON BOARD)
+============================= */
+
+.center-controls {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* =============================
+   DICE (REALISTIC)
+============================= */
+
+.dice-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.dice-row {
+  display: flex;
+  gap: 30px;
+  cursor: pointer;
+}
+
+/* DIE */
+.die {
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle at top left, #ffffff, #d9d9d9);
+  border-radius: 18px;
+  box-shadow:
+    inset -6px -6px 12px rgba(0, 0, 0, 0.2),
+    inset 6px 6px 12px rgba(255, 255, 255, 0.8),
+    0 14px 30px rgba(0, 0, 0, 0.6);
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 14px;
+  position: relative;
+}
+
+/* DOT */
+.dot {
+  width: 12px;
+  height: 12px;
+  background: #111;
+  border-radius: 50%;
+  justify-self: center;
+  align-self: center;
+}
+
+/* ROLL ANIMATION */
+.die.rolling {
+  animation: dice-roll 0.6s ease-in-out;
+}
+
+
+@keyframes dice-roll {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(10deg); }
+  50% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* =============================
+   BUTTONS (BIGGER)
+============================= */
+
+.roll-btn,
+.end-turn {
+  padding: 14px 30px;
+  font-family: "Cinzel", serif;
+  font-size: 18px;
+  letter-spacing: 4px;
+
+  background: linear-gradient(180deg, #222, #141414);
+  color: #e4dfd3;
+  border: 1px solid #555;
+  cursor: pointer;
+}
+
+.roll-btn:disabled,
+.end-turn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
+.player-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.player-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(0,0,0,0.6);
+}
+
+.player-card.active {
+  box-shadow:
+    inset 0 0 0 1px #c9c3b8,
+    0 0 10px rgba(255,255,255,0.2);
+}
+
+
+/* =============================
+   PROPERTY MODAL – DARK ELEGANT
+============================= */
+
+.property-modal.dark {
+  width: 420px;
+  background: linear-gradient(180deg, #0f0f0f, #1a1a1a);
+  border: 2px solid #2a2a2a;
+  padding: 28px;
+  font-family: "Cinzel", serif;
+  color: #e4dfd3;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+}
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 50;
+}
+
+
+.property-band {
+  height: 18px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+}
+
+.property-band.gray { background: #7f8c8d; }
+.property-band.lightblue { background: #3498db; }
+.property-band.purple { background: #9b59b6; }
+.property-band.orange { background: #e67e22; }
+.property-band.red { background: #c0392b; }
+.property-band.yellow { background: #f1c40f; }
+.property-band.green { background: #27ae60; }
+.property-band.darkblue { background: #2c3e50; }
+.property-band.neutral { background: #555; }
+
+.property-title {
+  text-align: center;
+  letter-spacing: 2px;
+  font-size: 26px;
+  margin-bottom: 24px;
+}
+
+.property-details {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 16px 0;
+  margin-bottom: 24px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.detail-row.muted {
+  opacity: 0.6;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.buy-btn {
+  padding: 12px 26px;
+  background: linear-gradient(180deg, #2ecc71, #27ae60);
+  border: none;
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.skip-btn {
+  padding: 12px 26px;
+  background: linear-gradient(180deg, #c0392b, #922b21);
+  border: none;
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+/* =============================
+   HUD MONEY EFFECT
+============================= */
+
+.hud-money-effect {
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  animation: hud-float 0.9s ease;
+}
+
+.hud-money-effect.plus {
+  color: #2ecc71;
+}
+
+.hud-money-effect.minus {
+  color: #e74c3c;
+}
+
+@keyframes hud-float {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+/* =============================
+   MORTGAGE MODAL (DARK ELEGANT)
+============================= */
+
+.mortgage-modal {
+  width: 520px;
+  max-height: 70vh;
+  background: linear-gradient(145deg, #0e0e0e, #1a1a1a);
+  border: 2px solid #2a2a2a;
+  padding: 24px;
+  font-family: "Cinzel", serif;
+  color: #e4dfd3;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.modal-header h2 {
+  letter-spacing: 4px;
+  font-size: 22px;
+}
+
+.close-btn {
+  background: none;
+  color: #aaa;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.mortgage-list {
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.mortgage-card {
+  display: flex;
+  align-items: center;
+  background: #141414;
+  border: 1px solid #333;
+  margin-bottom: 14px;
+  padding: 12px;
+  position: relative;
+}
+
+.mortgage-card.mortgaged {
+  opacity: 0.65;
+  background: linear-gradient(180deg, #111, #090909);
+}
+
+.mortgage-band {
+  width: 10px;
+  height: 100%;
+  margin-right: 12px;
+}
+
+.mortgage-info {
+  flex: 1;
+}
+
+.mortgage-name {
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.mortgage-meta {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+.mortgage-action button {
+  padding: 8px 14px;
+  font-family: "Cinzel", serif;
+  letter-spacing: 1px;
+  border: none;
+  cursor: pointer;
+}
+
+.mortgage-btn {
+  background: linear-gradient(145deg, #7a1e1e, #4a0f0f);
+  color: #f5eaea;
+  border: 1px solid #a33;
+}
+
+
+.unmortgage-btn {
+  background: #27ae60;
+  color: #fff;
+}
+
+.unmortgage-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.empty-assets {
+  text-align: center;
+  opacity: 0.7;
+  margin-top: 40px;
+}
+
+
+/* =============================
+   MANAGE ASSETS BUTTON
+============================= */
+
+.manage-assets-btn {
+  margin-top: 12px;
+  padding: 10px 16px;
+
+  font-family: "Cinzel", serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  background: linear-gradient(
+    145deg,
+    #1c1c1c,
+    #0f0f0f
+  );
+
+  color: #e4dfd3;
+
+  border: 1px solid #3a3a3a;
+  cursor: pointer;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 4px 10px rgba(0, 0, 0, 0.6);
+
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+/* Hover */
+.manage-assets-btn:hover {
+  background: linear-gradient(
+    145deg,
+    #242424,
+    #141414
+  );
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 6px 14px rgba(0, 0, 0, 0.8);
+
+  transform: translateY(-1px);
+}
+
+/* Active click */
+.manage-assets-btn:active {
+  transform: translateY(0);
+  box-shadow:
+    inset 0 0 6px rgba(0, 0, 0, 0.8);
+}
+
+
+.bankrupt-btn {
+  margin-top: 8px;
+  padding: 10px 14px;
+  width: 100%;
+
+  font-family: "Cinzel", serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+
+  background: linear-gradient(180deg, #2a0f0f, #140707);
+  color: #e74c3c;
+
+  border: 1px solid #5a1a1a;
+  cursor: pointer;
+}
+
+.bankrupt-btn:hover {
+  background: linear-gradient(180deg, #3a1414, #1a0a0a);
+}
+
+.property-modal.winner {
+  border: 2px solid #c9c3b8;
+  box-shadow:
+    0 0 25px rgba(201, 195, 184, 0.4),
+    inset 0 0 40px rgba(0,0,0,0.8);
+}
+
+.player-card.bankrupt {
+  opacity: 0.45;
+  filter: grayscale(1);
+  pointer-events: none;
+}
+
+.player-card.bankrupt .player-name {
+  text-decoration: line-through;
+}
+
+.dead-mark {
+  color: #e74c3c;
+  margin-left: 6px;
+}
+/* =============================
+   MODAL OVERLAY
+============================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.dark-fade {
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0.98)
+  );
+}
+
+/* =============================
+   BANKRUPTCY MODAL
+============================= */
+
+.bankruptcy-modal {
+  position: relative; /* 🔑 REQUIRED */
+
+  background: linear-gradient(145deg, #0d0d0d, #151515);
+  border: 2px solid #400;
+  border-radius: 16px;
+
+  padding: 40px 50px;
+  width: 420px;
+
+  text-align: center;
+  color: #e5e5e5;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.9),
+    inset 0 0 40px rgba(255, 0, 0, 0.05);
+
+  animation: rise-in 0.35s ease;
+}
+
+@keyframes rise-in {
+  from {
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.skull {
+  font-size: 48px;
+  margin-bottom: 10px;
+  color: #e74c3c;
+  text-shadow: 0 0 12px rgba(231, 76, 60, 0.6);
+}
+
+.bankruptcy-title {
+  font-family: "Cinzel", serif;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.bankruptcy-player {
+  font-size: 18px;
+  margin-bottom: 14px;
+  color: #ccc;
+}
+
+.bankruptcy-text {
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 1.5;
+}
+
+.bankruptcy-balance {
+  margin-top: 16px;
+  font-size: 15px;
+}
+
+.bankruptcy-balance span {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* =============================
+   CONFIRM BUTTON
+============================= */
+
+.bankruptcy-confirm-btn {
+  margin-top: 30px;
+  padding: 12px 26px;
+
+  background: linear-gradient(145deg, #7a0000, #a10000);
+  border: none;
+  border-radius: 10px;
+
+  color: #fff;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px rgba(161, 0, 0, 0.5);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bankruptcy-confirm-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(161, 0, 0, 0.7);
+}
+
+/* =============================
+   MODAL CLOSE BUTTON
+============================= */
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+
+  background: none;
+  border: none;
+
+  color: #aaa;
+  font-size: 18px;
+  cursor: pointer;
+
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.modal-close:hover {
+  color: #e74c3c;
+  transform: scale(1.1);
+}
+
+
+.house-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.build-house-btn {
+  background: linear-gradient(145deg, #1e7f4d, #27ae60);
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.sell-house-btn {
+  background: linear-gradient(145deg, #7a3a00, #e67e22);
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.build-house-btn:disabled,
+.sell-house-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
+/* =============================
+   TRADE MODAL
+============================= */
+
+.trade-modal {
+  width: 900px;
+  max-width: 92vw;
+
+  background: linear-gradient(160deg, #0b0b0b, #141414);
+  border: 1px solid #2a2a2a;
+  border-radius: 18px;
+
+  color: #ddd;
+  padding: 28px 32px;
+
+  box-shadow:
+    0 40px 120px rgba(0,0,0,0.95),
+    inset 0 0 60px rgba(255,255,255,0.03);
+
+  animation: rise-in 0.35s ease;
+}
+
+.trade-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-bottom: 1px solid #222;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.trade-modal h2 {
+  font-family: "Cinzel", serif;
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: #eee;
+}
+
+
+.trade-players {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 20px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.trade-players select {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 6px 10px;
+
+  color: #eee;
+  cursor: pointer;
+}
+
+.trade-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.trade-column {
+  background: rgba(0,0,0,0.35);
+  border: 1px solid #222;
+  border-radius: 14px;
+
+  padding: 16px;
+}
+
+.trade-column h3 {
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  color: #aaa;
+}
+
+
+.trade-property {
+  padding: 8px 12px;
+  margin: 6px 0;
+
+  background: linear-gradient(145deg, #141414, #1d1d1d);
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+
+  font-size: 13px;
+  cursor: pointer;
+
+  transition: all 0.15s ease;
+}
+
+.trade-property:hover {
+  border-color: #555;
+  background: #222;
+}
+
+.trade-property.selected {
+  background: linear-gradient(145deg, #2c0000, #4a0000);
+  border-color: #a33;
+
+  color: #fff;
+  box-shadow:
+    inset 0 0 12px rgba(255,0,0,0.25);
+}
+
+.trade-error {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #e74c3c;
+  opacity: 0.85;
+}
+
+
+.trade-confirm-btn {
+  padding: 14px 34px;
+
+  background: linear-gradient(145deg, #0f3d1f, #1f6b38);
+  border: none;
+  border-radius: 14px;
+
+  color: #eaffea;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,0.8),
+    inset 0 0 12px rgba(255,255,255,0.08);
+
+  transition: all 0.2s ease;
+}
+
+.trade-confirm-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 40px rgba(0,0,0,0.95),
+    inset 0 0 18px rgba(255,255,255,0.12);
+}
+
+.trade-confirm-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.trade-cancel-btn {
+  padding: 14px 34px;
+
+  background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+  border: 1px solid #3a3a3a;
+  border-radius: 14px;
+
+  color: #dddddd;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,0.8),
+    inset 0 0 12px rgba(255,255,255,0.04);
+
+  transition: all 0.2s ease;
+}
+
+.trade-cancel-btn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 14px 34px rgba(0,0,0,0.9),
+    inset 0 0 16px rgba(255,255,255,0.06);
+}
+
+.trade-cancel-btn:active {
+  transform: translateY(0);
+  box-shadow:
+    0 6px 18px rgba(0,0,0,0.85),
+    inset 0 0 18px rgba(0,0,0,0.6);
+}
+
+.trade-review-title span {
+  color: #4ade80;
+}
+
+.trade-review-sub {
+  font-size: 13px;
+  opacity: 0.75;
+  margin-top: 4px;
+}
+
+
+/* =============================
+   CHANCE MODAL
+============================= */
+
+.chance-modal {
+  background: radial-gradient(circle at top, #121212, #000);
+  border: 2px solid #3a2a00;
+  border-radius: 18px;
+  padding: 42px 50px;
+  width: 420px;
+  text-align: center;
+  color: #f1e6c8;
+
+  box-shadow:
+    0 30px 90px rgba(0,0,0,0.9),
+    inset 0 0 30px rgba(255,215,0,0.06);
+
+  animation: rise-in 0.35s ease;
+}
+
+.chance-header {
+  font-family: "Cinzel", serif;
+  letter-spacing: 3px;
+  font-size: 18px;
+  color: #d4af37;
+  margin-bottom: 20px;
+}
+
+.chance-text {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 26px;
+  opacity: 0.9;
+}
+
+.chance-effect {
+  font-size: 18px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.chance-effect.positive {
+  color: #4caf50;
+  text-shadow: 0 0 10px rgba(76,175,80,0.4);
+}
+
+.chance-effect.negative {
+  color: #e74c3c;
+  text-shadow: 0 0 10px rgba(231,76,60,0.4);
+}
+
+.chance-effect.neutral {
+  color: #d4af37;
+}
+
+.chance-accept-btn {
+  padding: 14px 32px;
+  background: linear-gradient(145deg, #6b4e00, #a67c00);
+  border: none;
+  border-radius: 14px;
+
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,0.85),
+    inset 0 0 12px rgba(255,255,255,0.08);
+
+  transition: all 0.2s ease;
+}
+
+.chance-accept-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 40px rgba(0,0,0,0.95),
+    inset 0 0 18px rgba(255,255,255,0.12);
+}
+
+
+.jail-panel {
+  background: linear-gradient(145deg, #0b0b0b, #141414);
+  border: 1px solid #500;
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255, 0, 0, 0.15);
+}
+
+.jail-panel h3 {
+  color: #e74c3c;
+  margin-bottom: 6px;
+}
+
+.jail-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.jail-actions button {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #eee;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.jail-actions button:hover:not(:disabled) {
+  background: #300;
+}
+
+.jail-actions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

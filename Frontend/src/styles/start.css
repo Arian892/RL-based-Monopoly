@@ -1,0 +1,98 @@
+.start-page {
+  min-height: 100vh;
+  background: radial-gradient(circle, #1b1b1b, #0b0b0b);
+  color: #e4dfd3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Cinzel", serif;
+}
+
+/* MAIN CONTAINER */
+.setup-container {
+  width: 680px;
+  padding: 60px;
+  background: linear-gradient(180deg, #151515, #0f0f0f);
+  border: 2px solid #2a2a2a;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
+}
+
+/* TITLE */
+.setup-container h1 {
+  text-align: center;
+  margin-bottom: 60px;
+  letter-spacing: 8px;
+  font-size: 48px;
+  font-weight: 700;
+}
+
+/* GAME OPTIONS */
+.setup-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 60px;
+}
+
+.field label {
+  display: block;
+  font-size: 16px;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+.field select {
+  width: 100%;
+  padding: 16px;
+  background: #0b0b0b;
+  border: 1px solid #444;
+  color: #e4dfd3;
+  font-family: "Cinzel", serif;
+  font-size: 18px;
+}
+
+/* PLAYERS SECTION */
+.players-card {
+  margin-bottom: 60px;
+}
+
+.players-card h2 {
+  margin-bottom: 30px;
+  font-size: 26px;
+  letter-spacing: 4px;
+}
+
+/* PLAYER ROW */
+.player-row {
+  display: grid;
+  grid-template-columns: 2.5fr 1.5fr;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+.player-row input,
+.player-row select {
+  padding: 16px;
+  background: #0b0b0b;
+  border: 1px solid #444;
+  color: #e4dfd3;
+  font-family: "Cinzel", serif;
+  font-size: 18px;
+}
+
+/* START BUTTON */
+.start-btn {
+  width: 100%;
+  padding: 20px;
+  font-size: 22px;
+  letter-spacing: 6px;
+  background: linear-gradient(180deg, #222, #161616);
+  border: 1px solid #555;
+  color: #e4dfd3;
+  cursor: pointer;
+}
+
+.start-btn:hover {
+  background: linear-gradient(180deg, #2c2c2c, #1d1d1d);
+}
