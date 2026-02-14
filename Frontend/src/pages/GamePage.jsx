@@ -102,7 +102,7 @@ const winner =
   const d2 = Math.floor(Math.random() * 6) + 1;
   const steps = d1 + d2;
   // const d1 = 0
-  // const d2 = 1
+  // const d2 = 8
   // const steps = d1 + d2 
 
   setDice([d1, d2]);
@@ -562,27 +562,34 @@ if (effect.type === "jailFree") {
   }
 
   // =========================
-  // 🏠 PAY PER HOUSE
-  // =========================
-  if (effect.type === "payPerHouse") {
-    const totalHouses = Object.values(houses || {}).reduce(
-      (sum, count) => sum + count,
-      0
-    );
+// 🏠 PAY PER HOUSE (FIXED)
+// =========================
+if (effect.type === "payPerHouse") {
+  const totalHouses = Object.entries(houses || {}).reduce(
+    (sum, [cellId, count]) => {
+      // count ONLY houses owned by current player
+      if (ownership[cellId] === currentPlayer) {
+        return sum + count;
+      }
+      return sum;
+    },
+    0
+  );
 
-    const total = totalHouses * effect.amount;
+  const total = totalHouses * effect.amount;
 
-    if (total > 0) {
-      updateMoney(currentPlayer, -total);
-      setMoneyEffect({
-        player: currentPlayer,
-        amount: -total,
-      });
-    }
-
-    setChanceCard(null);
-    return;
+  if (total > 0) {
+    updateMoney(currentPlayer, -total);
+    setMoneyEffect({
+      player: currentPlayer,
+      amount: -total,
+    });
   }
+
+  setChanceCard(null);
+  return;
+}
+
 }
 
   // ==========================

@@ -1,11 +1,17 @@
-version: '3.8'
+version: "3.9"
 
 services:
   frontend:
+    container_name: monopoly-frontend-dev
     build:
       context: ./Frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
-      - "3000:80"
-    container_name: monopoly-frontend
-    restart: unless-stopped
+      - "5173:5173"   # change if using 3000
+    volumes:
+      - ./Frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    stdin_open: true
+    tty: true

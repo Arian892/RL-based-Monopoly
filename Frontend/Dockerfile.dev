@@ -1,0 +1,19 @@
+# Use latest LTS
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies first (better caching)
+COPY package*.json ./
+
+RUN npm install
+
+# Copy rest of the code
+COPY . .
+
+# Expose dev server port (Vite default 5173, React 3000)
+EXPOSE 5173
+
+# Start development server
+CMD ["npm", "run", "dev"]
