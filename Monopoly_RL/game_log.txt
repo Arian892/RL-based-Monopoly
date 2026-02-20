@@ -1,0 +1,1930 @@
+════════════════════════════════════════════════════════════
+  MONOPOLY — AI Game Simulation
+  Date   : 2026-02-21 01:05:09
+  Model  : ppo_model.pt
+  Players: 2
+════════════════════════════════════════════════════════════
+
+✓ Loaded trained model: ppo_model.pt
+
+  Players:
+    Player 1 (AI★)  →  Trained model
+    Player 2  →  Fixed-policy (FP-A)
+────────────────────────────────────────────────────────────
+
+  Turn order: Player 2 → Player 1 (AI★)
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+  ROUND 1
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$1500  |  Properties=0  |  Monopolies=0  |  Net Worth=$1500
+    Player 2: Cash=$1500  |  Properties=0  |  Monopolies=0  |  Net Worth=$1500
+
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 5  (total: 9)
+  Player 2 lands on Connecticut Avenue
+    → Unowned  |  Price: $120
+  Player 2 BUYS Connecticut Avenue for $120
+    → Cash remaining: $1380
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 1  (total: 2)
+  Player 1 (AI★) lands on Community Chest
+    ► Card: "Pay hospital fees of $100"
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 2
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$1500  |  Properties=0  |  Monopolies=0  |  Net Worth=$1500
+    Player 2: Cash=$1380  |  Properties=1  |  Monopolies=0  |  Net Worth=$1560
+
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 2  (total: 8)
+  Player 2 lands on Community Chest
+    ► Card: "It is your birthday – Collect $10 from every player"
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 5  (total: 10)
+  Player 1 (AI★) lands on Electric Company
+    → Unowned  |  Price: $150
+  Player 1 (AI★) BUYS Electric Company for $150
+    → Cash remaining: $1350
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 3
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$1350  |  Properties=1  |  Monopolies=0  |  Net Worth=$1575
+    Player 2: Cash=$1380  |  Properties=1  |  Monopolies=0  |  Net Worth=$1560
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 5  (total: 8)
+  Player 2 lands on B&O Railroad
+    → Unowned  |  Price: $200
+  Player 2 BUYS B&O Railroad for $200
+    → Cash remaining: $1180
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 1  (total: 5)
+  Player 1 (AI★) lands on Community Chest
+    ► Card: "You are assessed for street repairs – $40 per house, $115 per hotel"
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 4
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$1350  |  Properties=1  |  Monopolies=0  |  Net Worth=$1575
+    Player 2: Cash=$1180  |  Properties=2  |  Monopolies=0  |  Net Worth=$1660
+
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 3  (total: 9)
+  Player 2 lands on Pennsylvania Avenue
+    → Unowned  |  Price: $320
+  Player 2 BUYS Pennsylvania Avenue for $320
+    → Cash remaining: $860
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 3  (total: 9)
+  Player 1 (AI★) lands on Atlantic Avenue
+    → Unowned  |  Price: $260
+  Player 1 (AI★) BUYS Atlantic Avenue for $260
+    → Cash remaining: $1090
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 5
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$1090  |  Properties=2  |  Monopolies=0  |  Net Worth=$1705
+    Player 2: Cash=$860  |  Properties=3  |  Monopolies=0  |  Net Worth=$1820
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 2  (total: 5)
+  Player 2 lands on Boardwalk
+    → Unowned  |  Price: $400
+  Player 2 BUYS Boardwalk for $400
+    → Cash remaining: $460
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 6  (total: 9)
+  Player 1 (AI★) lands on Short Line Railroad
+    → Unowned  |  Price: $200
+  Player 1 (AI★) BUYS Short Line Railroad for $200
+    → Cash remaining: $890
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 6
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$890  |  Properties=3  |  Monopolies=0  |  Net Worth=$1805
+    Player 2: Cash=$460  |  Properties=4  |  Monopolies=0  |  Net Worth=$2020
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 2  (total: 5)
+  Player 2 lands on Income Tax — pays $200
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 5  (total: 10)
+  Player 1 (AI★) lands on Reading Railroad
+    → Unowned  |  Price: $200
+  Player 1 (AI★) BUYS Reading Railroad for $200
+    → Cash remaining: $890
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 7
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$890  |  Properties=4  |  Monopolies=0  |  Net Worth=$2105
+    Player 2: Cash=$460  |  Properties=4  |  Monopolies=0  |  Net Worth=$2020
+
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 6  (total: 7)
+  Player 2 lands on St. Charles Place
+    → Unowned  |  Price: $140
+  Player 2 BUYS St. Charles Place for $140
+    → Cash remaining: $320
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 5  (total: 11)
+  Player 1 (AI★) lands on St. James Place
+    → Unowned  |  Price: $180
+  Player 1 (AI★) BUYS St. James Place for $180
+    → Cash remaining: $710
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 8
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$710  |  Properties=5  |  Monopolies=0  |  Net Worth=$2195
+    Player 2: Cash=$320  |  Properties=5  |  Monopolies=0  |  Net Worth=$2090
+
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 6  (total: 12)
+  Player 2 lands on Indiana Avenue
+    → Unowned  |  Price: $220
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 5  (total: 9)
+  Player 1 (AI★) lands on B&O Railroad
+    → Owned by Player 2  |  Player 1 (AI★) pays $25 rent
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 9
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$685  |  Properties=5  |  Monopolies=0  |  Net Worth=$2170
+    Player 2: Cash=$345  |  Properties=5  |  Monopolies=0  |  Net Worth=$2115
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 5  (total: 8)
+  Player 2 lands on Pacific Avenue
+    → Unowned  |  Price: $300
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 4  (total: 7)
+  Player 1 (AI★) lands on North Carolina Ave
+    → Unowned  |  Price: $300
+  Player 1 (AI★) BUYS North Carolina Ave for $300
+    → Cash remaining: $385
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 10
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$385  |  Properties=6  |  Monopolies=0  |  Net Worth=$2320
+    Player 2: Cash=$345  |  Properties=5  |  Monopolies=0  |  Net Worth=$2115
+
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 6  (total: 12)
+  Player 2 lands on Baltic Avenue
+    → Unowned  |  Price: $60
+  Player 2 BUYS Baltic Avenue for $60
+    → Cash remaining: $485
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 6  (total: 12)
+  Player 1 (AI★) lands on Income Tax — pays $200
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 11
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$385  |  Properties=6  |  Monopolies=0  |  Net Worth=$2320
+    Player 2: Cash=$485  |  Properties=6  |  Monopolies=0  |  Net Worth=$2345
+
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 6  (total: 7)
+  Player 2 lands on Jail / Just Visiting
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 4  (total: 6)
+  Player 1 (AI★) lands on Jail / Just Visiting
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 12
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$385  |  Properties=6  |  Monopolies=0  |  Net Worth=$2320
+    Player 2: Cash=$485  |  Properties=6  |  Monopolies=0  |  Net Worth=$2345
+
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 6  (total: 10)
+  Player 2 lands on Free Parking
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 3  (total: 7)
+  Player 1 (AI★) lands on Community Chest
+    ► Card: "Bank error in your favor – Collect $200"
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 13
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$385  |  Properties=6  |  Monopolies=0  |  Net Worth=$2320
+    Player 2: Cash=$485  |  Properties=6  |  Monopolies=0  |  Net Worth=$2345
+
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 1  (total: 6)
+  Player 2 lands on Atlantic Avenue
+    → Owned by Player 1 (AI★)  |  Player 2 pays $22 rent
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 2  (total: 5)
+  Player 1 (AI★) lands on Chance
+    ► Card: "Bank pays you dividend of $50"
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 14
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$407  |  Properties=6  |  Monopolies=0  |  Net Worth=$2342
+    Player 2: Cash=$463  |  Properties=6  |  Monopolies=0  |  Net Worth=$2323
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 5  (total: 7)
+  Player 2 lands on Community Chest
+    ► Card: "It is your birthday – Collect $10 from every player"
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 3  (total: 5)
+  Player 1 (AI★) lands on Ventnor Avenue
+    → Unowned  |  Price: $260
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 15
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$407  |  Properties=6  |  Monopolies=0  |  Net Worth=$2342
+    Player 2: Cash=$463  |  Properties=6  |  Monopolies=0  |  Net Worth=$2323
+
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 2  (total: 8)
+  Player 2 lands on Mediterranean Avenue
+    → Unowned  |  Price: $60
+  Player 2 BUYS Mediterranean Avenue for $60
+    → Cash remaining: $603
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 2  (total: 7)
+  Player 1 (AI★) lands on Pennsylvania Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $28 rent
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 16
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$379  |  Properties=6  |  Monopolies=0  |  Net Worth=$2314
+    Player 2: Cash=$631  |  Properties=7  |  Monopolies=2  |  Net Worth=$2641
+
+  Player 2 builds a HOUSE on Mediterranean Avenue  (1 house(s))
+  Player 2 builds a HOUSE on Mediterranean Avenue  (2 house(s))
+  Player 2 builds a HOUSE on Mediterranean Avenue  (3 house(s))
+  Player 2 builds a HOUSE on Mediterranean Avenue  (4 house(s))
+  Player 2 builds a HOTEL on Mediterranean Avenue!
+  Player 2 builds a HOUSE on Baltic Avenue  (1 house(s))
+  Player 2 builds a HOUSE on Baltic Avenue  (2 house(s))
+  Player 2 builds a HOUSE on Baltic Avenue  (3 house(s))
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 6  (total: 11)
+  Player 2 lands on Electric Company
+    → Owned by Player 1 (AI★)  |  Player 2 pays $44 rent
+  Player 2 mortgages Boardwalk — receives $200
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 5  (total: 11)
+  Player 1 (AI★) lands on Reading Railroad
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 17
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$623  |  Properties=6  |  Monopolies=0  |  Net Worth=$2558
+    Player 2: Cash=$387  |  Properties=7  |  Monopolies=2  |  Net Worth=$2497
+
+  Player 2 builds a HOUSE on Baltic Avenue  (4 house(s))
+  Player 2 builds a HOTEL on Baltic Avenue!
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 2  (total: 7)
+  Player 2 lands on New York Avenue
+    → Unowned  |  Price: $200
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 4  (total: 7)
+  Player 1 (AI★) lands on Electric Company
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 18
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$623  |  Properties=6  |  Monopolies=0  |  Net Worth=$2558
+    Player 2: Cash=$287  |  Properties=7  |  Monopolies=2  |  Net Worth=$2497
+
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 3  (total: 4)
+  Player 2 lands on Indiana Avenue
+    → Unowned  |  Price: $220
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 1  (total: 3)
+  Player 1 (AI★) lands on Pennsylvania Railroad
+    → Unowned  |  Price: $200
+  Player 1 (AI★) BUYS Pennsylvania Railroad for $200
+    → Cash remaining: $423
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Reading Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 19
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$423  |  Properties=7  |  Monopolies=0  |  Net Worth=$2658
+    Player 2: Cash=$287  |  Properties=7  |  Monopolies=2  |  Net Worth=$2497
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Reading Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 6  (total: 9)
+  Player 2 lands on North Carolina Ave
+    → Owned by Player 1 (AI★)  |  Player 2 pays $26 rent
+  Player 2 ends their turn
+  Player 1 (AI★) ACCEPTS the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 6  (total: 11)
+  Player 1 (AI★) lands on Atlantic Avenue
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 20
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$649  |  Properties=6  |  Monopolies=0  |  Net Worth=$2584
+    Player 2: Cash=$61  |  Properties=8  |  Monopolies=2  |  Net Worth=$2571
+
+  Player 2 mortgages Pennsylvania Avenue — receives $160
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 4  (total: 10)
+  Player 2 lands on Community Chest
+    ► Card: "Go to Jail. Go directly to Jail."
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 5  (total: 9)
+  Player 1 (AI★) lands on Short Line Railroad
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 21
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$649  |  Properties=6  |  Monopolies=0  |  Net Worth=$2584
+    Player 2: Cash=$421  |  Properties=8  |  Monopolies=2  |  Net Worth=$2691
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 5  (total: 9)
+  Player 2 lands on St. Charles Place
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 3  (total: 6)
+  Player 1 (AI★) lands on Mediterranean Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $250 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 22
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$599  |  Properties=6  |  Monopolies=0  |  Net Worth=$2534
+    Player 2: Cash=$671  |  Properties=8  |  Monopolies=2  |  Net Worth=$2941
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 1  (total: 7)
+  Player 2 lands on Tennessee Avenue
+    → Unowned  |  Price: $180
+  Player 2 BUYS Tennessee Avenue for $180
+    → Cash remaining: $491
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 4  (total: 7)
+  Player 1 (AI★) lands on Vermont Avenue
+    → Unowned  |  Price: $100
+  Player 1 (AI★) BUYS Vermont Avenue for $100
+    → Cash remaining: $499
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 23
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$499  |  Properties=7  |  Monopolies=0  |  Net Worth=$2584
+    Player 2: Cash=$491  |  Properties=9  |  Monopolies=2  |  Net Worth=$3031
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 3  (total: 9)
+  Player 2 lands on Ventnor Avenue
+    → Unowned  |  Price: $260
+  Player 2 BUYS Ventnor Avenue for $260
+    → Cash remaining: $231
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 2  (total: 4)
+  Player 1 (AI★) lands on Electric Company
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 24
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$499  |  Properties=7  |  Monopolies=0  |  Net Worth=$2584
+    Player 2: Cash=$231  |  Properties=10  |  Monopolies=2  |  Net Worth=$3161
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 6  (total: 7)
+  Player 2 lands on Pennsylvania Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 2  (total: 5)
+  Player 1 (AI★) lands on Community Chest
+    ► Card: "Pay hospital fees of $100"
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 25
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$499  |  Properties=7  |  Monopolies=0  |  Net Worth=$2584
+    Player 2: Cash=$231  |  Properties=10  |  Monopolies=2  |  Net Worth=$3161
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 2  (total: 7)
+  Player 2 lands on Mediterranean Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 4  (total: 10)
+  Player 1 (AI★) lands on Ventnor Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $22 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 26
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$477  |  Properties=7  |  Monopolies=0  |  Net Worth=$2562
+    Player 2: Cash=$453  |  Properties=10  |  Monopolies=2  |  Net Worth=$3383
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 3  (total: 8)
+  Player 2 lands on Connecticut Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 2  (total: 7)
+  Player 1 (AI★) lands on Pennsylvania Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $0 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 27
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$477  |  Properties=7  |  Monopolies=0  |  Net Worth=$2562
+    Player 2: Cash=$453  |  Properties=10  |  Monopolies=2  |  Net Worth=$3383
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 4  (total: 6)
+  Player 2 lands on Pennsylvania Railroad
+    → Owned by Player 1 (AI★)  |  Player 2 pays $50 rent
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 2  (total: 8)
+  Player 1 (AI★) lands on Community Chest
+    ► Card: "Pay hospital fees of $100"
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 28
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$727  |  Properties=7  |  Monopolies=0  |  Net Worth=$2812
+    Player 2: Cash=$403  |  Properties=10  |  Monopolies=2  |  Net Worth=$3333
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 6  (total: 11)
+  Player 2 lands on Atlantic Avenue
+    → Owned by Player 1 (AI★)  |  Player 2 pays $22 rent
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 5  (total: 7)
+  Player 1 (AI★) lands on Connecticut Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $8 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 29
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$741  |  Properties=7  |  Monopolies=0  |  Net Worth=$2826
+    Player 2: Cash=$389  |  Properties=10  |  Monopolies=2  |  Net Worth=$3319
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 1  (total: 6)
+  Player 2 lands on North Carolina Ave
+    → Owned by Player 1 (AI★)  |  Player 2 pays $26 rent
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 4  (total: 8)
+  Player 1 (AI★) lands on Community Chest
+    ► Card: "Pay school fees of $150"
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 30
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$767  |  Properties=7  |  Monopolies=0  |  Net Worth=$2852
+    Player 2: Cash=$363  |  Properties=10  |  Monopolies=2  |  Net Worth=$3293
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 1  (total: 4)
+  Player 2 lands on Chance
+    ► Card: "Bank pays you dividend of $50"
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 5  (total: 7)
+  Player 1 (AI★) lands on Illinois Avenue
+    → Unowned  |  Price: $240
+  Player 1 (AI★) BUYS Illinois Avenue for $240
+    → Cash remaining: $527
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 31
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$527  |  Properties=8  |  Monopolies=0  |  Net Worth=$2972
+    Player 2: Cash=$363  |  Properties=10  |  Monopolies=2  |  Net Worth=$3293
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 1  (total: 5)
+  Player 2 lands on Mediterranean Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 5  (total: 6)
+  Player 1 (AI★) is in Jail
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 32
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$527  |  Properties=8  |  Monopolies=0  |  Net Worth=$2972
+    Player 2: Cash=$563  |  Properties=10  |  Monopolies=2  |  Net Worth=$3493
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 6  (total: 11)
+  Player 2 lands on Electric Company
+    → Owned by Player 1 (AI★)  |  Player 2 pays $44 rent
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) pays $50 bail — released from Jail
+  Player 1 (AI★) rolls a 3 and a 3  (total: 6)
+  Player 1 (AI★) lands on St. James Place
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 33
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$521  |  Properties=8  |  Monopolies=0  |  Net Worth=$2966
+    Player 2: Cash=$519  |  Properties=10  |  Monopolies=2  |  Net Worth=$3449
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 6  (total: 12)
+  Player 2 lands on Illinois Avenue
+    → Owned by Player 1 (AI★)  |  Player 2 pays $20 rent
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 5  (total: 8)
+  Player 1 (AI★) lands on Illinois Avenue
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 34
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$541  |  Properties=8  |  Monopolies=0  |  Net Worth=$2986
+    Player 2: Cash=$499  |  Properties=10  |  Monopolies=2  |  Net Worth=$3429
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 2  (total: 5)
+  Player 2 lands on Marvin Gardens
+    → Unowned  |  Price: $280
+  Player 2 BUYS Marvin Gardens for $280
+    → Cash remaining: $219
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 2  (total: 6)
+  Player 1 (AI★) is in Jail
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 35
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$541  |  Properties=8  |  Monopolies=0  |  Net Worth=$2986
+    Player 2: Cash=$219  |  Properties=11  |  Monopolies=2  |  Net Worth=$3569
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 3  (total: 4)
+  Player 2 lands on Community Chest
+    ► Card: "From sale of stock you get $50"
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) pays $50 bail — released from Jail
+  Player 1 (AI★) rolls a 3 and a 1  (total: 4)
+  Player 1 (AI★) lands on Virginia Avenue
+    → Unowned  |  Price: $160
+  Player 1 (AI★) BUYS Virginia Avenue for $160
+    → Cash remaining: $331
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 36
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$331  |  Properties=9  |  Monopolies=0  |  Net Worth=$3016
+    Player 2: Cash=$219  |  Properties=11  |  Monopolies=2  |  Net Worth=$3569
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 3  (total: 4)
+  Player 2 lands on Park Place
+    → Unowned  |  Price: $350
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 1  (total: 2)
+  Player 1 (AI★) lands on St. James Place
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 37
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$331  |  Properties=9  |  Monopolies=0  |  Net Worth=$3016
+    Player 2: Cash=$219  |  Properties=11  |  Monopolies=2  |  Net Worth=$3569
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 4  (total: 6)
+  Player 2 lands on Baltic Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 2  (total: 7)
+  Player 1 (AI★) lands on Indiana Avenue
+    → Unowned  |  Price: $220
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 38
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$331  |  Properties=9  |  Monopolies=0  |  Net Worth=$3016
+    Player 2: Cash=$419  |  Properties=11  |  Monopolies=2  |  Net Worth=$3769
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 6  (total: 7)
+  Player 2 lands on Jail / Just Visiting
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 5  (total: 10)
+  Player 1 (AI★) lands on Community Chest
+    ► Card: "Pay hospital fees of $100"
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 39
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$331  |  Properties=9  |  Monopolies=0  |  Net Worth=$3016
+    Player 2: Cash=$419  |  Properties=11  |  Monopolies=2  |  Net Worth=$3769
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 5  (total: 10)
+  Player 2 lands on Free Parking
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 1  (total: 6)
+  Player 1 (AI★) lands on Boardwalk
+    → Owned by Player 2  |  Player 1 (AI★) pays $0 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 40
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$331  |  Properties=9  |  Monopolies=0  |  Net Worth=$3016
+    Player 2: Cash=$419  |  Properties=11  |  Monopolies=2  |  Net Worth=$3769
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 4  (total: 10)
+  Player 2 is in Jail
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 6  (total: 10)
+  Player 1 (AI★) lands on Connecticut Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $8 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 41
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$523  |  Properties=9  |  Monopolies=0  |  Net Worth=$3208
+    Player 2: Cash=$427  |  Properties=11  |  Monopolies=2  |  Net Worth=$3777
+
+  Player 2 pays $50 bail — released from Jail
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 1  (total: 4)
+  Player 2 lands on Virginia Avenue
+    → Owned by Player 1 (AI★)  |  Player 2 pays $12 rent
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 2  (total: 3)
+  Player 1 (AI★) lands on Electric Company
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 42
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$535  |  Properties=9  |  Monopolies=0  |  Net Worth=$3220
+    Player 2: Cash=$365  |  Properties=11  |  Monopolies=2  |  Net Worth=$3715
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 5  (total: 10)
+  Player 2 lands on Illinois Avenue
+    → Owned by Player 1 (AI★)  |  Player 2 pays $20 rent
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 6  (total: 12)
+  Player 1 (AI★) lands on Illinois Avenue
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 43
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$555  |  Properties=9  |  Monopolies=0  |  Net Worth=$3240
+    Player 2: Cash=$345  |  Properties=11  |  Monopolies=2  |  Net Worth=$3695
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 2  (total: 5)
+  Player 2 lands on Marvin Gardens
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 2  (total: 3)
+  Player 1 (AI★) lands on Ventnor Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $22 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 44
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$533  |  Properties=9  |  Monopolies=0  |  Net Worth=$3218
+    Player 2: Cash=$367  |  Properties=11  |  Monopolies=2  |  Net Worth=$3717
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 6  (total: 9)
+  Player 2 lands on Luxury Tax — pays $100
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 6  (total: 12)
+  Player 1 (AI★) lands on Boardwalk
+    → Owned by Player 2  |  Player 1 (AI★) pays $0 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 45
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$533  |  Properties=9  |  Monopolies=0  |  Net Worth=$3218
+    Player 2: Cash=$267  |  Properties=11  |  Monopolies=2  |  Net Worth=$3617
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 1  (total: 6)
+  Player 2 lands on Income Tax — pays $200
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 3  (total: 5)
+  Player 1 (AI★) lands on Income Tax — pays $200
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 46
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$533  |  Properties=9  |  Monopolies=0  |  Net Worth=$3218
+    Player 2: Cash=$267  |  Properties=11  |  Monopolies=2  |  Net Worth=$3617
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 6  (total: 8)
+  Player 2 lands on Electric Company
+    → Owned by Player 1 (AI★)  |  Player 2 pays $32 rent
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 3  (total: 7)
+  Player 1 (AI★) lands on St. Charles Place
+    → Owned by Player 2  |  Player 1 (AI★) pays $10 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 47
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$555  |  Properties=9  |  Monopolies=0  |  Net Worth=$3240
+    Player 2: Cash=$245  |  Properties=11  |  Monopolies=2  |  Net Worth=$3595
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 5  (total: 6)
+  Player 2 lands on Tennessee Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 2  (total: 7)
+  Player 1 (AI★) lands on Tennessee Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $14 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 48
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$541  |  Properties=9  |  Monopolies=0  |  Net Worth=$3226
+    Player 2: Cash=$259  |  Properties=11  |  Monopolies=2  |  Net Worth=$3609
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 4  (total: 5)
+  Player 2 lands on Indiana Avenue
+    → Unowned  |  Price: $220
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 5  (total: 9)
+  Player 1 (AI★) lands on Ventnor Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $22 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 49
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$519  |  Properties=9  |  Monopolies=0  |  Net Worth=$3204
+    Player 2: Cash=$281  |  Properties=11  |  Monopolies=2  |  Net Worth=$3631
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 4  (total: 10)
+  Player 2 lands on Community Chest
+    ► Card: "Go to Jail. Go directly to Jail."
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 2  (total: 7)
+  Player 1 (AI★) lands on Pennsylvania Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $0 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 50
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$519  |  Properties=9  |  Monopolies=0  |  Net Worth=$3204
+    Player 2: Cash=$281  |  Properties=11  |  Monopolies=2  |  Net Worth=$3631
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 4  (total: 10)
+  Player 2 lands on Baltic Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 5  (total: 10)
+  Player 1 (AI★) lands on Income Tax — pays $200
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 51
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$519  |  Properties=9  |  Monopolies=0  |  Net Worth=$3204
+    Player 2: Cash=$481  |  Properties=11  |  Monopolies=2  |  Net Worth=$3831
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 4  (total: 7)
+  Player 2 lands on Jail / Just Visiting
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 5  (total: 6)
+  Player 1 (AI★) lands on Jail / Just Visiting
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 52
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$519  |  Properties=9  |  Monopolies=0  |  Net Worth=$3204
+    Player 2: Cash=$481  |  Properties=11  |  Monopolies=2  |  Net Worth=$3831
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 5  (total: 6)
+  Player 2 lands on St. James Place
+    → Owned by Player 1 (AI★)  |  Player 2 pays $14 rent
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 5  (total: 6)
+  Player 1 (AI★) lands on St. James Place
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 53
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$533  |  Properties=9  |  Monopolies=0  |  Net Worth=$3218
+    Player 2: Cash=$467  |  Properties=11  |  Monopolies=2  |  Net Worth=$3817
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 5  (total: 9)
+  Player 2 lands on B&O Railroad
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 4  (total: 6)
+  Player 1 (AI★) lands on Chance
+    ► Card: "You have been elected Chairman of the Board – Pay each player $50"
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 54
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$533  |  Properties=9  |  Monopolies=0  |  Net Worth=$3218
+    Player 2: Cash=$467  |  Properties=11  |  Monopolies=2  |  Net Worth=$3817
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 5  (total: 8)
+  Player 2 lands on Community Chest
+    ► Card: "Grand Opera Night – Collect $50 from every player"
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 1  (total: 7)
+  Player 1 (AI★) lands on Marvin Gardens
+    → Owned by Player 2  |  Player 1 (AI★) pays $24 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 55
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$509  |  Properties=9  |  Monopolies=0  |  Net Worth=$3194
+    Player 2: Cash=$491  |  Properties=11  |  Monopolies=2  |  Net Worth=$3841
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 2  (total: 7)
+  Player 2 lands on Go
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 1  (total: 3)
+  Player 1 (AI★) lands on North Carolina Ave
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 56
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$509  |  Properties=9  |  Monopolies=0  |  Net Worth=$3194
+    Player 2: Cash=$691  |  Properties=11  |  Monopolies=2  |  Net Worth=$4041
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 2  (total: 3)
+  Player 2 lands on Baltic Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 6  (total: 9)
+  Player 1 (AI★) lands on Mediterranean Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $250 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 57
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$459  |  Properties=9  |  Monopolies=0  |  Net Worth=$3144
+    Player 2: Cash=$941  |  Properties=11  |  Monopolies=2  |  Net Worth=$4291
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 6  (total: 7)
+  Player 2 lands on Jail / Just Visiting
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 6  (total: 11)
+  Player 1 (AI★) lands on Electric Company
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 58
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$459  |  Properties=9  |  Monopolies=0  |  Net Worth=$3144
+    Player 2: Cash=$941  |  Properties=11  |  Monopolies=2  |  Net Worth=$4291
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 4  (total: 7)
+  Player 2 lands on Community Chest
+    ► Card: "Doctor's fees – Pay $50"
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 2  (total: 8)
+  Player 1 (AI★) lands on Free Parking
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 59
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$459  |  Properties=9  |  Monopolies=0  |  Net Worth=$3144
+    Player 2: Cash=$941  |  Properties=11  |  Monopolies=2  |  Net Worth=$4291
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 2  (total: 4)
+  Player 2 lands on Kentucky Avenue
+    → Unowned  |  Price: $220
+  Player 2 BUYS Kentucky Avenue for $220
+    → Cash remaining: $721
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 1  (total: 4)
+  Player 1 (AI★) lands on Illinois Avenue
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 60
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$459  |  Properties=9  |  Monopolies=0  |  Net Worth=$3144
+    Player 2: Cash=$721  |  Properties=12  |  Monopolies=2  |  Net Worth=$4401
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 4  (total: 9)
+  Player 2 is in Jail
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 3  (total: 5)
+  Player 1 (AI★) lands on Marvin Gardens
+    → Owned by Player 2  |  Player 1 (AI★) pays $24 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 61
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$435  |  Properties=9  |  Monopolies=0  |  Net Worth=$3120
+    Player 2: Cash=$745  |  Properties=12  |  Monopolies=2  |  Net Worth=$4425
+
+  Player 2 pays $50 bail — released from Jail
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 4  (total: 9)
+  Player 2 lands on New York Avenue
+    → Unowned  |  Price: $200
+  Player 2 BUYS New York Avenue for $200
+    → Cash remaining: $495
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 3  (total: 9)
+  Player 1 (AI★) lands on Luxury Tax — pays $100
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 62
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$335  |  Properties=9  |  Monopolies=0  |  Net Worth=$3020
+    Player 2: Cash=$495  |  Properties=13  |  Monopolies=2  |  Net Worth=$4475
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 6  (total: 10)
+  Player 2 lands on Marvin Gardens
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 5  (total: 10)
+  Player 1 (AI★) lands on Vermont Avenue
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 63
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$535  |  Properties=9  |  Monopolies=0  |  Net Worth=$3220
+    Player 2: Cash=$495  |  Properties=13  |  Monopolies=2  |  Net Worth=$4475
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 1  (total: 7)
+  Player 2 lands on Chance
+    ► Card: "Pay poor tax of $15"
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 6  (total: 7)
+  Player 1 (AI★) lands on Pennsylvania Railroad
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 64
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$535  |  Properties=9  |  Monopolies=0  |  Net Worth=$3220
+    Player 2: Cash=$495  |  Properties=13  |  Monopolies=2  |  Net Worth=$4475
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 3  (total: 6)
+  Player 2 lands on Community Chest
+    ► Card: "Pay school fees of $150"
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 1  (total: 5)
+  Player 1 (AI★) lands on Free Parking
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 65
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$535  |  Properties=9  |  Monopolies=0  |  Net Worth=$3220
+    Player 2: Cash=$695  |  Properties=13  |  Monopolies=2  |  Net Worth=$4675
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 1  (total: 3)
+  Player 2 lands on Reading Railroad
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 4  (total: 9)
+  Player 1 (AI★) lands on Marvin Gardens
+    → Owned by Player 2  |  Player 1 (AI★) pays $24 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 66
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$511  |  Properties=9  |  Monopolies=0  |  Net Worth=$3196
+    Player 2: Cash=$719  |  Properties=13  |  Monopolies=2  |  Net Worth=$4699
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 4  (total: 10)
+  Player 2 lands on Pennsylvania Railroad
+    → Owned by Player 1 (AI★)  |  Player 2 pays $50 rent
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 5  (total: 6)
+  Player 1 (AI★) lands on Short Line Railroad
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 67
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$561  |  Properties=9  |  Monopolies=0  |  Net Worth=$3246
+    Player 2: Cash=$669  |  Properties=13  |  Monopolies=2  |  Net Worth=$4649
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 5  (total: 6)
+  Player 2 lands on Kentucky Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 5  (total: 9)
+  Player 1 (AI★) lands on Income Tax — pays $200
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 68
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$561  |  Properties=9  |  Monopolies=0  |  Net Worth=$3246
+    Player 2: Cash=$669  |  Properties=13  |  Monopolies=2  |  Net Worth=$4649
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 3  (total: 6)
+  Player 2 lands on Ventnor Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 6  (total: 9)
+  Player 1 (AI★) lands on States Avenue
+    → Unowned  |  Price: $140
+  Player 1 (AI★) BUYS States Avenue for $140
+    → Cash remaining: $421
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 69
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$421  |  Properties=10  |  Monopolies=0  |  Net Worth=$3316
+    Player 2: Cash=$669  |  Properties=13  |  Monopolies=2  |  Net Worth=$4649
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 1  (total: 4)
+  Player 2 lands on Pacific Avenue
+    → Unowned  |  Price: $300
+  Player 2 BUYS Pacific Avenue for $300
+    → Cash remaining: $369
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 2  (total: 5)
+  Player 1 (AI★) lands on Tennessee Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $14 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 70
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$407  |  Properties=10  |  Monopolies=0  |  Net Worth=$3302
+    Player 2: Cash=$383  |  Properties=14  |  Monopolies=2  |  Net Worth=$4813
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 2  (total: 6)
+  Player 2 lands on Park Place
+    → Unowned  |  Price: $350
+  Player 2 BUYS Park Place for $350
+    → Cash remaining: $33
+  Player 2 mortgages Pacific Avenue — receives $150
+  Player 2 mortgages Marvin Gardens — receives $140
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 1  (total: 4)
+  Player 1 (AI★) lands on Chance
+    ► Card: "Take a walk on the Boardwalk"
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 71
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$407  |  Properties=10  |  Monopolies=0  |  Net Worth=$3302
+    Player 2: Cash=$323  |  Properties=15  |  Monopolies=4  |  Net Worth=$5118
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 4  (total: 6)
+  Player 2 lands on Baltic Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 5  (total: 9)
+  Player 1 (AI★) lands on Pacific Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $0 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 72
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$407  |  Properties=10  |  Monopolies=0  |  Net Worth=$3302
+    Player 2: Cash=$523  |  Properties=15  |  Monopolies=4  |  Net Worth=$5318
+
+  Player 2 builds a HOUSE on Park Place  (1 house(s))
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 4  (total: 7)
+  Player 2 lands on Jail / Just Visiting
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 3  (total: 6)
+  Player 1 (AI★) lands on Park Place
+    → Owned by Player 2  |  Player 1 (AI★) pays $175 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 73
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$232  |  Properties=10  |  Monopolies=0  |  Net Worth=$3127
+    Player 2: Cash=$498  |  Properties=15  |  Monopolies=4  |  Net Worth=$5493
+
+  Player 2 builds a HOUSE on Park Place  (2 house(s))
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 6  (total: 12)
+  Player 2 lands on Chance
+    ► Card: "Bank pays you dividend of $50"
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 6  (total: 7)
+  Player 1 (AI★) lands on Income Tax — pays $200
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 74
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$232  |  Properties=10  |  Monopolies=0  |  Net Worth=$3127
+    Player 2: Cash=$298  |  Properties=15  |  Monopolies=4  |  Net Worth=$5493
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 4  (total: 7)
+  Player 2 lands on Marvin Gardens
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 3  (total: 4)
+  Player 1 (AI★) lands on Vermont Avenue
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 75
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$232  |  Properties=10  |  Monopolies=0  |  Net Worth=$3127
+    Player 2: Cash=$298  |  Properties=15  |  Monopolies=4  |  Net Worth=$5493
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 6  (total: 9)
+  Player 2 lands on Luxury Tax — pays $100
+  Player 2 mortgages Ventnor Avenue — receives $130
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 6  (total: 9)
+  Player 1 (AI★) lands on Community Chest
+    ► Card: "You are assessed for street repairs – $40 per house, $115 per hotel"
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 76
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$232  |  Properties=10  |  Monopolies=0  |  Net Worth=$3127
+    Player 2: Cash=$328  |  Properties=15  |  Monopolies=4  |  Net Worth=$5328
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 6  (total: 9)
+  Player 2 lands on Chance
+    ► Card: "Advance token to nearest Utility"
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 2  (total: 3)
+  Player 1 (AI★) lands on Free Parking
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 77
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$232  |  Properties=10  |  Monopolies=0  |  Net Worth=$3127
+    Player 2: Cash=$528  |  Properties=15  |  Monopolies=4  |  Net Worth=$5528
+
+  Player 2 builds a HOUSE on Park Place  (3 house(s))
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 2  (total: 4)
+  Player 2 lands on St. Charles Place
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 5  (total: 11)
+  Player 1 (AI★) lands on Pacific Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $0 rent
+  Player 1 (AI★) ends their turn
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 78
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$232  |  Properties=10  |  Monopolies=0  |  Net Worth=$3127
+    Player 2: Cash=$328  |  Properties=15  |  Monopolies=4  |  Net Worth=$5528
+
+  Player 2 sends a BUY offer to Player 1 (AI★):
+    ► Wants: Pennsylvania Railroad  |  Offering: $200
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 4  (total: 10)
+  Player 2 lands on Kentucky Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 1 (AI★) DECLINES the trade offer
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 1  (total: 6)
+  Player 1 (AI★) lands on Park Place
+    → Owned by Player 2  |  Player 1 (AI★) pays $232 rent
+  💀 Player 1 (AI★) has gone BANKRUPT and is eliminated!
+
+════════════════════════════════════════════════════════════
+  GAME OVER
+════════════════════════════════════════════════════════════
+
+  🏆 WINNER: Player 2!
+
+  Final standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Net Worth: $5760
+      Properties: Connecticut Avenue, B&O Railroad, Pennsylvania Avenue, Boardwalk, St. Charles Place, Baltic Avenue, Mediterranean Avenue, Reading Railroad, Tennessee Avenue, Ventnor Avenue, Marvin Gardens, Kentucky Avenue, New York Avenue, Pacific Avenue, Park Place
+════════════════════════════════════════════════════════════
