@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { GameContext } from "../context/GameContext";
 import { boardCells } from "../data/boardData";
+import { useRef } from "react";
 
 import Board from "../components/Board";
 import PlayerHUD from "../components/PlayerHUD";
@@ -13,7 +14,9 @@ import TradeModal from "../components/TradeModal";
 import TradeReviewModal from "../components/TradeReviewModal"
 import { chanceCards } from "../data/chanceCards";
 import ChanceModal from "../components/ChanceModal";
-
+import { executeAIAction } from "../services/aiExecutor";
+import { fetchAIMoveDummy } from "../services/aiDummyService";
+import GameLog from "../components/GameLog";
 import "../styles/game.css";
 
 export default function GamePage() {
@@ -44,9 +47,13 @@ export default function GamePage() {
   const [dice, setDice] = useState([1, 1]);
   const [rolling, setRolling] = useState(false);
   const [hasRolled, setHasRolled] = useState(false);
+  const hasLoggedFirstTurn = useRef(false);
 
   // visual positions for smooth movement
-  const [displayPositions, setDisplayPositions] = useState([]);
+  const [displayPositions, setDisplayPositions] = useState(
+  players.map(p => p.position)
+);
+
 
   // active cell after movement
   const [activeCell, setActiveCell] = useState(null);
@@ -73,6 +80,22 @@ const [chanceIndex, setChanceIndex] = useState(0);
 const [chanceCard, setChanceCard] = useState(null);
 
 
+const isAI = players[currentPlayer]?.type === "ai";
+
+const [isAITurn, setIsAITurn] = useState(false);
+const [gameLog, setGameLog] = useState([]);
+
+function addLog(message) {
+  setGameLog(prev => [
+    ...prev,
+    {
+      id: Date.now() + Math.random(),
+      text: message
+    }
+  ]);
+}
+
+
 
 const activePlayerIndexes = players
   .map((_, idx) => idx)
@@ -84,6 +107,28 @@ const winner =
     : null;
 
 
+useEffect(() => {
+  if (players.length === 0) return;
+
+  const player = players[currentPlayer];
+  if (!player) return;
+
+  // 🛑 Prevent duplicate log in StrictMode
+  if (!hasLoggedFirstTurn.current) {
+    hasLoggedFirstTurn.current = true;
+  } else if (currentPlayer === 0 && gameLog.length === 0) {
+    return;
+  }
+
+  addLog("━━━━━━━━━━━━━━━━━━━━");
+  addLog(`🎲 ${player.name} (${player.type.toUpperCase()}) turn started`);
+
+  if (player.type === "ai" && !winner && !isAITurn) {
+    runAITurn();
+  }
+}, [currentPlayer]);
+    
+
   // keep displayPositions synced with real positions
   useEffect(() => {
     setDisplayPositions(players.map((p) => p.position));
@@ -93,8 +138,10 @@ const winner =
   // 🎲 ROLL DICE & MOVE PLAYER
   // ==========================
   function rollDice() {
+      if (isAITurn) return;  // 🛑 BLOCK AI TURN
+     if (players[currentPlayer]?.type === "ai") return; // 🛑 BLOCK AI PLAYER
      if (players[currentPlayer]?.inJail) return;
-  if (rolling || hasRolled || players.length === 0) return;
+     if (rolling || hasRolled || players.length === 0) return;
 
   setRolling(true);
 
@@ -102,10 +149,13 @@ const winner =
   const d2 = Math.floor(Math.random() * 6) + 1;
   const steps = d1 + d2;
   // const d1 = 0
-  // const d2 = 8
+  // const d2 = 2
   // const steps = d1 + d2 
 
   setDice([d1, d2]);
+  addLog(
+  `🎲 ${players[currentPlayer].name} rolled ${d1} + ${d2} = ${steps}`
+);
 
   let stepCount = 0;
   let currentPos = displayPositions[currentPlayer];
@@ -146,7 +196,12 @@ const winner =
       }
 
       const landedCell = boardCells[currentPos];
+
+      addLog(
+  `📍 ${players[currentPlayer].name} landed on ${boardCells[currentPos].name}`
+);
       handleCellAction(landedCell);
+
 
       setRolling(false);
       setHasRolled(true);
@@ -154,55 +209,44 @@ const winner =
   }, 300);
 }
 
-
-// ==========================
-// 🧠 CELL LOGIC (FIXED & SAFE)
-// ==========================
-function handleCellAction(cell) {
+function handleCellAction(cell, options = { silent: false ,position : null}) {
   if (!cell) return;
 
   const owner = ownership[cell.id];
 
+  // ==========================
+  // 🚔 GO TO JAIL
+  // ==========================
   if (cell.type === "goto_jail") {
+    
     sendToJail(currentPlayer);
+    addLog(`🚔 ${players[currentPlayer].name} was sent to Jail`);
     return;
   }
-
 
   // ==========================
   // 🏠 BUYABLE CELLS
   // ==========================
   if (["property", "railroad", "utility"].includes(cell.type)) {
 
-    // 🟢 UNOWNED → OPEN BUY MODAL
     if (owner === undefined) {
-      setActiveCell(cell);
+      if (!options.silent) {
+        setActiveCell(cell);
+      }
       return;
     }
 
-    // 💤 MORTGAGED → NO RENT
-    if (mortgaged[cell.id]) {
-      return;
-    }
+    if (mortgaged[cell.id]) return;
 
-    // 🔴 OWNED BY OTHER → PAY RENT
     if (owner !== currentPlayer) {
       let rent = 0;
 
-      // ==========================
-      // 🏠 PROPERTY (no houses yet)
-      // ==========================
-    if (cell.type === "property") {
+      if (cell.type === "property") {
         const houseCount = houses?.[cell.id] ?? 0;
-
-        // safety clamp (0–5)
         const rentIndex = Math.min(houseCount, cell.rent.length - 1);
-
         rent = cell.rent[rentIndex];
-        }
-      // ==========================
-      // 🚂 RAILROAD
-      // ==========================
+      }
+
       if (cell.type === "railroad") {
         const ownedRails = Object.entries(ownership).filter(
           ([cellId, playerId]) =>
@@ -211,15 +255,11 @@ function handleCellAction(cell) {
             !mortgaged[cellId]
         ).length;
 
-        // Safety guard
         if (ownedRails > 0) {
           rent = cell.rent[ownedRails - 1];
         }
       }
 
-      // ==========================
-      // ⚡ UTILITY
-      // ==========================
       if (cell.type === "utility") {
         const ownedUtilities = Object.entries(ownership).filter(
           ([cellId, playerId]) =>
@@ -237,37 +277,54 @@ function handleCellAction(cell) {
         rent = diceTotal * multiplier;
       }
 
-      // 🛑 FINAL SAFETY CHECK
       if (Number.isFinite(rent) && rent > 0) {
         updateMoney(currentPlayer, -rent);
         updateMoney(owner, rent);
-        setMoneyEffect({ player: currentPlayer, amount: -rent });
+        addLog(
+  `💰 ${players[currentPlayer].name} paid ${rent} gold to ${players[owner].name}`
+);
+        setMoneyEffect({
+          player: currentPlayer,
+          amount: -rent,
+        });
       }
     }
 
     return;
   }
 
- if (cell.type === "chance") {
-  const card = chanceCards[chanceIndex];
+  // ==========================
+  // 🎴 CHANCE (FIXED)
+  // ==========================
+  if (cell.type === "chance") {
+    const card = chanceCards[chanceIndex];
+    setChanceIndex(prev => (prev + 1) % chanceCards.length);
 
-  setChanceCard(card);
-  setChanceIndex((prev) => (prev + 1) % chanceCards.length);
-  return;
-}
+    if (options.silent) {
+      // 🔥 AI → auto apply
+      applyChance(card,options.position);
+    } else {
+      // 👤 Human → show modal
+      setChanceCard(card);
+    }
 
-
+    return;
+  }
 
   // ==========================
   // 💰 TAX
   // ==========================
   if (cell.type === "tax") {
     updateMoney(currentPlayer, -cell.amount);
-    setMoneyEffect({ player: currentPlayer, amount: -cell.amount });
+    setMoneyEffect({
+      player: currentPlayer,
+      amount: -cell.amount,
+    });
+    addLog(
+  `🏛 ${players[currentPlayer].name} paid ${cell.amount} gold in tax`
+);
     return;
   }
-
-  // chance / corner → later
 }
 
   // ==========================
@@ -275,7 +332,10 @@ function handleCellAction(cell) {
   // ==========================
   function buyProperty() {
     if (!activeCell) return;
-
+    
+    addLog(
+  `🏠 ${players[currentPlayer].name} bought ${activeCell.name} for ${activeCell.price} gold`
+);
     setOwnership((prev) => ({
       ...prev,
       [activeCell.id]: currentPlayer,
@@ -296,6 +356,7 @@ function handleCellAction(cell) {
   // ==========================
  function endTurn() {
   if (!hasRolled) return;
+  addLog(`🔄 ${players[currentPlayer].name} ended their turn`);
 
   let next = currentPlayer;
   do {
@@ -432,10 +493,17 @@ function applyTrade(trade) {
   }
 
   // 🔥 CRITICAL: trigger actual cell logic
-  handleCellAction(boardCells[targetPosition]);
+  handleCellAction(boardCells[targetPosition], {
+  silent: players[currentPlayer]?.type === "ai"
+});
+
 }
 
-function applyChance(card) {
+function applyChance(card , basePosition = null) {
+  addLog(
+  `🎴 ${players[currentPlayer].name} drew: ${card.text}`
+);
+
   const { effect } = card;
 
   // =========================
@@ -457,8 +525,14 @@ function applyChance(card) {
   // 🚶 MOVE BY STEPS
   // =========================
   if (effect.type === "move") {
-    const newPos =
-      (players[currentPlayer].position + effect.steps + 40) % 40;
+
+    const currentPos =
+    basePosition !== null
+      ? basePosition
+      : players[currentPlayer].position;
+
+  const newPos =
+    (currentPos + effect.steps + 40) % 40;
 
     movePlayerTo(newPos);
     setChanceCard(null);
@@ -473,13 +547,17 @@ function applyChance(card) {
     setChanceCard(null);
     return;
   }
-  // =========================
-// 🚔 GO TO JAIL
+// =========================
+// 🚔 GO TO JAIL (FROM CHANCE)
 // =========================
 if (effect.type === "jail") {
+
   sendToJail(currentPlayer);
   setChanceCard(null);
   setHasRolled(true); // turn consumed
+
+
+
   return;
 }
 
@@ -592,12 +670,172 @@ if (effect.type === "payPerHouse") {
 
 }
 
-  // ==========================
-  // 🧱 RENDER
-  // ==========================
-  return (
-    <div className="game-page">
-     <PlayerHUD
+
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+
+async function rollDiceFromBackend(d1, d2) {
+  // if (players[currentPlayer]?.inJail) return;
+
+  setRolling(true);
+  setDice([d1, d2]);
+
+  addLog(
+  `🤖 ${players[currentPlayer].name} rolled ${d1} + ${d2} = ${d1 + d2}`
+);
+
+  const steps = d1 + d2;
+
+  let stepCount = 0;
+  let currentPos = players[currentPlayer].position ;
+  let passedStart = false;
+
+  await new Promise(resolve => {
+    const interval = setInterval(() => {
+
+      currentPos = (currentPos + 1) % 40;
+
+      if (currentPos === 0) {
+        passedStart = true;
+      }
+
+      // 🔹 Animate movement
+      setDisplayPositions(prev => {
+        const updated = [...prev];
+        updated[currentPlayer] = currentPos;
+        return updated;
+      });
+
+      stepCount++;
+
+      if (stepCount >= steps) {
+        clearInterval(interval);
+
+        // 🔹 Update real player state
+        setPlayers(prev =>
+          prev.map((p, i) =>
+            i === currentPlayer
+              ? {
+                  ...p,
+                  position: currentPos,
+                  money: p.money + (passedStart ? 200 : 0),
+                }
+              : p
+          )
+        );
+
+        if (passedStart) {
+          setMoneyEffect({
+            player: currentPlayer,
+            amount: 200,
+          });
+        }
+
+        addLog(
+  `📍 ${players[currentPlayer].name} landed on ${boardCells[currentPos].name}`
+);
+
+        // 🔹 Trigger landing logic
+        handleCellAction(
+          boardCells[currentPos],
+          { silent: true , position : currentPos} // AI mode
+        );
+
+        setRolling(false);
+        setHasRolled(true);
+
+        resolve();
+      }
+
+    }, 300); // same animation speed as human roll
+  });
+}
+
+
+async function runAITurn() {
+  if (isAITurn) return ; 
+  setIsAITurn(true);
+
+  const gameState = {
+    players,
+    currentPlayer,
+    ownership,
+    houses,
+    mortgaged,
+  };
+
+  try {
+    const aiResponse = await fetchAIMoveDummy(gameState);
+
+    // 🔹 PRE-ROLL ACTIONS
+    for (const action of aiResponse.preRollActions || []) {
+      await executeAIAction({
+        action,
+        currentPlayer,
+        players , 
+        buildHouse,
+        sellHouse,
+        mortgageProperty,
+        unmortgageProperty,
+        setOwnership,
+        updateMoney,
+        releaseFromJail,
+        decrementJailTurn,
+        endTurn,
+        delay ,
+        addLog
+      });
+    }
+
+  
+      // 🔹 ROLL (ONLY IF EXISTS)
+  if (aiResponse.roll) {
+    const { d1, d2 } = aiResponse.roll;
+    await rollDiceFromBackend(d1, d2);
+  }
+
+
+    // 🔹 POST-ROLL ACTIONS
+    for (const action of aiResponse.postRollActions || []) {
+      await executeAIAction({
+        action,
+        currentPlayer,
+        players,
+        buildHouse,
+        sellHouse,
+        mortgageProperty,
+        unmortgageProperty,
+        setOwnership,
+        updateMoney,
+        releaseFromJail,
+        decrementJailTurn,
+        endTurn,
+        delay , 
+        addLog
+      });
+    }
+
+  } catch (err) {
+    console.error("AI TURN FAILED:", err);
+  }
+
+  setIsAITurn(false);
+}
+
+
+// ==========================
+// 🧱 RENDER
+// ==========================
+return (
+  <div className="game-layout">
+
+    {/* ================= LEFT PANEL ================= */}
+    <div className="left-panel">
+      <PlayerHUD
         players={players}
         currentPlayer={currentPlayer}
         moneyEffect={moneyEffect}
@@ -605,160 +843,167 @@ if (effect.type === "payPerHouse") {
         onManageAssets={() => setShowMortgage(true)}
         onDeclareBankruptcy={() => setShowBankruptcy(true)}
         onOpenTrade={() => setShowTrade(true)}
-    />
+      />
+    </div>
 
-    {pendingTrade  && (
-    <TradeReviewModal
-      trade={pendingTrade}
-      players={players}
-      onAccept={() => applyTrade(pendingTrade)}
-      onReject={() => setPendingTrade(null)}
-    />
-)}
+    {/* ================= CENTER PANEL ================= */}
+    <div className="center-panel">
 
-{showTrade && (
-  <TradeModal
-    players={players}
-    currentPlayer={currentPlayer}
-    tradeWith={tradeWith}
-    setTradeWith={setTradeWith}
+      {pendingTrade && (
+        <TradeReviewModal
+          trade={pendingTrade}
+          players={players}
+          onAccept={() => applyTrade(pendingTrade)}
+          onReject={() => setPendingTrade(null)}
+        />
+      )}
 
-    ownership={ownership}     // ✅ REQUIRED
-    mortgaged={mortgaged}     // ✅ REQUIRED
-    houses={houses}           // ✅ REQUIRED
+      {showTrade && (
+        <TradeModal
+          players={players}
+          currentPlayer={currentPlayer}
+          tradeWith={tradeWith}
+          setTradeWith={setTradeWith}
+          ownership={ownership}
+          mortgaged={mortgaged}
+          houses={houses}
+          tradeOffer={tradeOffer}
+          setTradeOffer={setTradeOffer}
+          onConfirm={handleConfirmTrade}
+          onClose={() => {
+            setShowTrade(false);
+            setTradeWith(null);
+            setTradeOffer({
+              giveProperties: [],
+              giveMoney: 0,
+              takeProperties: [],
+              takeMoney: 0,
+            });
+          }}
+        />
+      )}
 
-    tradeOffer={tradeOffer}
-    setTradeOffer={setTradeOffer}
+      {chanceCard && players[currentPlayer].type === "human" && (
+        <ChanceModal
+          card={chanceCard}
+          onAccept={() => applyChance(chanceCard)}
+        />
+      )}
 
-    onConfirm={handleConfirmTrade} // or stub for now
-    onClose={() => {
-      setShowTrade(false);
-      setTradeWith(null);
-      setTradeOffer({
-        giveProperties: [],
-        giveMoney: 0,
-        takeProperties: [],
-        takeMoney: 0,
-      });
-    }}
-  />
-)}
+      {showMortgage && (
+        <MortgageModal
+          player={players[currentPlayer]}
+          ownership={ownership}
+          mortgaged={mortgaged}
+          houses={houses}
+          onMortgage={(cellId, value) =>
+            
+            
 
-  
-  {chanceCard && (
-  <ChanceModal
-    card={chanceCard}
-    onAccept={() => applyChance(chanceCard)}
-  />
-)}
-
-
-
-
-  {showMortgage && (
-  <MortgageModal
-    player={players[currentPlayer]}
-    ownership={ownership}
-    mortgaged={mortgaged}
-    houses={houses}
-    onMortgage={(cellId, value) =>
-      mortgageProperty(cellId, currentPlayer, value)
-    }
-    onUnmortgage={(cellId, cost) =>
-      unmortgageProperty(cellId, currentPlayer, cost)
-    }
-    onBuildHouse={(cellId) => {
-      const cell = boardCells[cellId];
-      if (!canBuildHere(cell)) return;
-      buildHouse(cellId, currentPlayer, cell.houseCost);
-    }}
-   onSellHouse={(cellId) => {
-        const cell = boardCells[cellId];
-
-        if (!canSellHere(cell)) return;
-
-        sellHouse(cellId, currentPlayer, Math.floor(cell.houseCost / 2));
-        }}
-
-    onClose={() => setShowMortgage(false)}
-  />
-)}
-
-
+            
+            mortgageProperty(cellId, currentPlayer, value)
+          }
+          onUnmortgage={(cellId, cost) =>
+            unmortgageProperty(cellId, currentPlayer, cost)
+          }
+          onBuildHouse={(cellId) => {
+            const cell = boardCells[cellId];
+            if (!canBuildHere(cell)) return;
+            buildHouse(cellId, currentPlayer, cell.houseCost);
+          }}
+          onSellHouse={(cellId) => {
+            const cell = boardCells[cellId];
+            if (!canSellHere(cell)) return;
+            sellHouse(cellId, currentPlayer, Math.floor(cell.houseCost / 2));
+          }}
+          onClose={() => setShowMortgage(false)}
+        />
+      )}
 
       <div className="board-wrapper">
         <Board displayPositions={displayPositions} />
 
-
         <div className="center-controls">
           <Dice dice={dice} rolling={rolling} />
-          {players[currentPlayer]?.inJail && (
-  <div className="jail-panel">
-    <h3>🚨 You are in Jail</h3>
-    <p>{players[currentPlayer].jailTurnsLeft} turns remaining</p>
 
-    <div className="jail-actions">
-      <button
-        onClick={() => {
-          if (players[currentPlayer].money >= 100) {
-            updateMoney(currentPlayer, -100);
-            releaseFromJail(currentPlayer);
-          }
-        }}
-        disabled={players[currentPlayer].money < 100}
-      >
-        Pay 100 Gold
-      </button>
+          {players[currentPlayer]?.inJail &&
+            players[currentPlayer]?.type !== "ai" && (
+              <div className="jail-panel">
+                <h3>🚨 You are in Jail</h3>
+                <p>{players[currentPlayer].jailTurnsLeft} turns remaining</p>
 
-      <button
-        onClick={() => {
-          releaseFromJail(currentPlayer);
-          setPlayers(prev =>
-            prev.map((p, i) =>
-              i === currentPlayer
-                ? { ...p, jailFreeCard: false }
-                : p
-            )
-          );
-        }}
-        disabled={!players[currentPlayer].jailFreeCard}
-      >
-        Use Jail-Free Card
-      </button>
+                <div className="jail-actions">
+                  <button
+                    onClick={() => {
+                      if (players[currentPlayer].money >= 100) {
+                        updateMoney(currentPlayer, -100);
+                        releaseFromJail(currentPlayer);
+                        addLog(
+        `🔓 ${players[currentPlayer].name} paid 100 gold to leave Jail`
+      );
+                      }
+                    }}
+                    disabled={players[currentPlayer].money < 100}
+                  >
+                    Pay 100 Gold
+                  </button>
 
-      <button
-  onClick={() => {
-    setPlayers(prev =>
-      prev.map((p, i) => {
-        if (i !== currentPlayer) return p;
+                  <button
+                    onClick={() => {
+                      releaseFromJail(currentPlayer);
+                      addLog(
+        `🔓 ${players[currentPlayer].name} used Jail Free Card  to leave Jail`
+      );
+                      setPlayers(prev =>
+                        prev.map((p, i) =>
+                          i === currentPlayer
+                            ? { ...p, jailFreeCard: false }
+                            : p
+                        )
+                      );
+                    }}
+                    disabled={!players[currentPlayer].jailFreeCard}
+                  >
+                    Use Jail-Free Card
+                  </button>
 
-        const nextTurns = p.jailTurnsLeft - 1;
+                  <button
+                    onClick={() => {
+                      setPlayers(prev =>
+                        prev.map((p, i) => {
+                          if (i !== currentPlayer) return p;
 
-        return {
-          ...p,
-          jailTurnsLeft: nextTurns,
-          inJail: nextTurns > 0, // 🔑 this is the fix
-        };
-      })
-    );
+                          const nextTurns = p.jailTurnsLeft - 1;
 
-    setHasRolled(true); // 🔒 blocks rolling
-    endTurn();
-  }}
->
-  Stay in Jail
-</button>
+                          return {
+                            ...p,
+                            jailTurnsLeft: nextTurns,
+                            inJail: nextTurns > 0,
+                          };
+                        })
+                      );
 
-    </div>
-  </div>
-)}
-
+                      setHasRolled(true);
+                      endTurn();
+                    }}
+                  >
+                    Stay in Jail
+                  </button>
+                </div>
+              </div>
+            )}
 
           <div className="control-buttons">
             <button
               className="roll-btn"
               onClick={rollDice}
-              disabled={rolling || hasRolled || players[currentPlayer]?.inJail || !!winner}
+              disabled={
+                rolling ||
+                hasRolled ||
+                players[currentPlayer]?.inJail ||
+                !!winner ||
+                isAITurn
+              }
             >
               Roll Dice
             </button>
@@ -766,57 +1011,59 @@ if (effect.type === "payPerHouse") {
             <button
               className="end-turn"
               onClick={endTurn}
-              disabled={!hasRolled || players[currentPlayer]?.money < 0 || !!winner}
+              disabled={
+                !hasRolled ||
+                players[currentPlayer]?.money < 0 ||
+                !!winner ||
+                isAITurn
+              }
             >
               End Turn
             </button>
           </div>
         </div>
-        {/* 🏠 PROPERTY MODAL */}
-      {activeCell &&
-        ["property", "railroad", "utility"].includes(activeCell.type) &&
-        ownership[activeCell.id] === undefined && (
-            <PropertyModal
-            cell={activeCell}
-            onBuy={buyProperty}
-            onSkip={skipProperty}
-            />
-        )}
 
+        {activeCell &&
+          ["property", "railroad", "utility"].includes(activeCell.type) &&
+          ownership[activeCell.id] === undefined && (
+            <PropertyModal
+              cell={activeCell}
+              onBuy={buyProperty}
+              onSkip={skipProperty}
+            />
+          )}
       </div>
 
       {showBankruptcy && (
-  <BankruptcyModal
-    player={players[currentPlayer]}
-    onClose={() => setShowBankruptcy(false)}
-    onConfirm={() => {
-      // 1️⃣ Declare bankruptcy
-      declareBankruptcy(currentPlayer);
+        <BankruptcyModal
+          player={players[currentPlayer]}
+          onClose={() => setShowBankruptcy(false)}
+          onConfirm={() => {
+            declareBankruptcy(currentPlayer);
+            setShowBankruptcy(false);
+            setHasRolled(false);
 
-      // 2️⃣ Close modal
-      setShowBankruptcy(false);
+            let next = currentPlayer;
+            do {
+              next = (next + 1) % players.length;
+            } while (bankruptPlayers.includes(next));
 
-      // 3️⃣ Reset turn state so next player can roll
-      setHasRolled(false);
+            setCurrentPlayer(next);
+          }}
+        />
+      )}
 
-      // 4️⃣ Move to next NON-bankrupt player
-      let next = currentPlayer;
-      do {
-        next = (next + 1) % players.length;
-      } while (bankruptPlayers.includes(next));
-
-      setCurrentPlayer(next);
-    }}
-  />
-)}
-
-{winner && <WinnerModal winner={winner} />}
-
-
-
-      
-
-     
+      {winner && <WinnerModal winner={winner} />}
     </div>
-  );
+
+    {/* ================= RIGHT PANEL ================= */}
+    <div className="right-panel">
+      <GameLog logs={gameLog} />
+    </div>
+
+  </div>
+);
+
 }
+
+

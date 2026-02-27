@@ -62,7 +62,7 @@ export default function PlayerHUD({
                 />
               )}
 
-              {isActive && !isBankrupt && (
+              {isActive && !isBankrupt &&  (
                 <div className="player-actions">
                   <button
                     className="manage-assets-btn"

@@ -1,21 +1,44 @@
 // src/data/chanceCards.js
 
 export const chanceCards = [
-  // =========================
-  // 🚶 MOVEMENT
+    // =========================
+  // 🚔 JAIL
   // =========================
   {
+    text: "Get Out of Jail Free.",
+    effect: { type: "jailFree" },
+  },
+
+   // =========================
+  // 🚔 JAIL
+  // =========================
+  {
+    text: "Go to Jail. Do not pass Start.",
+    effect: { type: "jail" },
+  },
+
+    {
     text: "Advance 3 spaces.",
     effect: { type: "move", steps: 3 },
   },
+ 
+
+  
+
+    {
+    text: "You found hidden gold while traveling.",
+    effect: { type: "money", amount: 200 },
+  },
+
+
+  // =========================
+  // 🚶 MOVEMENT
+  // =========================
+ 
 
   // =========================
   // 💰 SIMPLE MONEY
   // =========================
-  {
-    text: "You found hidden gold while traveling.",
-    effect: { type: "money", amount: 200 },
-  },
 
   // =========================
   // 👥 PLAYER INTERACTIONS
@@ -24,15 +47,7 @@ export const chanceCards = [
     text: "You receive 20 Gold from each player.",
     effect: { type: "collectFromAll", amount: 20 },
   },
-
-  // =========================
-  // 🚔 JAIL
-  // =========================
-  {
-    text: "Go to Jail. Do not pass Start.",
-    effect: { type: "jail" },
-  },
-
+  
   // =========================
   // 🎁 BONUS
   // =========================
@@ -40,6 +55,8 @@ export const chanceCards = [
     text: "Bank error in your favor. Collect 100 Gold.",
     effect: { type: "money", amount: 100 },
   },
+
+  
 
   // =========================
   // 🚶 MOVEMENT
@@ -73,13 +90,6 @@ export const chanceCards = [
     effect: { type: "money", amount: 150 },
   },
 
-  // =========================
-  // 🚔 JAIL
-  // =========================
-  {
-    text: "Get Out of Jail Free.",
-    effect: { type: "jailFree" },
-  },
 
   // =========================
   // 🚶 MOVEMENT

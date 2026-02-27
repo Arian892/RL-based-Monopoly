@@ -18,6 +18,7 @@ export function GameProvider({ children }) {
   // 🔑 propertyId -> house count (0–5)
   const [houses, setHouses] = useState({});
 
+  
   // 🔑 array of player indexes
   const [bankruptPlayers, setBankruptPlayers] = useState([]);
 
@@ -44,25 +45,23 @@ export function GameProvider({ children }) {
     return houses[cellId] || 0;
   }
 
-  function buildHouse(cellId, playerId, cost) {
-  setHouses(prev => {
-    const current = prev[cellId] || 0;
+function buildHouse(cellId, playerId, cost) {
+  const current = houses[cellId] || 0;
+  const playerMoney = players[playerId]?.money ?? 0;
 
-    // 🛑 HARD STOP — MAX HOUSES
-    if (current >= 5) return prev;
+  if (current >= 5) return;
+  if (playerMoney < cost) return;
 
-    // 🛑 NOT ENOUGH MONEY
-    const playerMoney = players[playerId]?.money ?? 0;
-    if (playerMoney < cost) return prev;
+  console.log("cost" + cost);
 
-    // ✅ VALID BUILD
-    updateMoney(playerId, -cost);
+  // ✅ First deduct money
+  updateMoney(playerId, -cost);
 
-    return {
-      ...prev,
-      [cellId]: current + 1,
-    };
-  });
+  // ✅ Then update houses (pure update)
+  setHouses(prev => ({
+    ...prev,
+    [cellId]: (prev[cellId] || 0) + 1
+  }));
 }
 
   function sellHouse(cellId, playerId, refund) {

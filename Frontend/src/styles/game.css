@@ -1011,3 +1011,34 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+.game-layout {
+  display: grid;
+  grid-template-columns: 470px 1fr 450px;
+  height: 100vh;
+  background: #0e0e0e;
+}
+
+/* LEFT */
+.left-panel {
+  background: #111;
+  border-right: 1px solid #222;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* CENTER */
+.center-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.right-panel {
+  background: #111;
+  border-left: 1px solid #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;   /* centers vertically */
+}
