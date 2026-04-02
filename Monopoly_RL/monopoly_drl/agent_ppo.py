@@ -24,12 +24,6 @@ from .constants import TRADE_CASH_LEVELS, PROPERTY_IDS, COLOR_GROUPS, JAIL_BAIL,
 # ── Hybrid fixed-policy decisions ─────────────────────────────────────────────
 
 def fixed_buy_decision(env, pid: int) -> bool:
-    """
-    Rule for whether to buy a landed-on property (paper Section V-B).
-    Buy if:
-      1. It completes a monopoly and we can afford it, OR
-      2. We have $200 more than the property price
-    """
     player = env.players[pid]
     sq     = player.position
     if sq not in env.properties:
@@ -38,46 +32,39 @@ def fixed_buy_decision(env, pid: int) -> bool:
     if prop.owner is not None or not player.can_afford(prop.price):
         return False
 
+    # Always buy if it completes a monopoly
     color = prop.color
-    group = COLOR_GROUPS[color]
-    owned_count = sum(1 for s in group if env.properties[s].owner == pid)
-    if owned_count + 1 == len(group):  # creates monopoly
-        return True
-    return player.cash >= prop.price + 200
+    group = COLOR_GROUPS.get(color, [])
+    if group:
+        owned = sum(1 for s in group if env.properties[s].owner == pid)
+        if owned + 1 == len(group):
+            return True
+
+    # Relax buffer from $200 to $100 to be more aggressive
+    return player.cash >= prop.price + 100
 
 
 def fixed_accept_trade_decision(env, pid: int) -> bool:
-    """
-    Rule for whether to accept an incoming trade (paper Section V-B, eq. 5).
-    Accept if:
-      1. Trade increases our monopoly count, OR
-      2. Net worth of the offer is positive (to us)
-    """
     offer = next(
-        (o for o in env.pending_trades.values() if o.to_player == pid),
-        None
+        (o for o in env.pending_trades.values() if o.to_player == pid), None
     )
     if offer is None:
         return False
 
-    # Check monopoly gain
-    if offer.requested_prop:
-        color = offer.requested_prop.color
-        group = COLOR_GROUPS[color]
-        owned_after = sum(1 for s in group
-                          if env.properties[s].owner == pid
-                          or env.properties[s] == offer.offered_prop)
-        if offer.requested_prop.square_id in [s for s in group]:
-            would_own = sum(1 for s in group if env.properties[s].owner == pid) + 1
-            if would_own == len(group):
+    # Accept if it gives us a monopoly
+    if offer.offered_prop:  # we are receiving a property
+        color = offer.offered_prop.color
+        group = COLOR_GROUPS.get(color, [])
+        if group:
+            owned_after = sum(1 for s in group
+                              if env.properties[s].owner == pid
+                              or env.properties[s] == offer.offered_prop)
+            if owned_after == len(group):
                 return True
 
-    # Net worth of the trade for the *recipient* (pid)
-    po = offer.offered_prop.price   if offer.offered_prop   else 0
-    pr = offer.requested_prop.price if offer.requested_prop else 0
-    nwo_for_recipient = (pr + offer.cash_requested) - (po + offer.cash_offered)
-    return nwo_for_recipient > 0
-
+    # Accept at parity OR better (was strictly > 0, now >= 0)
+    nwo = offer.net_worth()
+    return -nwo >= 0
 
 # ── Experience buffer ─────────────────────────────────────────────────────────
 
@@ -124,10 +111,10 @@ class PPOAgent:
         gamma: float = 0.99,
         lam: float = 0.95,       # GAE lambda
         clip_eps: float = 0.2,
-        entropy_coef: float = 0.01,
+        entropy_coef: float = 0.05,
         value_coef: float = 0.5,
         max_grad_norm: float = 0.5,
-        n_steps: int = 512,      # steps per rollout
+        n_steps: int = 1024,      # steps per rollout
         n_epochs: int = 4,       # PPO update epochs
         batch_size: int = 64,
         hidden_dim: int = 256,

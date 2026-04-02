@@ -675,11 +675,16 @@ class MonopolyEnv:
         active = [p for p in self.players if not p.bankrupt]
         if len(active) <= 1:
             return 1.0 if not self.players[pid].bankrupt else -1.0
+
         nw_self  = self.players[pid].net_worth()
         nw_other = sum(p.net_worth() for p in active if p.player_id != pid)
-        if nw_other == 0:
-            return 1.0
-        return nw_self / (nw_other + 1e-8)
+
+        base_reward = nw_self / (nw_other + 1e-8)
+
+        # Bonus for each monopoly owned — encourages the agent to complete groups
+        monopoly_bonus = self.players[pid].num_monopolies() * 0.05
+
+        return base_reward + monopoly_bonus
 
     def _check_game_over(self):
         active = [p for p in self.players if not p.bankrupt]
