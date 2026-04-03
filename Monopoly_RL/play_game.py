@@ -1,6 +1,6 @@
 """
-play_game.py - FIXED VERSION
------------------------------
+play_game.py
+-------------
 Uses the corrected env.py turn structure:
   each iteration asks env.whose_turn() who acts, gets their allowed actions,
   applies one action, and lets the env advance phases internally.
@@ -12,22 +12,41 @@ Usage:
 """
 
 import argparse
-import random
 import os
+import random
 import sys
 from datetime import datetime
 
-from monopoly_drl.env import MonopolyEnv, TradeOffer, PHASE_PRE_ROLL, PHASE_POST_ROLL, PHASE_OUT_OF_TURN
-from monopoly_drl.agent_ppo  import PPOAgent
+from monopoly_drl.actions import OFFSETS, PROPERTY_IDS, ActionType
 from monopoly_drl.agent_ddqn import DDQNAgent
+from monopoly_drl.agent_ppo import PPOAgent
 from monopoly_drl.agents_fixed import FPAgentA, FPAgentB, FPAgentC
-from monopoly_drl.actions import ActionType, OFFSETS, PROPERTY_IDS
 from monopoly_drl.constants import (
-    BOARD, PROPERTIES, COLOR_GROUPS,
-    NUM_PLAYERS, JAIL_SQUARE, GO_TO_JAIL_SQUARE,
-    INCOME_TAX_SQUARE, LUXURY_TAX_SQUARE, JAIL_BAIL,
-    REAL_ESTATE_IDS
+    BOARD,
+    COLOR_GROUPS,
+    GO_TO_JAIL_SQUARE,
+    INCOME_TAX_SQUARE,
+    JAIL_BAIL,
+    JAIL_SQUARE,
+    LUXURY_TAX_SQUARE,
+    NUM_PLAYERS,
+    PROPERTIES,
+    REAL_ESTATE_IDS,
+    TRADE_CASH_LEVELS,
 )
+from monopoly_drl.env import (
+    PHASE_OUT_OF_TURN,
+    PHASE_POST_ROLL,
+    PHASE_PRE_ROLL,
+    MonopolyEnv,
+    TradeOffer,
+)
+
+# ── Isolated RNG for cosmetic card draws ──────────────────────────────────────
+# Using a separate Random instance means card display draws never touch the
+# game's global random state, keeping --seed fully reproducible.
+_card_rng = random.Random()
+
 
 # ── Chance / Community Chest cards ───────────────────────────────────────────
 
@@ -70,16 +89,17 @@ COMMUNITY_CHEST_CARDS = [
     "You inherit $100",
 ]
 
-CHANCE_SQUARES    = {7, 22, 36}
+CHANCE_SQUARES = {7, 22, 36}
 COMMUNITY_SQUARES = {2, 17, 33}
 
 
 # ── Logger ────────────────────────────────────────────────────────────────────
 
+
 class GameLogger:
     def __init__(self, log_path="game_log.txt"):
         self.log_path = log_path
-        self.file     = open(log_path, "w", buffering=1)  # line-buffered
+        self.file = open(log_path, "w", buffering=1)  # line-buffered
 
     def log(self, text=""):
         print(text)
@@ -96,28 +116,31 @@ class GameLogger:
 
 # ── Name helpers ──────────────────────────────────────────────────────────────
 
+
 def square_name(sq):
     return BOARD.get(sq, f"Square {sq}")
 
-def _pname_from_pid(pid, env):
-    return env._pnames.get(pid, f"Player {pid+1}")
 
-def _pid_from_pname(pname, env):
-    return env._pnames_rev.get(pname, 0)
+def _pname_from_pid(pid, env):
+    return env._pnames.get(pid, f"Player {pid + 1}")
 
 
 # ── Action logger ─────────────────────────────────────────────────────────────
 
+
 def log_action(logger, pid, pname, action_idx, env, info):
     """Log what happened after an action was applied to the env."""
     lines = []
+
+    # Number of cash levels — read from the constant, never hardcoded
+    nc = len(TRADE_CASH_LEVELS)
 
     if action_idx < OFFSETS["mortgage"]:
         atype = ActionType(action_idx)
 
         if atype == ActionType.ROLL_DICE:
             d1, d2 = env.last_dice
-            lines.append(f"{pname} rolls a {d1} and a {d2}  (total: {d1+d2})")
+            lines.append(f"{pname} rolls a {d1} and a {d2}  (total: {d1 + d2})")
             sq = env.players[pid].position
             sn = square_name(sq)
 
@@ -130,13 +153,14 @@ def log_action(logger, pid, pname, action_idx, env, info):
             elif sq == LUXURY_TAX_SQUARE:
                 lines.append(f"{pname} lands on Luxury Tax — pays $100")
             elif sq in CHANCE_SQUARES:
-                card = random.choice(CHANCE_CARDS)
+                # Use isolated RNG so card draws don't affect dice reproducibility
+                card = _card_rng.choice(CHANCE_CARDS)
                 lines.append(f"{pname} lands on Chance")
-                lines.append(f"  ► Card: \"{card}\"")
+                lines.append(f'  ► Card: "{card}"')
             elif sq in COMMUNITY_SQUARES:
-                card = random.choice(COMMUNITY_CHEST_CARDS)
+                card = _card_rng.choice(COMMUNITY_CHEST_CARDS)
                 lines.append(f"{pname} lands on Community Chest")
-                lines.append(f"  ► Card: \"{card}\"")
+                lines.append(f'  ► Card: "{card}"')
             elif sq in env.properties:
                 prop = env.properties[sq]
                 lines.append(f"{pname} lands on {prop.name}")
@@ -147,12 +171,14 @@ def log_action(logger, pid, pname, action_idx, env, info):
                 else:
                     rent = info.get("rent_paid", "?")
                     owner_pn = _pname_from_pid(prop.owner, env)
-                    lines.append(f"  → Owned by {owner_pn}  |  {pname} pays ${rent} rent")
+                    lines.append(
+                        f"  → Owned by {owner_pn}  |  {pname} pays ${rent} rent"
+                    )
             else:
                 lines.append(f"{pname} lands on {sn}")
 
         elif atype == ActionType.BUY_PROPERTY:
-            sq   = env.players[pid].position
+            sq = env.players[pid].position
             prop = env.properties.get(sq)
             if prop:
                 lines.append(f"{pname} BUYS {prop.name} for ${prop.price}")
@@ -181,81 +207,81 @@ def log_action(logger, pid, pname, action_idx, env, info):
 
     elif action_idx < OFFSETS["unmortgage"]:
         local = action_idx - OFFSETS["mortgage"]
-        prop  = env.properties[PROPERTY_IDS[local]]
+        prop = env.properties[PROPERTY_IDS[local]]
         lines.append(f"{pname} mortgages {prop.name} — receives ${prop.mortgage_v}")
 
     elif action_idx < OFFSETS["improve_house"]:
         local = action_idx - OFFSETS["unmortgage"]
-        prop  = env.properties[PROPERTY_IDS[local]]
-        cost  = int(prop.mortgage_v * 1.1)
+        prop = env.properties[PROPERTY_IDS[local]]
+        cost = int(prop.mortgage_v * 1.1)
         lines.append(f"{pname} lifts mortgage on {prop.name} — pays ${cost}")
 
     elif action_idx < OFFSETS["improve_hotel"]:
         local = action_idx - OFFSETS["improve_house"]
-        prop  = env.properties[REAL_ESTATE_IDS[local]]
+        prop = env.properties[REAL_ESTATE_IDS[local]]
         lines.append(f"{pname} builds a HOUSE on {prop.name}  ({prop.houses} house(s))")
 
     elif action_idx < OFFSETS["sell_house"]:
         local = action_idx - OFFSETS["improve_hotel"]
-        prop  = env.properties[REAL_ESTATE_IDS[local]]
+        prop = env.properties[REAL_ESTATE_IDS[local]]
         lines.append(f"{pname} builds a HOTEL on {prop.name}!")
 
     elif action_idx < OFFSETS["sell_hotel"]:
         local = action_idx - OFFSETS["sell_house"]
-        prop  = env.properties[REAL_ESTATE_IDS[local]]
+        prop = env.properties[REAL_ESTATE_IDS[local]]
         lines.append(f"{pname} sells a house on {prop.name}")
 
     elif action_idx < OFFSETS["sell_prop"]:
         local = action_idx - OFFSETS["sell_hotel"]
-        prop  = env.properties[REAL_ESTATE_IDS[local]]
+        prop = env.properties[REAL_ESTATE_IDS[local]]
         lines.append(f"{pname} sells the hotel on {prop.name}")
 
     elif action_idx < OFFSETS["buy_trade"]:
         local = action_idx - OFFSETS["sell_prop"]
-        prop  = env.properties[PROPERTY_IDS[local]]
+        prop = env.properties[PROPERTY_IDS[local]]
         lines.append(f"{pname} sells {prop.name} back to bank for ${prop.mortgage_v}")
 
     elif action_idx < OFFSETS["sell_trade"]:
-        local      = action_idx - OFFSETS["buy_trade"]
-        n, nc      = len(PROPERTY_IDS), 3
-        t_idx      = local // (n * nc)
-        rem        = local % (n * nc)
-        prop       = env.properties[PROPERTY_IDS[rem // nc]]
-        price_lvl  = [0.75, 1.0, 1.25][rem % nc]
-        others     = [i for i in range(NUM_PLAYERS) if i != pid]
+        local = action_idx - OFFSETS["buy_trade"]
+        n = len(PROPERTY_IDS)
+        t_idx = local // (n * nc)
+        rem = local % (n * nc)
+        prop = env.properties[PROPERTY_IDS[rem // nc]]
+        price_lvl = TRADE_CASH_LEVELS[rem % nc]
+        others = [i for i in range(NUM_PLAYERS) if i != pid]
         target_pid = others[t_idx] if t_idx < len(others) else others[0]
-        cash       = int(prop.price * price_lvl)
-        target_pn  = _pname_from_pid(target_pid, env)
+        cash = int(prop.price * price_lvl)
+        target_pn = _pname_from_pid(target_pid, env)
         lines.append(f"{pname} sends a BUY offer to {target_pn}:")
         lines.append(f"  ► Wants: {prop.name}  |  Offering: ${cash}")
 
     elif action_idx < OFFSETS["exch_trade"]:
-        local      = action_idx - OFFSETS["sell_trade"]
-        n, nc      = len(PROPERTY_IDS), 3
-        t_idx      = local // (n * nc)
-        rem        = local % (n * nc)
-        prop       = env.properties[PROPERTY_IDS[rem // nc]]
-        price_lvl  = [0.75, 1.0, 1.25][rem % nc]
-        others     = [i for i in range(NUM_PLAYERS) if i != pid]
+        local = action_idx - OFFSETS["sell_trade"]
+        n = len(PROPERTY_IDS)
+        t_idx = local // (n * nc)
+        rem = local % (n * nc)
+        prop = env.properties[PROPERTY_IDS[rem // nc]]
+        price_lvl = TRADE_CASH_LEVELS[rem % nc]
+        others = [i for i in range(NUM_PLAYERS) if i != pid]
         target_pid = others[t_idx] if t_idx < len(others) else others[0]
-        cash       = int(prop.price * price_lvl)
-        target_pn  = _pname_from_pid(target_pid, env)
+        cash = int(prop.price * price_lvl)
+        target_pn = _pname_from_pid(target_pid, env)
         lines.append(f"{pname} sends a SELL offer to {target_pn}:")
         lines.append(f"  ► Offering: {prop.name}  |  Requesting: ${cash}")
 
     else:
-        local      = action_idx - OFFSETS["exch_trade"]
-        n          = len(PROPERTY_IDS)
-        t_idx      = local // (n * (n - 1))
-        rem        = local % (n * (n - 1))
-        oi         = rem // (n - 1)
-        ri_raw     = rem % (n - 1)
-        ri         = ri_raw if ri_raw < oi else ri_raw + 1
-        others     = [i for i in range(NUM_PLAYERS) if i != pid]
+        local = action_idx - OFFSETS["exch_trade"]
+        n = len(PROPERTY_IDS)
+        t_idx = local // (n * (n - 1))
+        rem = local % (n * (n - 1))
+        oi = rem // (n - 1)
+        ri_raw = rem % (n - 1)
+        ri = ri_raw if ri_raw < oi else ri_raw + 1
+        others = [i for i in range(NUM_PLAYERS) if i != pid]
         target_pid = others[t_idx] if t_idx < len(others) else others[0]
-        offered    = env.properties[PROPERTY_IDS[oi]]
-        requested  = env.properties[PROPERTY_IDS[ri]]
-        target_pn  = _pname_from_pid(target_pid, env)
+        offered = env.properties[PROPERTY_IDS[oi]]
+        requested = env.properties[PROPERTY_IDS[ri]]
+        target_pn = _pname_from_pid(target_pid, env)
         lines.append(f"{pname} sends an EXCHANGE offer to {target_pn}:")
         lines.append(f"  ► Offering:   {offered.name}  (${offered.price})")
         lines.append(f"  ► Requesting: {requested.name}  (${requested.price})")
@@ -267,12 +293,13 @@ def log_action(logger, pid, pname, action_idx, env, info):
 
 # ── Standings snapshot ────────────────────────────────────────────────────────
 
+
 def log_standings(logger, env, n_players):
     logger.log()
     logger.log("  📊 Current standings:")
     for pid in range(n_players):
         player = env.players[pid]
-        pname  = env._pnames[pid]
+        pname = env._pnames[pid]
         if player.bankrupt:
             logger.log(f"    {pname}: BANKRUPT")
             continue
@@ -287,6 +314,7 @@ def log_standings(logger, env, n_players):
 
 
 # ── Main simulation ───────────────────────────────────────────────────────────
+
 
 def simulate(model_path, algo, n_players, log_path):
     logger = GameLogger(log_path)
@@ -317,8 +345,9 @@ def simulate(model_path, algo, n_players, log_path):
     # ── Fixed-policy opponents ────────────────────────────────────────────
     fp_classes = [FPAgentA, FPAgentB, FPAgentC]
     other_pids = list(range(1, n_players))
-    fp_agents  = {other_pids[i]: fp_classes[i % 3](other_pids[i])
-                  for i in range(len(other_pids))}
+    fp_agents = {
+        other_pids[i]: fp_classes[i % 3](other_pids[i]) for i in range(len(other_pids))
+    }
 
     pnames = {trained_pid: "Player 1 (AI★)"}
     for pid in other_pids:
@@ -330,7 +359,11 @@ def simulate(model_path, algo, n_players, log_path):
     # ── Roster ────────────────────────────────────────────────────────────
     logger.log("\n  Players:")
     for pid in range(n_players):
-        role = "Trained model" if pid == trained_pid else f"Fixed-policy (FP-{['A','B','C'][pid-1]})"
+        role = (
+            "Trained model"
+            if pid == trained_pid
+            else f"Fixed-policy (FP-{['A', 'B', 'C'][pid - 1]})"
+        )
         logger.log(f"    {pnames[pid]}  →  {role}")
 
     # ── Build env ─────────────────────────────────────────────────────────
@@ -338,7 +371,7 @@ def simulate(model_path, algo, n_players, log_path):
     env.reset()
 
     # Attach name maps to env for logging helpers
-    env._pnames     = pnames
+    env._pnames = pnames
     env._pnames_rev = {v: k for k, v in pnames.items()}
 
     # Mark unused player slots as bankrupt
@@ -346,7 +379,7 @@ def simulate(model_path, algo, n_players, log_path):
         env.players[pid].bankrupt = True
 
     # Restrict turn order to active players only
-    env.turn_order       = [p for p in env.turn_order if p < n_players]
+    env.turn_order = [p for p in env.turn_order if p < n_players]
     env.current_turn_idx = 0
 
     logger.separator()
@@ -354,9 +387,9 @@ def simulate(model_path, algo, n_players, log_path):
     logger.separator()
 
     # ── Game loop ─────────────────────────────────────────────────────────
-    current_round      = -1
-    step_limit         = 10_000
-    steps              = 0
+    current_round = -1
+    step_limit = 10_000
+    steps = 0
     bankrupt_announced = set()
 
     while not env.done and steps < step_limit:
@@ -371,8 +404,8 @@ def simulate(model_path, algo, n_players, log_path):
             log_standings(logger, env, n_players)
 
         # Who acts right now?
-        pid   = env.whose_turn()
-        pname = pnames.get(pid, f"Player {pid+1}")
+        pid = env.whose_turn()
+        pname = pnames.get(pid, f"Player {pid + 1}")
 
         # Skip bankrupt players
         if env.players[pid].bankrupt:
@@ -395,17 +428,21 @@ def simulate(model_path, algo, n_players, log_path):
             else:
                 action = trained_agent.choose_action(state, env, allowed)
         else:
-            agent  = agents_map[pid]
+            agent = agents_map[pid]
             action = agent.choose_action(env)
             if action not in allowed:
-                action = int(ActionType.END_TURN) if int(ActionType.END_TURN) in allowed else allowed[0]
+                action = (
+                    int(ActionType.END_TURN)
+                    if int(ActionType.END_TURN) in allowed
+                    else allowed[0]
+                )
 
         # Apply to env
         _, _, done, info = env.step(action)
 
         # Log (skip silent DO_NOTHING)
         if action != int(ActionType.DO_NOTHING):
-            log_action(logger, pid, pname, action, env, info)
+            log_action(logger, pid, pname, action_idx=action, env=env, info=info)
 
         # Announce any newly bankrupt players
         for p in range(n_players):
@@ -431,8 +468,10 @@ def simulate(model_path, algo, n_players, log_path):
     logger.log("  Final standings:")
     for pid in range(n_players):
         player = env.players[pid]
-        status = "BANKRUPT" if player.bankrupt else f"Net Worth: ${player.net_worth():.0f}"
-        props  = [p.name for p in player.properties]
+        status = (
+            "BANKRUPT" if player.bankrupt else f"Net Worth: ${player.net_worth():.0f}"
+        )
+        props = [p.name for p in player.properties]
         logger.log(f"    {pnames[pid]}: {status}")
         if props:
             logger.log(f"      Properties: {', '.join(props)}")
@@ -445,11 +484,11 @@ def simulate(model_path, algo, n_players, log_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model",   type=str,   default="ppo_hybrid_model.pt")
-    parser.add_argument("--algo",    choices=["ppo", "ddqn"], default="ppo")
-    parser.add_argument("--players", type=int,   default=3)
-    parser.add_argument("--log",     type=str,   default="game_log.txt")
-    parser.add_argument("--seed",    type=int,   default=None)
+    parser.add_argument("--model", type=str, default="ppo_hybrid_model.pt")
+    parser.add_argument("--algo", choices=["ppo", "ddqn"], default="ppo")
+    parser.add_argument("--players", type=int, default=3)
+    parser.add_argument("--log", type=str, default="game_log.txt")
+    parser.add_argument("--seed", type=int, default=None)
     args = parser.parse_args()
 
     if not 2 <= args.players <= 4:
@@ -458,6 +497,7 @@ if __name__ == "__main__":
 
     if args.seed is not None:
         random.seed(args.seed)
+        _card_rng.seed(args.seed + 1)  # offset so card draws and dice don't correlate
 
     simulate(
         model_path=args.model,
