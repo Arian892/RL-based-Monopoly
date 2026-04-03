@@ -28,11 +28,21 @@ def train_ppo(
     player_id: int = 0,
     n_games: int = 2000,
     log_every: int = 100,
+    max_rounds: int = 300,
+    max_steps_factor: int = 30,
     **kwargs,
 ):
     """Train a PPO agent. Set hybrid=True for the hybrid approach."""
     agent = PPOAgent(player_id=player_id, hybrid=hybrid, **kwargs)
-    history = train(agent, is_ppo=True, hybrid=hybrid, n_games=n_games, log_every=log_every)
+    history = train(
+        agent,
+        is_ppo=True,
+        hybrid=hybrid,
+        n_games=n_games,
+        log_every=log_every,
+        max_rounds=max_rounds,
+        max_steps_factor=max_steps_factor,
+    )
     return agent, history
 
 
@@ -41,17 +51,41 @@ def train_ddqn(
     player_id: int = 0,
     n_games: int = 10_000,
     log_every: int = 100,
+    max_rounds: int = 300,
+    max_steps_factor: int = 30,
     **kwargs,
 ):
     """Train a DDQN agent. Set hybrid=True for the hybrid approach."""
     agent = DDQNAgent(player_id=player_id, hybrid=hybrid, **kwargs)
-    history = train(agent, is_ppo=False, hybrid=hybrid, n_games=n_games, log_every=log_every)
+    history = train(
+        agent,
+        is_ppo=False,
+        hybrid=hybrid,
+        n_games=n_games,
+        log_every=log_every,
+        max_rounds=max_rounds,
+        max_steps_factor=max_steps_factor,
+    )
     return agent, history
 
 
-def evaluate_agent(agent, is_ppo: bool, n_games: int = 2000, n_runs: int = 5):
+def evaluate_agent(
+    agent,
+    is_ppo: bool,
+    n_games: int = 2000,
+    n_runs: int = 5,
+    max_rounds: int = 300,
+    max_steps_factor: int = 30,
+):
     """Evaluate a trained agent against fixed-policy opponents."""
-    return evaluate(agent, is_ppo=is_ppo, n_games=n_games, n_runs=n_runs)
+    return evaluate(
+        agent,
+        is_ppo=is_ppo,
+        n_games=n_games,
+        n_runs=n_runs,
+        max_rounds=max_rounds,
+        max_steps_factor=max_steps_factor,
+    )
 
 
 __all__ = [

@@ -120,6 +120,11 @@ class MonopolyEnv:
         player = self.players[pid]
         info   = {"player": pid, "phase": self.phase}
 
+        allowed = self.get_allowed_actions(pid)
+        if action_idx not in allowed:
+            info["invalid_action"] = action_idx
+            action_idx = int(ActionType.END_TURN) if int(ActionType.END_TURN) in allowed else allowed[0]
+
         if player.bankrupt:
             self._advance_turn()
             return self._get_state(self.agent_ids[0]), 0.0, self.done, info
@@ -143,7 +148,7 @@ class MonopolyEnv:
         allowed = []
 
         if player.bankrupt:
-            return [int(ActionType.DO_NOTHING)]
+            return [int(ActionType.END_TURN)]
 
         # ── OUT-OF-TURN phase: non-active players ──────────────────────────
         if self.phase == PHASE_OUT_OF_TURN:
@@ -153,7 +158,6 @@ class MonopolyEnv:
                 pending = self._incoming_trade(pid)
                 if pending:
                     allowed.append(int(ActionType.ACCEPT_TRADE))
-                    allowed.append(int(ActionType.DECLINE_TRADE))
                 # Can make trade offers
                 allowed += self._trade_offer_actions(pid)
                 return allowed if allowed else [int(ActionType.END_TURN)]
@@ -182,7 +186,6 @@ class MonopolyEnv:
             pending = self._incoming_trade(pid)
             if pending:
                 allowed.append(int(ActionType.ACCEPT_TRADE))
-                allowed.append(int(ActionType.DECLINE_TRADE))
 
             return allowed if allowed else [int(ActionType.END_TURN)]
 
@@ -206,16 +209,14 @@ class MonopolyEnv:
                 if prop and prop.owner is None and player.can_afford(prop.price):
                     allowed.append(int(ActionType.BUY_PROPERTY))
 
-                # Can also mortgage to raise cash, or end turn
+                # Can also improve/mortgage/trade, or end turn
+                allowed += self._improve_actions(pid)
                 allowed += self._mortgage_actions(pid)
                 allowed.append(int(ActionType.END_TURN))
 
-                if player.cash < 0:
-                    allowed.append(int(ActionType.DECLARE_BANKRUPT))
-
                 return allowed if allowed else [int(ActionType.END_TURN)]
 
-        return [int(ActionType.DO_NOTHING)]
+            return [int(ActionType.END_TURN)]
 
     # ── Action dispatch ────────────────────────────────────────────────────────
 
@@ -227,10 +228,7 @@ class MonopolyEnv:
         if action_idx < OFFSETS["mortgage"]:
             atype = ActionType(action_idx)
 
-            if atype in (ActionType.DO_NOTHING,):
-                pass  # no-op
-
-            elif atype == ActionType.END_TURN:
+            if atype == ActionType.END_TURN:
                 self._handle_end_turn(pid)
 
             elif atype == ActionType.ROLL_DICE:
@@ -253,18 +251,8 @@ class MonopolyEnv:
                     player.in_jail    = False
                     player.jail_turns = 0
 
-            elif atype == ActionType.DECLARE_BANKRUPT:
-                self._do_bankrupt(pid)
-
             elif atype == ActionType.ACCEPT_TRADE:
                 self._do_accept_trade(pid)
-
-            elif atype == ActionType.DECLINE_TRADE:
-                # Remove the offer directed at this player
-                for sid in list(self.pending_trades):
-                    if self.pending_trades[sid].to_player == pid:
-                        del self.pending_trades[sid]
-                        break
 
             return
 
@@ -319,24 +307,12 @@ class MonopolyEnv:
             return
 
         # ── Sell hotel ─────────────────────────────────────────────────────
-        if action_idx < OFFSETS["sell_prop"]:
+        if action_idx < OFFSETS["buy_trade"]:
             local = action_idx - OFFSETS["sell_hotel"]
             prop  = self.properties[REAL_ESTATE_IDS[local]]
             if prop.owner == pid and prop.houses == 5:
                 prop.houses  = MAX_HOUSES
                 player.cash += prop.data["house_price"] // 2
-            return
-
-        # ── Sell property to bank ──────────────────────────────────────────
-        if action_idx < OFFSETS["buy_trade"]:
-            local = action_idx - OFFSETS["sell_prop"]
-            prop  = self.properties[PROPERTY_IDS[local]]
-            if prop.owner == pid and prop.houses == 0:
-                player.cash  += prop.mortgage_v
-                player.properties.remove(prop)
-                prop.owner    = None
-                prop.mortgaged = False
-                self._update_monopolies()
             return
 
         # ── Trade offers ───────────────────────────────────────────────────
@@ -354,6 +330,12 @@ class MonopolyEnv:
 
     def _handle_end_turn(self, pid: int):
         active = self.active_player_id()
+
+        # Ending turn with an incoming offer is treated as declining the offer.
+        for sid in list(self.pending_trades):
+            if self.pending_trades[sid].to_player == pid:
+                del self.pending_trades[sid]
+                break
 
         if self.phase == PHASE_PRE_ROLL and pid == active:
             # Move to post-roll: player now needs to roll
@@ -453,11 +435,13 @@ class MonopolyEnv:
             return
 
         if sq == INCOME_TAX_SQUARE:
-            player.cash = max(0, player.cash - 200)
+            player.cash -= 200
+            self._attempt_financial_recovery(pid)
             return
 
         if sq == LUXURY_TAX_SQUARE:
-            player.cash = max(0, player.cash - 100)
+            player.cash -= 100
+            self._attempt_financial_recovery(pid)
             return
 
         if sq not in self.properties:
@@ -477,13 +461,12 @@ class MonopolyEnv:
         n_rails = owner.railroads_owned()
         n_utils = owner.utilities_owned()
         rent    = prop.get_rent(dice_total, n_rails, n_utils)
-        payment = min(rent, player.cash)
-        player.cash -= payment
-        owner.cash  += payment
-        info["rent_paid"] = payment
+        player.cash -= rent
+        owner.cash  += rent
+        info["rent_paid"] = rent
 
-        if player.cash <= 0:
-            self._do_bankrupt(pid)
+        if player.cash < 0:
+            self._attempt_financial_recovery(pid)
 
     def _do_buy(self, pid: int):
         player = self.players[pid]
@@ -507,6 +490,98 @@ class MonopolyEnv:
             prop.mortgaged = False
         player.properties = []
         self._update_monopolies()
+
+    def _liquidate_one_improvement(self, pid: int) -> bool:
+        player = self.players[pid]
+        candidates = [p for p in player.properties if p.is_real_estate and p.houses > 0]
+        if not candidates:
+            return False
+        prop = max(candidates, key=lambda p: p.data["house_price"])
+        refund = prop.data["house_price"] // 2
+        if prop.houses == 5:
+            prop.houses = MAX_HOUSES
+        else:
+            prop.houses -= 1
+        player.cash += refund
+        return True
+
+    def _mortgage_one_property(self, pid: int) -> bool:
+        player = self.players[pid]
+        candidates = [
+            p for p in player.properties
+            if not p.mortgaged and p.houses == 0
+        ]
+        if not candidates:
+            return False
+        prop = max(candidates, key=lambda p: p.mortgage_v)
+        prop.mortgaged = True
+        player.cash += prop.mortgage_v
+        return True
+
+    def _sell_one_property_to_bank(self, pid: int) -> bool:
+        player = self.players[pid]
+        candidates = [p for p in player.properties if p.houses == 0]
+        if not candidates:
+            return False
+        prop = max(candidates, key=lambda p: p.mortgage_v)
+        player.cash += prop.mortgage_v
+        player.properties.remove(prop)
+        prop.owner = None
+        prop.mortgaged = False
+        self._update_monopolies()
+        return True
+
+    def _attempt_emergency_trade(self, pid: int) -> bool:
+        debtor = self.players[pid]
+        owned = [p for p in debtor.properties if p.houses == 0]
+        if not owned:
+            return False
+
+        opponents = [
+            p for p in self.players
+            if p.player_id != pid and not p.bankrupt and p.cash > 0
+        ]
+        if not opponents:
+            return False
+
+        opponents.sort(key=lambda p: p.cash, reverse=True)
+        owned.sort(key=lambda p: p.price, reverse=True)
+
+        for prop in owned:
+            for opp in opponents:
+                sale_price = min(prop.price, opp.cash)
+                if sale_price <= 0:
+                    continue
+                opp.cash -= sale_price
+                debtor.cash += sale_price
+                debtor.properties.remove(prop)
+                opp.properties.append(prop)
+                prop.owner = opp.player_id
+                prop.mortgaged = False
+                self._update_monopolies()
+                return True
+        return False
+
+    def _attempt_financial_recovery(self, pid: int):
+        player = self.players[pid]
+        if player.bankrupt:
+            return
+
+        guard = 0
+        while player.cash < 0 and guard < 200:
+            guard += 1
+            if self._liquidate_one_improvement(pid):
+                continue
+            if self._mortgage_one_property(pid):
+                continue
+            if self._sell_one_property_to_bank(pid):
+                continue
+            if self._attempt_emergency_trade(pid):
+                continue
+            break
+
+        if player.cash < 0:
+            self._do_bankrupt(pid)
 
     def _do_accept_trade(self, pid: int):
         offer  = None
@@ -641,6 +716,7 @@ class MonopolyEnv:
         allowed = []
         player  = self.players[pid]
         others  = [i for i in range(NUM_PLAYERS) if i != pid and not self.players[i].bankrupt]
+        n_props = len(PROPERTY_IDS)
 
         for t_idx, target_pid in enumerate(others):
             target = self.players[target_pid]
@@ -654,6 +730,21 @@ class MonopolyEnv:
                 if prop.owner == pid and prop.houses == 0:
                     for j in range(3):
                         allowed.append(OFFSETS["sell_trade"] + t_idx * len(PROPERTY_IDS) * 3 + i * 3 + j)
+
+            # Exchange offers: offer one of our properties for one of target's properties
+            for offer_idx, offer_sq in enumerate(PROPERTY_IDS):
+                offered_prop = self.properties[offer_sq]
+                if offered_prop.owner != pid or offered_prop.houses > 0:
+                    continue
+                for req_idx, req_sq in enumerate(PROPERTY_IDS):
+                    if req_idx == offer_idx:
+                        continue
+                    requested_prop = self.properties[req_sq]
+                    if requested_prop.owner != target_pid or requested_prop.houses > 0:
+                        continue
+                    req_raw = req_idx if req_idx < offer_idx else req_idx - 1
+                    local = t_idx * n_props * (n_props - 1) + offer_idx * (n_props - 1) + req_raw
+                    allowed.append(OFFSETS["exch_trade"] + local)
         return allowed
 
     def _incoming_trade(self, pid: int) -> Optional[TradeOffer]:
@@ -674,17 +765,15 @@ class MonopolyEnv:
     def _compute_reward(self, pid: int) -> float:
         active = [p for p in self.players if not p.bankrupt]
         if len(active) <= 1:
-            return 1.0 if not self.players[pid].bankrupt else -1.0
+            return 0.0
 
         nw_self  = self.players[pid].net_worth()
         nw_other = sum(p.net_worth() for p in active if p.player_id != pid)
 
+        # Paper eq. (4): r_x = nw_x / sum(other active players' net worth)
+        # Bound to [0, 1] for training stability and to satisfy reward-range checks.
         base_reward = nw_self / (nw_other + 1e-8)
-
-        # Bonus for each monopoly owned — encourages the agent to complete groups
-        monopoly_bonus = self.players[pid].num_monopolies() * 0.05
-
-        return base_reward + monopoly_bonus
+        return float(np.clip(base_reward, 0.0, 1.0))
 
     def _check_game_over(self):
         active = [p for p in self.players if not p.bankrupt]

@@ -12,7 +12,6 @@ Usage:
 """
 
 import argparse
-from ast import arg
 import os
 import json
 import time
@@ -30,6 +29,8 @@ def main():
                         help="Disable hybrid mode (use standard DRL)")
     parser.add_argument("--games",  type=int, default=2000,
                         help="Number of training games (default: 2000)")
+    parser.add_argument("--c", type=float, default=None,
+                        help="Terminal win/loss bonus c (overrides algo default)")
     parser.add_argument("--out",    type=str, default=None,
                         help="Output path for saved model weights")
     args = parser.parse_args()
@@ -43,24 +44,34 @@ def main():
     print(f"  Algorithm : {args.algo.upper()}")
     print(f"  Mode      : {'Hybrid' if args.hybrid else 'Standard'}")
     print(f"  Games     : {args.games}")
+    if args.c is not None:
+        print(f"  c bonus   : {args.c}")
     print(f"  Save to   : {args.out}")
     print(f"{'='*60}\n")
 
     start = time.time()
 
     if args.algo == "ppo":
+        ppo_kwargs = {}
+        if args.c is not None:
+            ppo_kwargs["win_loss_bonus"] = float(args.c)
         agent, history = train_ppo(
             hybrid=args.hybrid,
             player_id=0,
             n_games=args.games,
             log_every=max(1, args.games // 50),
+            **ppo_kwargs,
         )
     else:
+        ddqn_kwargs = {}
+        if args.c is not None:
+            ddqn_kwargs["win_loss_bonus"] = float(args.c)
         agent, history = train_ddqn(
             hybrid=args.hybrid,
             player_id=0,
             n_games=args.games,
             log_every=max(1, args.games // 50),
+            **ddqn_kwargs,
         )
 
     elapsed = time.time() - start

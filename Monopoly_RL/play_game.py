@@ -161,9 +161,6 @@ def log_action(logger, pid, pname, action_idx, env, info):
         elif atype == ActionType.END_TURN:
             lines.append(f"{pname} ends their turn")
 
-        elif atype == ActionType.DO_NOTHING:
-            pass
-
         elif atype == ActionType.USE_GOOJ_CARD:
             lines.append(f"{pname} uses Get Out of Jail Free card — released!")
 
@@ -172,12 +169,6 @@ def log_action(logger, pid, pname, action_idx, env, info):
 
         elif atype == ActionType.ACCEPT_TRADE:
             lines.append(f"{pname} ACCEPTS the trade offer")
-
-        elif atype == ActionType.DECLINE_TRADE:
-            lines.append(f"{pname} DECLINES the trade offer")
-
-        elif atype == ActionType.DECLARE_BANKRUPT:
-            lines.append(f"💀 {pname} declares BANKRUPTCY!")
 
     elif action_idx < OFFSETS["unmortgage"]:
         local = action_idx - OFFSETS["mortgage"]
@@ -205,15 +196,10 @@ def log_action(logger, pid, pname, action_idx, env, info):
         prop  = env.properties[REAL_ESTATE_IDS[local]]
         lines.append(f"{pname} sells a house on {prop.name}")
 
-    elif action_idx < OFFSETS["sell_prop"]:
+    elif action_idx < OFFSETS["buy_trade"]:
         local = action_idx - OFFSETS["sell_hotel"]
         prop  = env.properties[REAL_ESTATE_IDS[local]]
         lines.append(f"{pname} sells the hotel on {prop.name}")
-
-    elif action_idx < OFFSETS["buy_trade"]:
-        local = action_idx - OFFSETS["sell_prop"]
-        prop  = env.properties[PROPERTY_IDS[local]]
-        lines.append(f"{pname} sells {prop.name} back to bank for ${prop.mortgage_v}")
 
     elif action_idx < OFFSETS["sell_trade"]:
         local      = action_idx - OFFSETS["buy_trade"]
@@ -403,9 +389,7 @@ def simulate(model_path, algo, n_players, log_path):
         # Apply to env
         _, _, done, info = env.step(action)
 
-        # Log (skip silent DO_NOTHING)
-        if action != int(ActionType.DO_NOTHING):
-            log_action(logger, pid, pname, action, env, info)
+        log_action(logger, pid, pname, action, env, info)
 
         # Announce any newly bankrupt players
         for p in range(n_players):

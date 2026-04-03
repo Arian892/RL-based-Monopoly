@@ -104,7 +104,7 @@ def build_state_vector(players, properties_dict, agent_id: int) -> np.ndarray:
       - Player representation  : 4 players × 4 features = 16 dims
           [position/40, cash/5000, in_jail, has_gooj_card]
       - Property representation: 28 properties × 8 features = 224 dims
-          [owner_onehot(5), mortgaged, is_monopoly, improvement_fraction]
+          [owner_onehot(4), mortgaged, is_monopoly, house_fraction, hotel_fraction]
     
     The agent's own player comes first in the player section.
     """
@@ -124,21 +124,25 @@ def build_state_vector(players, properties_dict, agent_id: int) -> np.ndarray:
     # ── Property features (224 dims) ──
     for sq in PROPERTY_IDS:
         prop = properties_dict[sq]
-        # owner: one-hot of size 5 (bank=all zeros, players 0-3)
-        owner_vec = np.zeros(5)
+        # owner: one-hot of size 4 for players 0-3 (bank = all zeros)
+        owner_vec = np.zeros(4)
         if prop.owner is not None:
             owner_vec[prop.owner] = 1.0
-        state[idx:idx+5] = owner_vec
-        idx += 5
+        state[idx:idx+4] = owner_vec
+        idx += 4
         # mortgaged
         state[idx]   = float(prop.mortgaged)
         idx += 1
         # is_monopoly
         state[idx]   = float(prop.is_monopoly)
         idx += 1
-        # improvement fraction (houses/4 for RE, 0 for others)
+        # house_fraction (0..1 for 0..4 houses)
         if prop.is_real_estate:
-            state[idx] = prop.houses / 5.0  # 5 = hotel
+            state[idx] = min(prop.houses, 4) / 4.0
+        idx += 1
+        # hotel_fraction (1.0 iff hotel present)
+        if prop.is_real_estate:
+            state[idx] = 1.0 if prop.houses == 5 else 0.0
         idx += 1
 
     assert idx == 240, f"State vector size mismatch: {idx}"

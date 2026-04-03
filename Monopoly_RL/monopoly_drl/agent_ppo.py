@@ -40,8 +40,48 @@ def fixed_buy_decision(env, pid: int) -> bool:
         if owned + 1 == len(group):
             return True
 
-    # Relax buffer from $200 to $100 to be more aggressive
-    return player.cash >= prop.price + 100
+    # Paper hybrid rule: buy if cash remains above $200 after purchase.
+    return player.cash > prop.price + 200
+
+
+def _monopolies_for_owner_map(owner_of, pid: int) -> int:
+    count = 0
+    for _, squares in COLOR_GROUPS.items():
+        if all(owner_of(sq) == pid for sq in squares):
+            count += 1
+    return count
+
+
+def _trade_net_value_for_recipient(offer) -> float:
+    received = 0.0
+    given = 0.0
+
+    if offer.offered_prop is not None and offer.offered_prop.owner == offer.from_player:
+        received += offer.offered_prop.price
+    received += offer.cash_offered
+
+    if offer.requested_prop is not None and offer.requested_prop.owner == offer.to_player:
+        given += offer.requested_prop.price
+    given += offer.cash_requested
+
+    return received - given
+
+
+def _monopoly_increases_if_accept(env, pid: int, offer) -> bool:
+    def owner_now(square_id: int):
+        return env.properties[square_id].owner
+
+    def owner_after(square_id: int):
+        owner = env.properties[square_id].owner
+        if offer.offered_prop is not None and offer.offered_prop.square_id == square_id:
+            owner = offer.to_player
+        if offer.requested_prop is not None and offer.requested_prop.square_id == square_id:
+            owner = offer.from_player
+        return owner
+
+    current_monos = _monopolies_for_owner_map(owner_now, pid)
+    future_monos = _monopolies_for_owner_map(owner_after, pid)
+    return future_monos > current_monos
 
 
 def fixed_accept_trade_decision(env, pid: int) -> bool:
@@ -51,20 +91,16 @@ def fixed_accept_trade_decision(env, pid: int) -> bool:
     if offer is None:
         return False
 
-    # Accept if it gives us a monopoly
-    if offer.offered_prop:  # we are receiving a property
-        color = offer.offered_prop.color
-        group = COLOR_GROUPS.get(color, [])
-        if group:
-            owned_after = sum(1 for s in group
-                              if env.properties[s].owner == pid
-                              or env.properties[s] == offer.offered_prop)
-            if owned_after == len(group):
-                return True
+    # Reject if we cannot satisfy the requested cash part.
+    if offer.cash_requested > env.players[pid].cash:
+        return False
 
-    # Accept at parity OR better (was strictly > 0, now >= 0)
-    nwo = offer.net_worth()
-    return -nwo >= 0
+    # Paper hybrid rule 2.
+    if _monopoly_increases_if_accept(env, pid, offer):
+        return True
+
+    net_value = _trade_net_value_for_recipient(offer)
+    return net_value > 0
 
 # ── Experience buffer ─────────────────────────────────────────────────────────
 
@@ -171,22 +207,27 @@ class PPOAgent:
                 if fixed_accept_trade_decision(env, pid):
                     return int(ActionType.ACCEPT_TRADE), 0.0, 0.0
                 else:
-                    return int(ActionType.DECLINE_TRADE), 0.0, 0.0
+                    return int(ActionType.END_TURN), 0.0, 0.0
 
         # Filter out fixed-policy actions from neural net consideration
         nn_allowed = [a for a in allowed_actions
                       if not self.fixed_action_mask[a]]
         if not nn_allowed:
-            nn_allowed = [int(ActionType.DO_NOTHING)]
+            nn_allowed = [int(ActionType.END_TURN)]
 
         state_t  = torch.FloatTensor(state).unsqueeze(0)
-        value    = self.critic(state_t).item()
+        with torch.no_grad():
+            value = self.critic(state_t).item()
         action, log_prob = self.actor.get_action(state, nn_allowed)
         return action, log_prob, value
 
     # ── Store experience ──────────────────────────────────────────────────────
 
     def store(self, state, action, log_prob, reward, value, done):
+        # In hybrid mode, fixed-policy decisions (BUY/ACCEPT and implicit reject)
+        # return placeholder (log_prob=0, value=0). Exclude them from PPO updates.
+        if self.hybrid and log_prob == 0.0 and value == 0.0:
+            return
         self.buffer.store(state, action, log_prob, reward, value, done)
         self.step_count += 1
 

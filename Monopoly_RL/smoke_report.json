@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "algo": "ppo",
+    "ppo_games": 1,
+    "ddqn_games": 10000,
+    "c_values": [
+      0.0
+    ],
+    "log_every": 1,
+    "quick": false
+  },
+  "summary": {
+    "groups": {
+      "ppo_standard": {
+        "best_c": 0.0,
+        "best_final_win_rate": 0.0,
+        "best_peak_win_rate": 0.0,
+        "rows": [
+          {
+            "algo": "ppo",
+            "hybrid": false,
+            "c_value": 0.0,
+            "games": 1,
+            "final_win_rate": 0.0,
+            "best_win_rate": 0.0,
+            "first_hit_50": null,
+            "elapsed_sec": 378.2937173843384
+          }
+        ]
+      },
+      "ppo_hybrid": {
+        "best_c": 0.0,
+        "best_final_win_rate": 0.0,
+        "best_peak_win_rate": 0.0,
+        "rows": [
+          {
+            "algo": "ppo",
+            "hybrid": true,
+            "c_value": 0.0,
+            "games": 1,
+            "final_win_rate": 0.0,
+            "best_win_rate": 0.0,
+            "first_hit_50": null,
+            "elapsed_sec": 458.86944580078125
+          }
+        ]
+      }
+    },
+    "trend_checks": {
+      "ppo": {
+        "hybrid_beats_standard_final": false,
+        "hybrid_beats_standard_peak": false,
+        "hybrid_best_c": 0.0,
+        "standard_best_c": 0.0,
+        "hybrid_final": 0.0,
+        "standard_final": 0.0
+      }
+    }
+  },
+  "raw_results": [
+    {
+      "algo": "ppo",
+      "hybrid": false,
+      "c_value": 0.0,
+      "games": 1,
+      "final_win_rate": 0.0,
+      "best_win_rate": 0.0,
+      "first_hit_50": null,
+      "elapsed_sec": 378.2937173843384
+    },
+    {
+      "algo": "ppo",
+      "hybrid": true,
+      "c_value": 0.0,
+      "games": 1,
+      "final_win_rate": 0.0,
+      "best_win_rate": 0.0,
+      "first_hit_50": null,
+      "elapsed_sec": 458.86944580078125
+    }
+  ]
+}

@@ -30,18 +30,19 @@ class ReplayBuffer:
     def __init__(self, capacity: int = 50_000):
         self.buffer = deque(maxlen=capacity)
 
-    def push(self, state, action, reward, next_state, done):
-        self.buffer.append((state, action, reward, next_state, done))
+    def push(self, state, action, reward, next_state, done, next_allowed_actions):
+        self.buffer.append((state, action, reward, next_state, done, next_allowed_actions))
 
     def sample(self, batch_size: int):
         batch = random.sample(self.buffer, batch_size)
-        states, actions, rewards, next_states, dones = zip(*batch)
+        states, actions, rewards, next_states, dones, next_allowed_actions = zip(*batch)
         return (
             torch.FloatTensor(np.array(states)),
             torch.LongTensor(actions),
             torch.FloatTensor(rewards),
             torch.FloatTensor(np.array(next_states)),
             torch.FloatTensor(dones),
+            list(next_allowed_actions),
         )
 
     def __len__(self):
@@ -119,20 +120,20 @@ class DDQNAgent:
             if pending is not None:
                 if fixed_accept_trade_decision(env, pid):
                     return int(ActionType.ACCEPT_TRADE)
-                return int(ActionType.DECLINE_TRADE)
+                return int(ActionType.END_TURN)
 
         # NN actions only
         nn_allowed = [a for a in allowed_actions if a not in self.fixed_actions]
         if not nn_allowed:
-            nn_allowed = [int(ActionType.DO_NOTHING)]
+            nn_allowed = [int(ActionType.END_TURN)]
 
         action = self.online_net.get_action(state, nn_allowed, self.epsilon)
         return action
 
     # ── Learning step ─────────────────────────────────────────────────────────
 
-    def store_transition(self, state, action, reward, next_state, done):
-        self.buffer.push(state, action, reward, next_state, done)
+    def store_transition(self, state, action, reward, next_state, done, next_allowed_actions):
+        self.buffer.push(state, action, reward, next_state, done, next_allowed_actions)
         self.step_count += 1
         # Decay epsilon
         self.epsilon = max(self.epsilon_end, self.epsilon * self.epsilon_decay)
@@ -140,24 +141,36 @@ class DDQNAgent:
     def add_win_loss(self, won: bool):
         """Add win/loss bonus to the most recent transition."""
         if self.win_loss_bonus != 0 and len(self.buffer) > 0:
-            s, a, r, ns, d = self.buffer.buffer[-1]
+            s, a, r, ns, d, na = self.buffer.buffer[-1]
             bonus = self.win_loss_bonus if won else -self.win_loss_bonus
-            self.buffer.buffer[-1] = (s, a, r + bonus, ns, d)
+            self.buffer.buffer[-1] = (s, a, r + bonus, ns, d, na)
 
     def update(self) -> dict:
         """Sample mini-batch and perform a DDQN gradient step."""
         if len(self.buffer) < self.batch_size:
             return {}
 
-        states, actions, rewards, next_states, dones = self.buffer.sample(self.batch_size)
+        states, actions, rewards, next_states, dones, next_allowed_actions = self.buffer.sample(self.batch_size)
 
         # Current Q-values
         q_values = self.online_net(states).gather(1, actions.unsqueeze(1)).squeeze(1)
 
         # DDQN target: use online net to select action, target net to evaluate
         with torch.no_grad():
-            next_actions = self.online_net(next_states).argmax(1)
-            next_q       = self.target_net(next_states).gather(1, next_actions.unsqueeze(1)).squeeze(1)
+            q_online_next = self.online_net(next_states)
+            q_target_next = self.target_net(next_states)
+
+            next_actions = []
+            for i, allowed in enumerate(next_allowed_actions):
+                if not allowed:
+                    allowed = [int(ActionType.END_TURN)]
+                q_row = q_online_next[i]
+                mask = torch.full((ACTION_SPACE_SIZE,), float('-inf'), device=q_row.device)
+                mask[allowed] = 0.0
+                next_actions.append(int((q_row + mask).argmax().item()))
+
+            next_actions_t = torch.LongTensor(next_actions).to(q_target_next.device)
+            next_q = q_target_next.gather(1, next_actions_t.unsqueeze(1)).squeeze(1)
             targets      = rewards + self.gamma * next_q * (1 - dones)
 
         loss = nn.SmoothL1Loss()(q_values, targets)

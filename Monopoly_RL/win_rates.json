@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "algo": "ppo",
+    "model": "ppo_current.pt",
+    "games": 100,
+    "max_rounds": 100,
+    "max_steps_factor": 20,
+    "seed": 42,
+    "plot": "win_rates.png"
+  },
+  "win_counts": {
+    "P0 (PPO:working_model)": 44,
+    "P1 (Fixed-A)": 16,
+    "P2 (Fixed-B)": 18,
+    "P3 (Fixed-C)": 22
+  },
+  "win_rates": {
+    "P0 (PPO:working_model)": 44.0,
+    "P1 (Fixed-A)": 16.0,
+    "P2 (Fixed-B)": 18.0,
+    "P3 (Fixed-C)": 22.0
+  }
+}

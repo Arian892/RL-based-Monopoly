@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "algo": "ppo",
+    "model": null,
+    "games": 100,
+    "max_rounds": 10,
+    "max_steps_factor": 3,
+    "seed": 42,
+    "plot": "monopolies_100_fast.png"
+  },
+  "means": {
+    "P0 (PPO:working_model)": 0.10999999940395355,
+    "P1 (Fixed-A)": 0.0,
+    "P2 (Fixed-B)": 0.0,
+    "P3 (Fixed-C)": 0.0
+  },
+  "stds": {
+    "P0 (PPO:working_model)": 0.4877501130104065,
+    "P1 (Fixed-A)": 0.0,
+    "P2 (Fixed-B)": 0.0,
+    "P3 (Fixed-C)": 0.0
+  }
+}

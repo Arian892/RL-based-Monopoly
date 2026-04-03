@@ -43,7 +43,7 @@ class FixedPolicyAgent:
         if pending:
             if self._should_accept_trade(pending, env):
                 return int(ActionType.ACCEPT_TRADE)
-            return int(ActionType.DECLINE_TRADE)
+            return int(ActionType.END_TURN)
 
         # --- Jail escape ---
         if player.in_jail:

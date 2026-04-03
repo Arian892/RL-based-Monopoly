@@ -21,7 +21,8 @@ def run_episode(env: MonopolyEnv,
                 fp_agents: List[FixedPolicyAgent],
                 agent_pid: int,
                 is_ppo: bool,
-                update_online: bool = True) -> Dict:
+                update_online: bool = True,
+                max_steps_factor: int = 30) -> Dict:
     """
     Run one complete game. The learning agent occupies position agent_pid,
     fixed-policy agents fill the other three slots.
@@ -42,7 +43,7 @@ def run_episode(env: MonopolyEnv,
     prev_state  = state
     prev_action = None
 
-    max_steps = env.max_rounds * NUM_PLAYERS * 30
+    max_steps = env.max_rounds * NUM_PLAYERS * max_steps_factor
     step_count = 0
 
     while not done and step_count < max_steps:
@@ -58,7 +59,7 @@ def run_episode(env: MonopolyEnv,
         # Get allowed actions for whoever's turn it is
         allowed = env.get_allowed_actions(pid)
         if not allowed:
-            allowed = [int(ActionType.DO_NOTHING)]
+            allowed = [int(ActionType.END_TURN)]
 
         if pid == agent_pid:
             # ── Learning agent ──────────────────────────────────────────
@@ -78,9 +79,11 @@ def run_episode(env: MonopolyEnv,
                     if len(learning_agent.buffer) >= learning_agent.n_steps:
                         update_stats = learning_agent.update()
                 else:
-                    if prev_action is not None:
-                        learning_agent.store_transition(prev_state, prev_action,
-                                                        reward, next_state, done)
+                    next_pid = env.whose_turn()
+                    next_allowed = env.get_allowed_actions(next_pid)
+                    learning_agent.store_transition(state, action,
+                                                    reward, next_state, done,
+                                                    next_allowed)
                     update_stats = learning_agent.update()
 
             prev_state  = next_state
@@ -108,12 +111,6 @@ def run_episode(env: MonopolyEnv,
                 update_stats.update(learning_agent.update())
         else:
             learning_agent.add_win_loss(won)
-            if prev_action is not None:
-                learning_agent.store_transition(
-                    prev_state, prev_action,
-                    learning_agent.win_loss_bonus * (1 if won else -1),
-                    state, True
-                )
 
     return {"won": won, "reward": total_reward, "steps": steps, "stats": update_stats}
 
@@ -125,6 +122,8 @@ def train(
     n_games: int = 2000,
     log_every: int = 50,
     seed: int = 42,
+    max_rounds: int = 300,
+    max_steps_factor: int = 30,
 ) -> Dict:
     """
     Main training function.
@@ -136,7 +135,7 @@ def train(
     np.random.seed(seed)
 
     agent_pid = learning_agent.player_id
-    env       = MonopolyEnv(agent_ids=[agent_pid], max_rounds=300)
+    env       = MonopolyEnv(agent_ids=[agent_pid], max_rounds=max_rounds)
 
     # Create fixed-policy opponents with the remaining player IDs
     other_pids = [i for i in range(NUM_PLAYERS) if i != agent_pid]
@@ -155,7 +154,14 @@ def train(
 
     for game_num in range(1, n_games + 1):
         # Randomise turn order by shuffling player IDs before each game
-        result = run_episode(env, learning_agent, fp_agents, agent_pid, is_ppo)
+        result = run_episode(
+            env,
+            learning_agent,
+            fp_agents,
+            agent_pid,
+            is_ppo,
+            max_steps_factor=max_steps_factor,
+        )
 
         if result["won"]:
             wins_window += 1
@@ -186,6 +192,8 @@ def evaluate(
     n_games: int = 2000,
     n_runs: int = 5,
     seed: int = 0,
+    max_rounds: int = 300,
+    max_steps_factor: int = 30,
 ) -> Dict:
     """
     Evaluate a trained agent over n_runs × n_games.
@@ -195,7 +203,7 @@ def evaluate(
         learning_agent.epsilon = 0.0
 
     agent_pid = learning_agent.player_id
-    env       = MonopolyEnv(agent_ids=[agent_pid], max_rounds=300)
+    env       = MonopolyEnv(agent_ids=[agent_pid], max_rounds=max_rounds)
     other_pids = [i for i in range(NUM_PLAYERS) if i != agent_pid]
     fp_agents  = [FPAgentA(other_pids[0]),
                   FPAgentB(other_pids[1]),
@@ -207,8 +215,15 @@ def evaluate(
         np.random.seed(seed + run)
         wins = 0
         for _ in range(n_games):
-            result = run_episode(env, learning_agent, fp_agents,
-                                 agent_pid, is_ppo, update_online=False)
+            result = run_episode(
+                env,
+                learning_agent,
+                fp_agents,
+                agent_pid,
+                is_ppo,
+                update_online=False,
+                max_steps_factor=max_steps_factor,
+            )
             if result["won"]:
                 wins += 1
         rate = wins / n_games * 100
