@@ -11,39 +11,59 @@ Key fixes:
 """ Fix Trade Order """
 
 import random
-import numpy as np
-from typing import Optional, List, Dict
+from typing import Dict, List, Optional
 
+import numpy as np
+
+from .actions import ACTION_SPACE_SIZE, OFFSETS, PROPERTY_IDS, ActionType
 from .constants import (
-    BOARD, PROPERTIES, PROPERTY_IDS, REAL_ESTATE_IDS, COLOR_GROUPS,
-    STARTING_CASH, GO_SALARY, JAIL_SQUARE, GO_TO_JAIL_SQUARE,
-    INCOME_TAX_SQUARE, LUXURY_TAX_SQUARE, FREE_PARKING,
-    MAX_HOUSES, MAX_JAIL_TURNS, JAIL_BAIL, NUM_PLAYERS, TRADE_CASH_LEVELS
+    BOARD,
+    COLOR_GROUPS,
+    FREE_PARKING,
+    GO_SALARY,
+    GO_TO_JAIL_SQUARE,
+    INCOME_TAX_SQUARE,
+    JAIL_BAIL,
+    JAIL_SQUARE,
+    LUXURY_TAX_SQUARE,
+    MAX_HOUSES,
+    MAX_JAIL_TURNS,
+    NUM_PLAYERS,
+    PROPERTIES,
+    PROPERTY_IDS,
+    REAL_ESTATE_IDS,
+    STARTING_CASH,
+    TRADE_CASH_LEVELS,
 )
 from .state import Player, Property, build_state_vector
-from .actions import ActionType, OFFSETS, ACTION_SPACE_SIZE, PROPERTY_IDS
 
 
 class TradeOffer:
-    def __init__(self, from_player, to_player,
-                 offered_prop=None, requested_prop=None,
-                 cash_offered=0, cash_requested=0):
-        self.from_player    = from_player
-        self.to_player      = to_player
-        self.offered_prop   = offered_prop
+    def __init__(
+        self,
+        from_player,
+        to_player,
+        offered_prop=None,
+        requested_prop=None,
+        cash_offered=0,
+        cash_requested=0,
+    ):
+        self.from_player = from_player
+        self.to_player = to_player
+        self.offered_prop = offered_prop
         self.requested_prop = requested_prop
-        self.cash_offered   = cash_offered
+        self.cash_offered = cash_offered
         self.cash_requested = cash_requested
 
     def net_worth(self):
-        po = self.offered_prop.price   if self.offered_prop   else 0
+        po = self.offered_prop.price if self.offered_prop else 0
         pr = self.requested_prop.price if self.requested_prop else 0
         return (po + self.cash_offered) - (pr + self.cash_requested)
 
 
 # Phase constants
-PHASE_PRE_ROLL    = "pre_roll"
-PHASE_POST_ROLL   = "post_roll"
+PHASE_PRE_ROLL = "pre_roll"
+PHASE_POST_ROLL = "post_roll"
 PHASE_OUT_OF_TURN = "out_of_turn"
 
 
@@ -59,28 +79,35 @@ class MonopolyEnv:
     """
 
     def __init__(self, agent_ids=None, max_rounds=200):
-        self.agent_ids  = agent_ids or [0]
+        self.agent_ids = agent_ids or [0]
         self.max_rounds = max_rounds
         self.reset()
 
     # ── Setup ──────────────────────────────────────────────────────────────────
 
     def reset(self):
-        self.players    = [Player(i) for i in range(NUM_PLAYERS)]
+        self.players = [Player(i) for i in range(NUM_PLAYERS)]
         self.properties = {sq: Property(sq) for sq in PROPERTY_IDS}
         self.turn_order = list(range(NUM_PLAYERS))
         random.shuffle(self.turn_order)
 
-        self.current_turn_idx  = 0   # index into turn_order
-        self.round             = 0
-        self.done              = False
-        self.pending_trades    = {}  # sender_pid -> TradeOffer
-        self.last_dice         = (1, 1)
+        self.current_turn_idx = 0  # index into turn_order
+        self.round = 0
+        self.done = False
+        self.pending_trades = {}  # sender_pid -> TradeOffer
+        self.last_dice = (1, 1)
 
         # Phase tracking
-        self.phase             = PHASE_PRE_ROLL
-        self.has_rolled        = False   # has the active player rolled this turn?
-        self.out_of_turn_pids  = []      # which players still get out-of-turn actions
+        self.phase = PHASE_PRE_ROLL
+        self.has_rolled = False  # has the active player rolled this turn?
+        self.out_of_turn_pids = []  # which players still get out-of-turn actions
+
+        # ── BUG 1 FIX: rescue flag ─────────────────────────────────────────
+        # Set to a player's pid when they owe more than they have after paying
+        # rent.  While set, get_allowed_actions() returns sell-house / mortgage
+        # actions instead of the normal post-roll menu, giving the agent a
+        # chance to raise funds before bankruptcy is declared.
+        self.player_needs_funds = None
 
         self._update_monopolies()
         self._skip_bankrupt()
@@ -116,9 +143,9 @@ class MonopolyEnv:
         if self.done:
             return self._get_state(self.agent_ids[0]), 0.0, True, {}
 
-        pid    = self.whose_turn()
+        pid = self.whose_turn()
         player = self.players[pid]
-        info   = {"player": pid, "phase": self.phase}
+        info = {"player": pid, "phase": self.phase}
 
         if player.bankrupt:
             self._advance_turn()
@@ -138,8 +165,8 @@ class MonopolyEnv:
         if pid is None:
             pid = self.whose_turn()
 
-        player  = self.players[pid]
-        active  = self.active_player_id()
+        player = self.players[pid]
+        active = self.active_player_id()
         allowed = []
 
         if player.bankrupt:
@@ -199,8 +226,21 @@ class MonopolyEnv:
                 return allowed
 
             else:
-                # Already rolled — decide on landing square
-                sq   = player.position
+                # ── BUG 1 FIX: emergency rescue phase ─────────────────────
+                # If the player is in debt (went negative after paying rent),
+                # offer them sell-house / mortgage actions to raise funds.
+                # Only offer DECLARE_BANKRUPT when they have nothing left to sell.
+                if self.player_needs_funds == pid:
+                    rescue = []
+                    rescue += self._improve_actions(pid)  # sell_house / sell_hotel
+                    rescue += self._mortgage_actions(pid)  # mortgage properties
+                    if rescue:
+                        return rescue
+                    # Genuinely insolvent — nothing left to liquidate
+                    return [int(ActionType.DECLARE_BANKRUPT)]
+
+                # Normal post-roll menu
+                sq = player.position
                 prop = self.properties.get(sq)
 
                 if prop and prop.owner is None and player.can_afford(prop.price):
@@ -223,6 +263,13 @@ class MonopolyEnv:
         player = self.players[pid]
         active = self.active_player_id()
 
+        # ── BUG 1 FIX: clear rescue flag when debt is repaid ──────────────
+        # After each action (sell house, mortgage, etc.) check whether the
+        # player has recovered.  If so, lift the flag so normal post-roll
+        # actions become available again on the next step.
+        if self.player_needs_funds == pid and player.cash >= 0:
+            self.player_needs_funds = None
+
         # ── Binary actions ─────────────────────────────────────────────────
         if action_idx < OFFSETS["mortgage"]:
             atype = ActionType(action_idx)
@@ -243,14 +290,14 @@ class MonopolyEnv:
 
             elif atype == ActionType.USE_GOOJ_CARD:
                 if player.gooj_card and player.in_jail:
-                    player.gooj_card  = False
-                    player.in_jail    = False
+                    player.gooj_card = False
+                    player.in_jail = False
                     player.jail_turns = 0
 
             elif atype == ActionType.PAY_BAIL:
                 if player.in_jail and player.can_afford(JAIL_BAIL):
-                    player.cash      -= JAIL_BAIL
-                    player.in_jail    = False
+                    player.cash -= JAIL_BAIL
+                    player.in_jail = False
                     player.jail_turns = 0
 
             elif atype == ActionType.DECLARE_BANKRUPT:
@@ -271,29 +318,33 @@ class MonopolyEnv:
         # ── Mortgage ───────────────────────────────────────────────────────
         if action_idx < OFFSETS["unmortgage"]:
             local = action_idx - OFFSETS["mortgage"]
-            prop  = self.properties[PROPERTY_IDS[local]]
+            prop = self.properties[PROPERTY_IDS[local]]
             if prop.owner == pid and not prop.mortgaged and prop.houses == 0:
                 prop.mortgaged = True
-                player.cash   += prop.mortgage_v
+                player.cash += prop.mortgage_v
             return
 
         # ── Unmortgage ─────────────────────────────────────────────────────
         if action_idx < OFFSETS["improve_house"]:
             local = action_idx - OFFSETS["unmortgage"]
-            prop  = self.properties[PROPERTY_IDS[local]]
-            cost  = int(prop.mortgage_v * 1.1)
+            prop = self.properties[PROPERTY_IDS[local]]
+            cost = int(prop.mortgage_v * 1.1)
             if prop.owner == pid and prop.mortgaged and player.can_afford(cost):
                 prop.mortgaged = False
-                player.cash   -= cost
+                player.cash -= cost
             return
 
         # ── Improve house ──────────────────────────────────────────────────
         if action_idx < OFFSETS["improve_hotel"]:
             local = action_idx - OFFSETS["improve_house"]
-            prop  = self.properties[REAL_ESTATE_IDS[local]]
-            hp    = prop.data["house_price"]
-            if (prop.owner == pid and prop.is_monopoly
-                    and prop.houses < MAX_HOUSES and player.can_afford(hp)):
+            prop = self.properties[REAL_ESTATE_IDS[local]]
+            hp = prop.data["house_price"]
+            if (
+                prop.owner == pid
+                and prop.is_monopoly
+                and prop.houses < MAX_HOUSES
+                and player.can_afford(hp)
+            ):
                 prop.houses += 1
                 player.cash -= hp
             return
@@ -301,18 +352,22 @@ class MonopolyEnv:
         # ── Improve hotel ──────────────────────────────────────────────────
         if action_idx < OFFSETS["sell_house"]:
             local = action_idx - OFFSETS["improve_hotel"]
-            prop  = self.properties[REAL_ESTATE_IDS[local]]
-            hp    = prop.data["house_price"]
-            if (prop.owner == pid and prop.is_monopoly
-                    and prop.houses == MAX_HOUSES and player.can_afford(hp)):
-                prop.houses  = 5
+            prop = self.properties[REAL_ESTATE_IDS[local]]
+            hp = prop.data["house_price"]
+            if (
+                prop.owner == pid
+                and prop.is_monopoly
+                and prop.houses == MAX_HOUSES
+                and player.can_afford(hp)
+            ):
+                prop.houses = 5
                 player.cash -= hp
             return
 
         # ── Sell house ─────────────────────────────────────────────────────
         if action_idx < OFFSETS["sell_hotel"]:
             local = action_idx - OFFSETS["sell_house"]
-            prop  = self.properties[REAL_ESTATE_IDS[local]]
+            prop = self.properties[REAL_ESTATE_IDS[local]]
             if prop.owner == pid and 1 <= prop.houses <= MAX_HOUSES:
                 prop.houses -= 1
                 player.cash += prop.data["house_price"] // 2
@@ -321,20 +376,20 @@ class MonopolyEnv:
         # ── Sell hotel ─────────────────────────────────────────────────────
         if action_idx < OFFSETS["sell_prop"]:
             local = action_idx - OFFSETS["sell_hotel"]
-            prop  = self.properties[REAL_ESTATE_IDS[local]]
+            prop = self.properties[REAL_ESTATE_IDS[local]]
             if prop.owner == pid and prop.houses == 5:
-                prop.houses  = MAX_HOUSES
+                prop.houses = MAX_HOUSES
                 player.cash += prop.data["house_price"] // 2
             return
 
         # ── Sell property to bank ──────────────────────────────────────────
         if action_idx < OFFSETS["buy_trade"]:
             local = action_idx - OFFSETS["sell_prop"]
-            prop  = self.properties[PROPERTY_IDS[local]]
+            prop = self.properties[PROPERTY_IDS[local]]
             if prop.owner == pid and prop.houses == 0:
-                player.cash  += prop.mortgage_v
+                player.cash += prop.mortgage_v
                 player.properties.remove(prop)
-                prop.owner    = None
+                prop.owner = None
                 prop.mortgaged = False
                 self._update_monopolies()
             return
@@ -357,14 +412,15 @@ class MonopolyEnv:
 
         if self.phase == PHASE_PRE_ROLL and pid == active:
             # Move to post-roll: player now needs to roll
-            self.phase      = PHASE_POST_ROLL
+            self.phase = PHASE_POST_ROLL
             self.has_rolled = False
 
         elif self.phase == PHASE_POST_ROLL and pid == active:
             # Done with this player's full turn — start out-of-turn for others
             self.phase = PHASE_OUT_OF_TURN
             self.out_of_turn_pids = [
-                p for p in self.turn_order
+                p
+                for p in self.turn_order
                 if p != active and not self.players[p].bankrupt
             ]
             if not self.out_of_turn_pids:
@@ -379,9 +435,9 @@ class MonopolyEnv:
 
     def _next_player(self):
         """Advance to the next non-bankrupt player's pre-roll phase."""
-        n        = len(self.turn_order)
+        n = len(self.turn_order)
         next_idx = (self.current_turn_idx + 1) % n
-        skipped  = 0
+        skipped = 0
         while skipped < n:
             if not self.players[self.turn_order[next_idx]].bankrupt:
                 break
@@ -392,10 +448,10 @@ class MonopolyEnv:
             self.round += 1
 
         self.current_turn_idx = next_idx
-        self.phase            = PHASE_PRE_ROLL
-        self.has_rolled       = False
+        self.phase = PHASE_PRE_ROLL
+        self.has_rolled = False
         self.out_of_turn_pids = []
-        self.pending_trades   = {}
+        self.pending_trades = {}
 
     def _advance_turn(self):
         """Force-advance (used when a bankrupt player is encountered)."""
@@ -413,19 +469,19 @@ class MonopolyEnv:
     def _do_roll(self, pid: int, info: dict):
         player = self.players[pid]
         d1, d2 = random.randint(1, 6), random.randint(1, 6)
-        self.last_dice  = (d1, d2)
-        info["dice"]    = (d1, d2)
+        self.last_dice = (d1, d2)
+        info["dice"] = (d1, d2)
         self.has_rolled = True
 
         # Jail handling
         if player.in_jail:
             player.jail_turns += 1
             if d1 == d2:
-                player.in_jail    = False
+                player.in_jail = False
                 player.jail_turns = 0
             elif player.jail_turns >= MAX_JAIL_TURNS:
-                player.cash      -= min(JAIL_BAIL, player.cash)
-                player.in_jail    = False
+                player.cash -= min(JAIL_BAIL, player.cash)
+                player.in_jail = False
                 player.jail_turns = 0
             else:
                 # Stay in jail — turn ends
@@ -443,12 +499,12 @@ class MonopolyEnv:
 
     def _handle_landing(self, pid: int, dice_total: int, info: dict):
         player = self.players[pid]
-        sq     = player.position
+        sq = player.position
         info["landed_on"] = sq
 
         if sq == GO_TO_JAIL_SQUARE:
-            player.position   = JAIL_SQUARE
-            player.in_jail    = True
+            player.position = JAIL_SQUARE
+            player.in_jail = True
             player.jail_turns = 0
             return
 
@@ -473,26 +529,35 @@ class MonopolyEnv:
             return  # own property, no rent
 
         # Pay rent
-        owner   = self.players[prop.owner]
+        owner = self.players[prop.owner]
         n_rails = owner.railroads_owned()
         n_utils = owner.utilities_owned()
-        rent    = prop.get_rent(dice_total, n_rails, n_utils)
-        payment = min(rent, player.cash)
-        player.cash -= payment
-        owner.cash  += payment
-        info["rent_paid"] = payment
+        rent = prop.get_rent(dice_total, n_rails, n_utils)
 
-        if player.cash <= 0:
-            self._do_bankrupt(pid)
+        # ── BUG 1 FIX: let cash go negative so the rescue flag triggers ────
+        # The original code capped payment at player.cash, which meant cash
+        # could never go below zero and the rescue trigger (cash < 0) never
+        # fired.  Now we deduct the full rent from the player's cash (it can
+        # go negative) while still crediting the owner only what was
+        # actually available.
+        owner_receives = min(rent, player.cash)
+        player.cash -= rent  # may go negative — rescue phase handles it
+        owner.cash += owner_receives
+        info["rent_paid"] = owner_receives
+
+        if player.cash < 0:
+            # Don't bankrupt immediately. Set the rescue flag so the next
+            # get_allowed_actions() call offers sell-house / mortgage actions.
+            self.player_needs_funds = pid
 
     def _do_buy(self, pid: int):
         player = self.players[pid]
-        sq     = player.position
+        sq = player.position
         if sq not in self.properties:
             return
         prop = self.properties[sq]
         if prop.owner is None and player.can_afford(prop.price):
-            prop.owner   = pid
+            prop.owner = pid
             player.cash -= prop.price
             player.properties.append(prop)
             self._update_monopolies()
@@ -500,20 +565,23 @@ class MonopolyEnv:
     def _do_bankrupt(self, pid: int):
         player = self.players[pid]
         player.bankrupt = True
-        player.cash     = 0
+        player.cash = 0
+        # ── BUG 1 FIX: clear rescue flag when player is finally bankrupted ─
+        if self.player_needs_funds == pid:
+            self.player_needs_funds = None
         for prop in player.properties:
-            prop.owner     = None
-            prop.houses    = 0
+            prop.owner = None
+            prop.houses = 0
             prop.mortgaged = False
         player.properties = []
         self._update_monopolies()
 
     def _do_accept_trade(self, pid: int):
-        offer  = None
+        offer = None
         sender = None
         for sid, o in list(self.pending_trades.items()):
             if o.to_player == pid:
-                offer  = o
+                offer = o
                 sender = sid
                 break
         if offer is None:
@@ -545,50 +613,50 @@ class MonopolyEnv:
     # ── Trade offer construction ───────────────────────────────────────────────
 
     def _make_trade_offer(self, pid: int, local_idx: int, mode: str):
-        n_props    = len(PROPERTY_IDS)
-        n_cash     = len(TRADE_CASH_LEVELS)
+        n_props = len(PROPERTY_IDS)
+        n_cash = len(TRADE_CASH_LEVELS)
         player_idx = local_idx // (n_props * n_cash)
-        rem        = local_idx % (n_props * n_cash)
-        prop_idx   = rem // n_cash
-        price_idx  = rem % n_cash
+        rem = local_idx % (n_props * n_cash)
+        prop_idx = rem // n_cash
+        price_idx = rem % n_cash
 
-        others     = [i for i in range(NUM_PLAYERS) if i != pid]
+        others = [i for i in range(NUM_PLAYERS) if i != pid]
         if player_idx >= len(others):
             return
-        target_pid  = others[player_idx]
-        prop        = self.properties[PROPERTY_IDS[prop_idx]]
-        multiplier  = TRADE_CASH_LEVELS[price_idx]
+        target_pid = others[player_idx]
+        prop = self.properties[PROPERTY_IDS[prop_idx]]
+        multiplier = TRADE_CASH_LEVELS[price_idx]
         cash_amount = int(prop.price * multiplier)
 
         if mode == "buy":
             if prop.owner != target_pid:
                 return
-            offer = TradeOffer(pid, target_pid,
-                               cash_offered=cash_amount,
-                               requested_prop=prop)
+            offer = TradeOffer(
+                pid, target_pid, cash_offered=cash_amount, requested_prop=prop
+            )
         else:
             if prop.owner != pid:
                 return
-            offer = TradeOffer(pid, target_pid,
-                               offered_prop=prop,
-                               cash_requested=cash_amount)
+            offer = TradeOffer(
+                pid, target_pid, offered_prop=prop, cash_requested=cash_amount
+            )
 
         self.pending_trades[pid] = offer
 
     def _make_exchange_offer(self, pid: int, local_idx: int):
-        n_props    = len(PROPERTY_IDS)
+        n_props = len(PROPERTY_IDS)
         player_idx = local_idx // (n_props * (n_props - 1))
-        rem        = local_idx % (n_props * (n_props - 1))
-        offer_idx  = rem // (n_props - 1)
-        req_raw    = rem % (n_props - 1)
-        req_idx    = req_raw if req_raw < offer_idx else req_raw + 1
+        rem = local_idx % (n_props * (n_props - 1))
+        offer_idx = rem // (n_props - 1)
+        req_raw = rem % (n_props - 1)
+        req_idx = req_raw if req_raw < offer_idx else req_raw + 1
 
         others = [i for i in range(NUM_PLAYERS) if i != pid]
         if player_idx >= len(others):
             return
-        target_pid   = others[player_idx]
+        target_pid = others[player_idx]
         offered_prop = self.properties[PROPERTY_IDS[offer_idx]]
-        req_prop     = self.properties[PROPERTY_IDS[req_idx]]
+        req_prop = self.properties[PROPERTY_IDS[req_idx]]
 
         if offered_prop.owner != pid or req_prop.owner != target_pid:
             return
@@ -596,15 +664,13 @@ class MonopolyEnv:
             return
 
         self.pending_trades[pid] = TradeOffer(
-            pid, target_pid,
-            offered_prop=offered_prop,
-            requested_prop=req_prop
+            pid, target_pid, offered_prop=offered_prop, requested_prop=req_prop
         )
 
     # ── Helpers for allowed actions ────────────────────────────────────────────
 
     def _mortgage_actions(self, pid: int) -> List[int]:
-        player  = self.players[pid]
+        player = self.players[pid]
         allowed = []
         for i, sq in enumerate(PROPERTY_IDS):
             prop = self.properties[sq]
@@ -617,7 +683,7 @@ class MonopolyEnv:
         return allowed
 
     def _improve_actions(self, pid: int) -> List[int]:
-        player  = self.players[pid]
+        player = self.players[pid]
         allowed = []
         for i, sq in enumerate(REAL_ESTATE_IDS):
             prop = self.properties[sq]
@@ -639,21 +705,37 @@ class MonopolyEnv:
         if pid in self.pending_trades:
             return []
         allowed = []
-        player  = self.players[pid]
-        others  = [i for i in range(NUM_PLAYERS) if i != pid and not self.players[i].bankrupt]
+        player = self.players[pid]
+        others = [
+            i for i in range(NUM_PLAYERS) if i != pid and not self.players[i].bankrupt
+        ]
 
         for t_idx, target_pid in enumerate(others):
             target = self.players[target_pid]
             for i, sq in enumerate(PROPERTY_IDS):
                 prop = self.properties[sq]
                 # Buy offer: target owns it, we want it
-                if prop.owner == target_pid and prop.houses == 0 and player.can_afford(int(prop.price * 0.75)):
+                if (
+                    prop.owner == target_pid
+                    and prop.houses == 0
+                    and player.can_afford(int(prop.price * 0.75))
+                ):
                     for j in range(3):
-                        allowed.append(OFFSETS["buy_trade"] + t_idx * len(PROPERTY_IDS) * 3 + i * 3 + j)
+                        allowed.append(
+                            OFFSETS["buy_trade"]
+                            + t_idx * len(PROPERTY_IDS) * 3
+                            + i * 3
+                            + j
+                        )
                 # Sell offer: we own it
                 if prop.owner == pid and prop.houses == 0:
                     for j in range(3):
-                        allowed.append(OFFSETS["sell_trade"] + t_idx * len(PROPERTY_IDS) * 3 + i * 3 + j)
+                        allowed.append(
+                            OFFSETS["sell_trade"]
+                            + t_idx * len(PROPERTY_IDS) * 3
+                            + i * 3
+                            + j
+                        )
         return allowed
 
     def _incoming_trade(self, pid: int) -> Optional[TradeOffer]:
@@ -666,8 +748,8 @@ class MonopolyEnv:
 
     def _update_monopolies(self):
         for color, squares in COLOR_GROUPS.items():
-            owners  = [self.properties[s].owner for s in squares]
-            is_mono = (len(set(owners)) == 1 and owners[0] is not None)
+            owners = [self.properties[s].owner for s in squares]
+            is_mono = len(set(owners)) == 1 and owners[0] is not None
             for s in squares:
                 self.properties[s].is_monopoly = is_mono
 
@@ -676,7 +758,7 @@ class MonopolyEnv:
         if len(active) <= 1:
             return 1.0 if not self.players[pid].bankrupt else -1.0
 
-        nw_self  = self.players[pid].net_worth()
+        nw_self = self.players[pid].net_worth()
         nw_other = sum(p.net_worth() for p in active if p.player_id != pid)
 
         base_reward = nw_self / (nw_other + 1e-8)
@@ -684,7 +766,20 @@ class MonopolyEnv:
         # Bonus for each monopoly owned — encourages the agent to complete groups
         monopoly_bonus = self.players[pid].num_monopolies() * 0.05
 
-        return base_reward + monopoly_bonus
+        # ── BUG 2 FIX: development bonus ──────────────────────────────────
+        # Building a house costs `house_price` cash but adds the same amount
+        # back to net_worth, so the base_reward ratio barely changes when the
+        # agent builds.  This bonus gives a direct per-step signal proportional
+        # to how developed the agent's monopolies are, making building
+        # genuinely attractive to the policy.
+        total_house_tiers = sum(
+            p.houses
+            for p in self.players[pid].properties
+            if p.is_monopoly and p.is_real_estate
+        )
+        development_bonus = total_house_tiers * 0.08
+
+        return base_reward + monopoly_bonus + development_bonus
 
     def _check_game_over(self):
         active = [p for p in self.players if not p.bankrupt]
