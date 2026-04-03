@@ -62,7 +62,7 @@ import numpy as np
 from monopoly_drl.actions import OFFSETS, ActionType
 from monopoly_drl.agent_ddqn import DDQNAgent
 from monopoly_drl.agent_ppo import PPOAgent
-from monopoly_drl.agents_fixed import FPAgentA, FPAgentB, FPAgentC
+from monopoly_drl.agents_fixed import FPAgentA, FPAgentB, FPAgentC, FPAgentD, FPAgentE, FPAgentF
 from monopoly_drl.constants import COLOR_GROUPS, NUM_PLAYERS
 from monopoly_drl.env import MonopolyEnv
 
@@ -97,7 +97,7 @@ def _count_monopolies(env, pid: int) -> int:
 
 # ── Agent factory ──────────────────────────────────────────────────────────────
 
-_FP_CLASSES = {"fixed-a": FPAgentA, "fixed-b": FPAgentB, "fixed-c": FPAgentC}
+_FP_CLASSES = {"fixed-a": FPAgentA, "fixed-b": FPAgentB, "fixed-c": FPAgentC, "fixed-d": FPAgentD, "fixed-e": FPAgentE, "fixed-f": FPAgentF}
 _FP_CYCLE   = [FPAgentA, FPAgentB, FPAgentC]
 
 
@@ -213,17 +213,14 @@ def run_game(
 
         if is_drl:
             state = env._get_state(pid)
-            if focus_is_ppo or (pid != focus_pid):
-                # opponents are always treated as PPO-like (choose_action returns 3-tuple)
-                # but fixed-policy agents are handled below
-                try:
-                    action, _, _ = agent.choose_action(state, env, allowed)
-                except TypeError:
-                    action = agent.choose_action(state, env, allowed)
-            else:
-                action = agent.choose_action(state, env, allowed)
-                if isinstance(action, tuple):
-                    action = action[0]
+            action = agent.choose_action(state, env, allowed)
+            # PPO inference now returns a 4-tuple:
+            #   (action, log_prob, value, allowed_actions)
+            # while DDQN returns just the action integer.
+            # Older call sites in this file expected a 3-tuple, so normalise
+            # all DRL agents here by always taking the first tuple element.
+            if isinstance(action, tuple):
+                action = action[0]
         else:
             # Fixed-policy
             action = agent.choose_action(env)

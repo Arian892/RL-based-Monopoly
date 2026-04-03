@@ -2,12 +2,28 @@
 Neural network architectures for PPO (actor-critic) and DDQN agents.
 State dim = 240, Action dim = ACTION_SPACE_SIZE
 
-Changes from original:
-  - All networks are deeper (2 extra hidden layers) and wider (512 base hidden dim).
-  - Layout: 240 → 512 → 512 → 512 → 512 → 256 → output
-  - DDQNNetwork shared feature extractor follows the same pattern before the
-    value/advantage heads.
+Fix 4 applied
+─────────────
+The original 6-layer (240→512→512→512→512→256→out) architecture caused
+vanishing gradients: with plain ReLU and no normalisation the early layers
+received near-zero gradients throughout training.
+
+Changes:
+  - Depth reduced to 3 hidden layers (240 → 256 → 256 → 256 → out).
+  - nn.LayerNorm added after every hidden activation.  LayerNorm is
+    preferred over BatchNorm here because rollout batch sizes can be small
+    and variable; LayerNorm operates per-sample and is unaffected by batch
+    size.
+  - hidden_dim default changed from 512 to 256 to match the shallower
+    architecture.  Callers that previously passed hidden_dim=256 to
+    PPOAgent will get an identical result; callers that passed hidden_dim=512
+    will now get a wider-but-still-shallow network which is fine.
+
+The DDQNNetwork receives the same treatment: same depth reduction and
+LayerNorm insertion.
 """
+
+import random
 
 import numpy as np
 import torch
@@ -19,29 +35,30 @@ from .actions import ACTION_SPACE_SIZE
 STATE_DIM = 240
 
 
+def _mlp_block(in_dim: int, out_dim: int) -> nn.Sequential:
+    """Linear → LayerNorm → ReLU block."""
+    return nn.Sequential(
+        nn.Linear(in_dim, out_dim),
+        nn.LayerNorm(out_dim),  # FIX 4: normalise before activation
+        nn.ReLU(),
+    )
+
+
 class ActorNetwork(nn.Module):
     """
-    PPO Actor: maps state → action probability distribution.
-    Outputs logits over ACTION_SPACE_SIZE actions.
+    PPO Actor: maps state → action log-probability distribution.
 
-    Architecture (wider + deeper than original):
-        240 → 512 → 512 → 512 → 512 → 256 → ACTION_SPACE_SIZE
+    Architecture (FIX 4 – shallower + LayerNorm):
+        240 → [256 → LN → ReLU] × 3 → ACTION_SPACE_SIZE
     """
 
-    def __init__(self, hidden_dim: int = 512):
+    def __init__(self, hidden_dim: int = 256):
         super().__init__()
         self.net = nn.Sequential(
-            nn.Linear(STATE_DIM, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim),  # extra layer 1
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim),  # extra layer 2
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim // 2),
-            nn.ReLU(),
-            nn.Linear(hidden_dim // 2, ACTION_SPACE_SIZE),
+            _mlp_block(STATE_DIM, hidden_dim),
+            _mlp_block(hidden_dim, hidden_dim),
+            _mlp_block(hidden_dim, hidden_dim),
+            nn.Linear(hidden_dim, ACTION_SPACE_SIZE),
         )
 
     def forward(self, state: torch.Tensor, mask: torch.Tensor = None) -> torch.Tensor:
@@ -54,17 +71,29 @@ class ActorNetwork(nn.Module):
         """
         logits = self.net(state)
         if mask is not None:
+            if not mask.any(dim=-1).all():
+                raise ValueError("ActorNetwork received an action mask with no valid actions")
             logits = logits.masked_fill(~mask, float("-inf"))
         return F.log_softmax(logits, dim=-1)
 
     def get_action(self, state: np.ndarray, allowed_actions: list):
         """Sample an action given allowed actions."""
+        if len(allowed_actions) == 0:
+            raise ValueError("ActorNetwork.get_action() received no allowed actions")
+        if not np.isfinite(state).all():
+            raise ValueError("ActorNetwork.get_action() received a non-finite state")
+
         state_t = torch.FloatTensor(state).unsqueeze(0)
         mask = torch.zeros(1, ACTION_SPACE_SIZE, dtype=torch.bool)
         mask[0, allowed_actions] = True
         with torch.no_grad():
             log_probs = self.forward(state_t, mask)
         probs = log_probs.exp().squeeze(0)
+        if not torch.isfinite(probs).all() or (probs < 0).any() or probs.sum() <= 0:
+            raise RuntimeError(
+                "ActorNetwork produced an invalid action distribution; "
+                "check PPO updates for NaNs/Infs"
+            )
         action = torch.multinomial(probs, 1).item()
         log_prob = log_probs[0, action].item()
         return action, log_prob
@@ -74,24 +103,17 @@ class CriticNetwork(nn.Module):
     """
     PPO Critic: maps state → scalar value estimate V(s).
 
-    Architecture (wider + deeper than original):
-        240 → 512 → 512 → 512 → 512 → 256 → 1
+    Architecture (FIX 4 – shallower + LayerNorm):
+        240 → [256 → LN → ReLU] × 3 → 1
     """
 
-    def __init__(self, hidden_dim: int = 512):
+    def __init__(self, hidden_dim: int = 256):
         super().__init__()
         self.net = nn.Sequential(
-            nn.Linear(STATE_DIM, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim),  # extra layer 1
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim),  # extra layer 2
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim // 2),
-            nn.ReLU(),
-            nn.Linear(hidden_dim // 2, 1),
+            _mlp_block(STATE_DIM, hidden_dim),
+            _mlp_block(hidden_dim, hidden_dim),
+            _mlp_block(hidden_dim, hidden_dim),
+            nn.Linear(hidden_dim, 1),
         )
 
     def forward(self, state: torch.Tensor) -> torch.Tensor:
@@ -100,36 +122,30 @@ class CriticNetwork(nn.Module):
 
 class DDQNNetwork(nn.Module):
     """
-    Double DQN network: maps state → Q-values for all actions.
-    Uses dueling architecture for stability.
+    Double DQN network with dueling architecture.
 
-    Shared feature extractor (wider + deeper than original):
-        240 → 512 → 512 → 512 → 512
-    Value stream  : 512 → 256 → 1
-    Advantage stream: 512 → 256 → ACTION_SPACE_SIZE
+    Shared feature extractor (FIX 4 – shallower + LayerNorm):
+        240 → [256 → LN → ReLU] × 3
+    Value stream    : 256 → 128 → 1
+    Advantage stream: 256 → 128 → ACTION_SPACE_SIZE
     """
 
-    def __init__(self, hidden_dim: int = 512):
+    def __init__(self, hidden_dim: int = 256):
         super().__init__()
         self.feature = nn.Sequential(
-            nn.Linear(STATE_DIM, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim),  # extra layer 1
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim),  # extra layer 2
-            nn.ReLU(),
+            _mlp_block(STATE_DIM, hidden_dim),
+            _mlp_block(hidden_dim, hidden_dim),
+            _mlp_block(hidden_dim, hidden_dim),
         )
-        # Value stream
         self.value_stream = nn.Sequential(
             nn.Linear(hidden_dim, hidden_dim // 2),
+            nn.LayerNorm(hidden_dim // 2),
             nn.ReLU(),
             nn.Linear(hidden_dim // 2, 1),
         )
-        # Advantage stream
         self.adv_stream = nn.Sequential(
             nn.Linear(hidden_dim, hidden_dim // 2),
+            nn.LayerNorm(hidden_dim // 2),
             nn.ReLU(),
             nn.Linear(hidden_dim // 2, ACTION_SPACE_SIZE),
         )
@@ -150,11 +166,7 @@ class DDQNNetwork(nn.Module):
         state_t = torch.FloatTensor(state).unsqueeze(0)
         with torch.no_grad():
             q_values = self.forward(state_t).squeeze(0)
-        # Mask illegal actions
         mask = torch.full((ACTION_SPACE_SIZE,), float("-inf"))
         mask[allowed_actions] = 0.0
         q_masked = q_values + mask
         return q_masked.argmax().item()
-
-
-import random  # noqa – needed by DDQNNetwork.get_action

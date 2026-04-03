@@ -2,7 +2,25 @@
 Training loop (Section VII).
 
 Trains one learning agent (PPO or DDQN, standard or hybrid) against
-three fixed-policy opponents. Logs win rates every 100 games.
+three fixed-policy opponents. Logs win rates every log_every games.
+
+Call-site fixes applied (companions to agent_ppo.py fixes)
+──────────────────────────────────────────────────────────
+Fix 1 – choose_action() now returns 4 values for PPO: (action, log_prob,
+    value, nn_allowed).  log_prob is None when the hybrid fixed policy
+    fired; in that case we skip buffer storage entirely.
+
+Fix 2 – store() now receives nn_allowed so it can record the per-step
+    action mask alongside the transition.
+
+Fix 3 – update() now receives (last_next_state, last_done) so that
+    mid-game rollout boundaries are bootstrapped correctly by the critic
+    instead of defaulting to zero.
+
+Fix 5 – reward clipping added. The raw ratio reward is unbounded and
+    non-stationary, which destabilises the critic's value targets.
+    Clipping to [-1, 1] gives the critic a stationary regression target
+    while preserving the ordinal signal the policy needs.
 """
 
 import random
@@ -15,6 +33,9 @@ from .actions import ActionType
 from .agents_fixed import FixedPolicyAgent, FPAgentA, FPAgentB, FPAgentC
 from .constants import NUM_PLAYERS
 from .env import MonopolyEnv
+
+# FIX 5: clip each step reward to this range
+REWARD_CLIP = 1.0
 
 
 def run_episode(
@@ -29,9 +50,6 @@ def run_episode(
     Run one complete game. The learning agent occupies position agent_pid,
     fixed-policy agents fill the other three slots.
 
-    Uses env.whose_turn() to determine who acts each step, and
-    env.step(action) with the new single-argument signature.
-
     Returns metrics dict including:
       won, reward, steps, stats,
       trades_initiated, trades_accepted, trades_declined, properties_acquired
@@ -43,16 +61,13 @@ def run_episode(
     update_stats = {}
 
     # ── Per-episode metric counters ──────────────────────────────────────────
-    trades_initiated = 0  # buy/sell/exchange offers made by the learning agent
-    trades_accepted = 0  # ACCEPT_TRADE actions taken by the learning agent
-    trades_declined = 0  # DECLINE_TRADE actions taken by the learning agent
-    properties_acquired = 0  # BUY_PROPERTY + properties gained via accepted trades
+    trades_initiated = 0
+    trades_accepted = 0
+    trades_declined = 0
+    properties_acquired = 0
 
-    # Track how many properties the agent owned at the start of each step
-    # so we can detect trade-based acquisitions.
     prev_prop_count = len(env.players[agent_pid].properties)
 
-    # Map player_id → agent object
     agents_map = {fp.player_id: fp for fp in fp_agents}
     agents_map[agent_pid] = learning_agent
 
@@ -75,16 +90,17 @@ def run_episode(
             allowed = [int(ActionType.DO_NOTHING)]
 
         if pid == agent_pid:
-            # ── Learning agent ──────────────────────────────────────────
+            # ── Learning agent ────────────────────────────────────────────
             if is_ppo:
-                action, log_prob, value = learning_agent.choose_action(
+                # FIX 1 & 2: unpack 4-tuple; nn_allowed is the mask to store
+                action, log_prob, value, nn_allowed = learning_agent.choose_action(
                     state, env, allowed
                 )
             else:
                 action = learning_agent.choose_action(state, env, allowed)
-                log_prob, value = 0.0, 0.0
+                log_prob, value, nn_allowed = 0.0, 0.0, allowed
 
-            # ── Count the action BEFORE stepping ────────────────────────
+            # ── Count the action BEFORE stepping ──────────────────────────
             a = action
             buy_offset = int(ActionType.BUY_PROPERTY)
             acc_offset = int(ActionType.ACCEPT_TRADE)
@@ -101,13 +117,15 @@ def run_episode(
                 properties_acquired += 1
             elif a == acc_offset:
                 trades_accepted += 1
-                # The trade may hand us a property — capture count after step
             elif a == dec_offset:
                 trades_declined += 1
             elif is_trade_offer:
                 trades_initiated += 1
 
             next_state, reward, done, info = env.step(action)
+
+            # FIX 5: clip reward before storing or accumulating
+            reward = float(np.clip(reward, -REWARD_CLIP, REWARD_CLIP))
 
             # Detect property gained via accepted trade
             new_prop_count = len(env.players[agent_pid].properties)
@@ -120,11 +138,26 @@ def run_episode(
 
             if update_online:
                 if is_ppo:
-                    learning_agent.store(
-                        prev_state, action, log_prob, reward, value, done
-                    )
+                    # FIX 1: only store transitions chosen by the neural net
+                    # (log_prob is None when the hybrid fixed policy fired)
+                    if log_prob is not None:
+                        # FIX 2: pass nn_allowed so the buffer stores the mask
+                        learning_agent.store(
+                            prev_state,
+                            action,
+                            log_prob,
+                            reward,
+                            value,
+                            done,
+                            nn_allowed,
+                        )
+
                     if len(learning_agent.buffer) >= learning_agent.n_steps:
-                        update_stats = learning_agent.update()
+                        # FIX 3: pass next_state + done for correct bootstrap
+                        update_stats = learning_agent.update(
+                            last_next_state=next_state,
+                            last_done=done,
+                        )
                 else:
                     if prev_action is not None:
                         learning_agent.store_transition(
@@ -137,7 +170,7 @@ def run_episode(
             state = next_state
 
         else:
-            # ── Fixed-policy agent ──────────────────────────────────────
+            # ── Fixed-policy agent ────────────────────────────────────────
             agent = agents_map.get(pid)
             action = agent.choose_action(env) if agent else int(ActionType.END_TURN)
             if action not in allowed:
@@ -150,7 +183,7 @@ def run_episode(
             next_state, _, done, _ = env.step(action)
             state = next_state
 
-    # ── Game over ───────────────────────────────────────────────────────────
+    # ── Game over ─────────────────────────────────────────────────────────────
     winner = env.winner()
     won = winner == agent_pid
 
@@ -158,7 +191,10 @@ def run_episode(
         if is_ppo:
             learning_agent.add_win_loss(won)
             if len(learning_agent.buffer) > 0:
-                update_stats.update(learning_agent.update())
+                # FIX 3: terminal boundary → last_done=True, bootstrap=0
+                update_stats.update(
+                    learning_agent.update(last_next_state=state, last_done=True)
+                )
         else:
             learning_agent.add_win_loss(won)
             if prev_action is not None:
@@ -202,7 +238,6 @@ def train(
     agent_pid = learning_agent.player_id
     env = MonopolyEnv(agent_ids=[agent_pid], max_rounds=300)
 
-    # Create fixed-policy opponents with the remaining player IDs
     other_pids = [i for i in range(NUM_PLAYERS) if i != agent_pid]
     fp_classes = [FPAgentA, FPAgentB, FPAgentC]
     fp_agents = [fp_classes[i](other_pids[i]) for i in range(3)]
@@ -211,7 +246,6 @@ def train(
     wins_window = 0
     window_games = 0
 
-    # Rolling accumulators for the new metrics
     window_trades_initiated = 0
     window_trades_accepted = 0
     window_trades_declined = 0
@@ -240,7 +274,6 @@ def train(
         if game_num % log_every == 0:
             win_rate = wins_window / window_games * 100
 
-            # Per-game averages over the window
             avg_trades_init = window_trades_initiated / window_games
             avg_trades_acc = window_trades_accepted / window_games
             avg_trades_dec = window_trades_declined / window_games
@@ -267,7 +300,6 @@ def train(
                 f"{avg_trades_init:.1f}/{avg_trades_acc:.1f}/{avg_trades_dec:.1f}"
             )
 
-            # Reset window counters
             wins_window = 0
             window_games = 0
             window_trades_initiated = 0
