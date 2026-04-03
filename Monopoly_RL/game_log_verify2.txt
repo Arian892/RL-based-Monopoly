@@ -1,0 +1,2295 @@
+════════════════════════════════════════════════════════════
+  MONOPOLY — AI Game Simulation
+  Date   : 2026-04-03 20:07:21
+  Model  : ppo_hybrid_model.pt
+  Players: 3
+════════════════════════════════════════════════════════════
+
+⚠ No model at 'ppo_hybrid_model.pt' — using untrained weights
+
+  Players:
+    Player 1 (AI★)  →  Trained model
+    Player 2  →  Fixed-policy (FP-A)
+    Player 3  →  Fixed-policy (FP-B)
+────────────────────────────────────────────────────────────
+
+  Turn order: Player 2 → Player 3 → Player 1 (AI★)
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+  ROUND 1
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$1500  |  Properties=0  |  Monopolies=0  |  Net Worth=$1500
+    Player 2: Cash=$1500  |  Properties=0  |  Monopolies=0  |  Net Worth=$1500
+    Player 3: Cash=$1500  |  Properties=0  |  Monopolies=0  |  Net Worth=$1500
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 5  (total: 8)
+  Player 2 lands on Vermont Avenue
+    → Unowned  |  Price: $100
+  Player 2 BUYS Vermont Avenue for $100
+    → Cash remaining: $1400
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: Vermont Avenue  |  Offering: $125
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 1 and a 5  (total: 6)
+  Player 3 lands on Oriental Avenue
+    → Unowned  |  Price: $100
+  Player 3 BUYS Oriental Avenue for $100
+    → Cash remaining: $1400
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: Vermont Avenue  |  Offering: $100
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: Vermont Avenue  |  Offering: $75
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 1  (total: 3)
+  Player 1 (AI★) lands on Baltic Avenue
+    → Unowned  |  Price: $60
+  Player 1 (AI★) BUYS Baltic Avenue for $60
+    → Cash remaining: $1440
+  Player 1 (AI★) ends their turn
+  Player 2 ACCEPTS the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 2
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$1365  |  Properties=2  |  Monopolies=0  |  Net Worth=$1605
+    Player 2: Cash=$1475  |  Properties=0  |  Monopolies=0  |  Net Worth=$1475
+    Player 3: Cash=$1400  |  Properties=1  |  Monopolies=0  |  Net Worth=$1550
+
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 4  (total: 5)
+  Player 2 lands on States Avenue
+    → Unowned  |  Price: $140
+  Player 2 BUYS States Avenue for $140
+    → Cash remaining: $1335
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Vermont Avenue  |  Requesting: $75
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 1  (total: 5)
+  Player 3 lands on St. Charles Place
+    → Unowned  |  Price: $140
+  Player 3 BUYS St. Charles Place for $140
+    → Cash remaining: $1260
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Baltic Avenue  |  Requesting: $75
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 1  (total: 3)
+  Player 1 (AI★) lands on Oriental Avenue
+    → Owned by Player 3  |  Player 1 (AI★) pays $6 rent
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) ends their turn
+  Player 2 ACCEPTS the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 3
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$1481  |  Properties=1  |  Monopolies=0  |  Net Worth=$1556
+    Player 2: Cash=$1260  |  Properties=2  |  Monopolies=0  |  Net Worth=$1560
+    Player 3: Cash=$1266  |  Properties=2  |  Monopolies=0  |  Net Worth=$1626
+
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 4  (total: 9)
+  Player 2 lands on Chance
+    ► Card: "Advance to Illinois Ave."
+    → Moves to Illinois Avenue
+  Player 2 BUYS Illinois Avenue for $240
+    → Cash remaining: $1020
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: St. Charles Place  |  Offering: $140
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 5 and a 1  (total: 6)
+  Player 3 lands on Community Chest
+    ► Card: "Holiday Fund matures – Receive $100"
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Oriental Avenue  |  Offering: $125
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: St. Charles Place  |  Offering: $175
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 6  (total: 12)
+  Player 1 (AI★) lands on Tennessee Avenue
+    → Unowned  |  Price: $180
+  Player 1 (AI★) BUYS Tennessee Avenue for $180
+    → Cash remaining: $1301
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 DECLINES the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 4
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$1336  |  Properties=2  |  Monopolies=0  |  Net Worth=$1621
+    Player 2: Cash=$1020  |  Properties=3  |  Monopolies=0  |  Net Worth=$1680
+    Player 3: Cash=$1366  |  Properties=2  |  Monopolies=0  |  Net Worth=$1726
+
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 1  (total: 6)
+  Player 2 lands on Go To Jail → sent directly to Jail!
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: States Avenue  |  Offering: $140
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 5 and a 5  (total: 10)
+  Player 3 lands on Ventnor Avenue
+    → Unowned  |  Price: $260
+  Player 3 BUYS Ventnor Avenue for $260
+    → Cash remaining: $1106
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Tennessee Avenue  |  Requesting: $135
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Ventnor Avenue  |  Offering: $260
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 1  (total: 5)
+  Player 1 (AI★) lands on Indiana Avenue
+    → Unowned  |  Price: $220
+  Player 1 (AI★) BUYS Indiana Avenue for $220
+    → Cash remaining: $1161
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 DECLINES the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 5
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$1161  |  Properties=3  |  Monopolies=0  |  Net Worth=$1701
+    Player 2: Cash=$1020  |  Properties=3  |  Monopolies=0  |  Net Worth=$1680
+    Player 3: Cash=$1106  |  Properties=3  |  Monopolies=0  |  Net Worth=$1856
+
+  Player 2 pays $50 bail — released from Jail
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 1  (total: 3)
+  Player 2 lands on States Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Indiana Avenue  |  Requesting: $275
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 5 and a 2  (total: 7)
+  Player 3 lands on Pennsylvania Avenue
+    → Unowned  |  Price: $320
+  Player 3 BUYS Pennsylvania Avenue for $320
+    → Cash remaining: $786
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Tennessee Avenue  |  Requesting: $135
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 4  (total: 7)
+  Player 1 (AI★) lands on Go To Jail → sent directly to Jail!
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) ends their turn
+  Player 2 DECLINES the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 6
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$1092  |  Properties=3  |  Monopolies=0  |  Net Worth=$1677
+    Player 2: Cash=$970  |  Properties=3  |  Monopolies=0  |  Net Worth=$1630
+    Player 3: Cash=$786  |  Properties=4  |  Monopolies=0  |  Net Worth=$2016
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 5  (total: 7)
+  Player 2 lands on Free Parking
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Vermont Avenue  |  Requesting: $100
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 1 and a 5  (total: 6)
+  Player 3 lands on Go
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: Illinois Avenue  |  Offering: $300
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Tennessee Avenue  |  Requesting: $135
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) pays $50 bail — released from Jail
+  Player 1 (AI★) rolls a 3 and a 5  (total: 8)
+  Player 1 (AI★) lands on Tennessee Avenue
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 DECLINES the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 7
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$1042  |  Properties=3  |  Monopolies=0  |  Net Worth=$1627
+    Player 2: Cash=$970  |  Properties=3  |  Monopolies=0  |  Net Worth=$1630
+    Player 3: Cash=$986  |  Properties=4  |  Monopolies=0  |  Net Worth=$2216
+
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 2  (total: 8)
+  Player 2 lands on Water Works
+    → Unowned  |  Price: $150
+  Player 2 BUYS Water Works for $150
+    → Cash remaining: $820
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Ventnor Avenue  |  Offering: $195
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 1 and a 5  (total: 6)
+  Player 3 lands on Oriental Avenue
+    → Player 3 owns this property
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Vermont Avenue  |  Requesting: $125
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: Baltic Avenue  |  Offering: $45
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 6  (total: 11)
+  Player 1 (AI★) lands on Marvin Gardens
+    → Unowned  |  Price: $280
+  Player 1 (AI★) BUYS Marvin Gardens for $280
+    → Cash remaining: $762
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) ends their turn
+  Player 2 ACCEPTS the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 8
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$852  |  Properties=5  |  Monopolies=0  |  Net Worth=$1737
+    Player 2: Cash=$865  |  Properties=3  |  Monopolies=0  |  Net Worth=$1660
+    Player 3: Cash=$986  |  Properties=4  |  Monopolies=0  |  Net Worth=$2216
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 3  (total: 5)
+  Player 2 lands on Community Chest
+    ► Card: "From sale of stock you get $50"
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: States Avenue  |  Offering: $175
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 5 and a 6  (total: 11)
+  Player 3 lands on Community Chest
+    ► Card: "Doctor's fees – Pay $50"
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Baltic Avenue  |  Requesting: $75
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Marvin Gardens  |  Requesting: $280
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 1  (total: 6)
+  Player 1 (AI★) lands on Short Line Railroad
+    → Unowned  |  Price: $200
+  Player 1 (AI★) BUYS Short Line Railroad for $200
+    → Cash remaining: $599
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 DECLINES the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 9
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$527  |  Properties=6  |  Monopolies=0  |  Net Worth=$1742
+    Player 2: Cash=$915  |  Properties=3  |  Monopolies=0  |  Net Worth=$1710
+    Player 3: Cash=$936  |  Properties=4  |  Monopolies=0  |  Net Worth=$2166
+
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 2  (total: 7)
+  Player 2 lands on Go
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Baltic Avenue  |  Requesting: $75
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 6  (total: 10)
+  Player 3 lands on Ventnor Avenue
+    → Player 3 owns this property
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Tennessee Avenue  |  Requesting: $225
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Short Line Railroad  |  Requesting: $250
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages Short Line Railroad — receives $100
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 4  (total: 9)
+  Player 1 (AI★) lands on Income Tax — pays $200
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) lifts mortgage on Short Line Railroad — pays $110
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 ACCEPTS the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 10
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$516  |  Properties=5  |  Monopolies=0  |  Net Worth=$1731
+    Player 2: Cash=$1115  |  Properties=3  |  Monopolies=0  |  Net Worth=$1910
+    Player 3: Cash=$686  |  Properties=5  |  Monopolies=0  |  Net Worth=$2216
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 4  (total: 7)
+  Player 2 lands on Chance
+    ► Card: "Your building loan matures – Collect $150"
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Indiana Avenue  |  Requesting: $275
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 3 and a 3  (total: 6)
+  Player 3 lands on Community Chest
+    ► Card: "Holiday Fund matures – Receive $100"
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: States Avenue  |  Offering: $140
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Ventnor Avenue  |  Offering: $325
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 6  (total: 8)
+  Player 1 (AI★) lands on Electric Company
+    → Unowned  |  Price: $150
+  Player 1 (AI★) BUYS Electric Company for $150
+    → Cash remaining: $333
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 DECLINES the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 11
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$477  |  Properties=6  |  Monopolies=0  |  Net Worth=$1722
+    Player 2: Cash=$1265  |  Properties=3  |  Monopolies=0  |  Net Worth=$2060
+    Player 3: Cash=$786  |  Properties=5  |  Monopolies=0  |  Net Worth=$2316
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 1  (total: 3)
+  Player 2 lands on Jail / Just Visiting
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 5 and a 3  (total: 8)
+  Player 3 lands on Mediterranean Avenue
+    → Unowned  |  Price: $60
+  Player 3 BUYS Mediterranean Avenue for $60
+    → Cash remaining: $926
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Tennessee Avenue  |  Requesting: $180
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: Water Works  |  Offering: $112
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 4  (total: 9)
+  Player 1 (AI★) lands on Kentucky Avenue
+    → Unowned  |  Price: $220
+  Player 1 (AI★) BUYS Kentucky Avenue for $220
+    → Cash remaining: $269
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) ends their turn
+  Player 2 ACCEPTS the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 12
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$154  |  Properties=8  |  Monopolies=2  |  Net Worth=$2059
+    Player 2: Cash=$1377  |  Properties=2  |  Monopolies=0  |  Net Worth=$1947
+    Player 3: Cash=$926  |  Properties=6  |  Monopolies=0  |  Net Worth=$2546
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 6  (total: 9)
+  Player 2 lands on New York Avenue
+    → Unowned  |  Price: $200
+  Player 2 BUYS New York Avenue for $200
+    → Cash remaining: $1177
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Water Works  |  Requesting: $187
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 3  (total: 7)
+  Player 3 lands on Vermont Avenue
+    → Owned by Player 1 (AI★)  |  Player 3 pays $0 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Marvin Gardens  |  Requesting: $280
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 1  (total: 6)
+  Player 1 (AI★) lands on Ventnor Avenue
+    → Owned by Player 3  |  Player 1 (AI★) pays $22 rent
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 DECLINES the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 13
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$22  |  Properties=8  |  Monopolies=2  |  Net Worth=$1987
+    Player 2: Cash=$1177  |  Properties=3  |  Monopolies=0  |  Net Worth=$2047
+    Player 3: Cash=$948  |  Properties=6  |  Monopolies=0  |  Net Worth=$2568
+
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 5  (total: 6)
+  Player 2 lands on B&O Railroad
+    → Unowned  |  Price: $200
+  Player 2 BUYS B&O Railroad for $200
+    → Cash remaining: $977
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Tennessee Avenue  |  Requesting: $225
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 2  (total: 6)
+  Player 3 lands on Virginia Avenue
+    → Unowned  |  Price: $160
+  Player 3 BUYS Virginia Avenue for $160
+    → Cash remaining: $788
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Indiana Avenue  |  Requesting: $275
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Kentucky Avenue  |  Requesting: $165
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 2  (total: 5)
+  Player 1 (AI★) lands on North Carolina Ave
+    → Unowned  |  Price: $300
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) ends their turn
+  Player 2 DECLINES the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 14
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$69  |  Properties=8  |  Monopolies=2  |  Net Worth=$1974
+    Player 2: Cash=$977  |  Properties=4  |  Monopolies=0  |  Net Worth=$2147
+    Player 3: Cash=$788  |  Properties=7  |  Monopolies=0  |  Net Worth=$2648
+
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 4  (total: 8)
+  Player 2 lands on Community Chest
+    ► Card: "Bank error in your favor – Collect $200"
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Electric Company  |  Requesting: $150
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 6 and a 1  (total: 7)
+  Player 3 lands on Kentucky Avenue
+    → Owned by Player 1 (AI★)  |  Player 3 pays $18 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Oriental Avenue  |  Offering: $100
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Tennessee Avenue  |  Requesting: $180
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Kentucky Avenue — receives $110
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 5  (total: 10)
+  Player 1 (AI★) lands on Community Chest
+    ► Card: "Life insurance matures – Collect $100"
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) lifts mortgage on Kentucky Avenue — pays $121
+  Player 1 (AI★) mortgages Kentucky Avenue — receives $110
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) ends their turn
+  Player 2 DECLINES the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 15
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$207  |  Properties=8  |  Monopolies=2  |  Net Worth=$2232
+    Player 2: Cash=$1177  |  Properties=4  |  Monopolies=0  |  Net Worth=$2347
+    Player 3: Cash=$770  |  Properties=7  |  Monopolies=0  |  Net Worth=$2630
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 6  (total: 9)
+  Player 2 lands on Community Chest
+    ► Card: "Pay hospital fees of $100"
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Marvin Gardens  |  Requesting: $210
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 5 and a 4  (total: 9)
+  Player 3 lands on Go To Jail → sent directly to Jail!
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Baltic Avenue  |  Requesting: $45
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Indiana Avenue  |  Requesting: $165
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 4  (total: 9)
+  Player 1 (AI★) lands on St. Charles Place
+    → Owned by Player 3  |  Player 1 (AI★) pays $10 rent
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) lifts mortgage on Kentucky Avenue — pays $121
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 DECLINES the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 16
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$417  |  Properties=8  |  Monopolies=2  |  Net Worth=$2037
+    Player 2: Cash=$1277  |  Properties=4  |  Monopolies=0  |  Net Worth=$2447
+    Player 3: Cash=$780  |  Properties=7  |  Monopolies=0  |  Net Worth=$2640
+
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 1  (total: 2)
+  Player 2 lands on Income Tax — pays $200
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Oriental Avenue  |  Offering: $100
+  Player 1 (AI★) ends their turn
+  Player 3 pays $50 bail — released from Jail
+  Player 3 ends their turn
+  Player 3 rolls a 3 and a 4  (total: 7)
+  Player 3 lands on Community Chest
+    ► Card: "Doctor's fees – Pay $50"
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Marvin Gardens  |  Requesting: $350
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Kentucky Avenue  |  Requesting: $275
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 6  (total: 7)
+  Player 1 (AI★) lands on Tennessee Avenue
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 ACCEPTS the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 17
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$572  |  Properties=7  |  Monopolies=2  |  Net Worth=$1997
+    Player 2: Cash=$802  |  Properties=5  |  Monopolies=0  |  Net Worth=$2302
+    Player 3: Cash=$680  |  Properties=7  |  Monopolies=0  |  Net Worth=$2540
+
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 3  (total: 9)
+  Player 2 lands on States Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Indiana Avenue  |  Requesting: $275
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 6 and a 5  (total: 11)
+  Player 3 lands on Water Works
+    → Owned by Player 1 (AI★)  |  Player 3 pays $110 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Baltic Avenue  |  Requesting: $75
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Tennessee Avenue  |  Requesting: $225
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 6 and a 4  (total: 10)
+  Player 1 (AI★) lands on Water Works
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) ends their turn
+  Player 2 ACCEPTS the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 18
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$951  |  Properties=6  |  Monopolies=2  |  Net Worth=$2106
+    Player 2: Cash=$577  |  Properties=6  |  Monopolies=0  |  Net Worth=$2212
+    Player 3: Cash=$570  |  Properties=7  |  Monopolies=0  |  Net Worth=$2430
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 6  (total: 9)
+  Player 2 lands on Chance
+    ► Card: "Take a walk on the Boardwalk"
+    → Moves to Boardwalk
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Oriental Avenue  |  Offering: $100
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 6 and a 3  (total: 9)
+  Player 3 lands on Park Place
+    → Unowned  |  Price: $350
+  Player 3 BUYS Park Place for $350
+    → Cash remaining: $220
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: Illinois Avenue  |  Offering: $240
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Pennsylvania Avenue  |  Offering: $320
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 4  (total: 5)
+  Player 1 (AI★) lands on Community Chest
+    ► Card: "Pay hospital fees of $100"
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 DECLINES the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 19
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$832  |  Properties=6  |  Monopolies=2  |  Net Worth=$1912
+    Player 2: Cash=$577  |  Properties=6  |  Monopolies=0  |  Net Worth=$2212
+    Player 3: Cash=$220  |  Properties=8  |  Monopolies=0  |  Net Worth=$2605
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 5  (total: 7)
+  Player 2 lands on Oriental Avenue
+    → Owned by Player 3  |  Player 2 pays $6 rent
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: Tennessee Avenue  |  Offering: $225
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 1 and a 4  (total: 5)
+  Player 3 lands on Community Chest
+    ► Card: "Bank error in your favor – Collect $200"
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Vermont Avenue  |  Requesting: $125
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: B&O Railroad  |  Offering: $200
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 3  (total: 5)
+  Player 1 (AI★) lands on Luxury Tax — pays $100
+  Player 1 (AI★) ends their turn
+  Player 2 DECLINES the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 20
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$599  |  Properties=6  |  Monopolies=2  |  Net Worth=$1799
+    Player 2: Cash=$771  |  Properties=6  |  Monopolies=0  |  Net Worth=$2406
+    Player 3: Cash=$626  |  Properties=8  |  Monopolies=0  |  Net Worth=$3011
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 6  (total: 8)
+  Player 2 lands on Virginia Avenue
+    → Owned by Player 3  |  Player 2 pays $12 rent
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: B&O Railroad  |  Offering: $250
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 2 and a 4  (total: 6)
+  Player 3 lands on Vermont Avenue
+    → Owned by Player 1 (AI★)  |  Player 3 pays $0 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Indiana Avenue  |  Requesting: $220
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: St. Charles Place  |  Offering: $105
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 4  (total: 8)
+  Player 1 (AI★) lands on Oriental Avenue
+    → Owned by Player 3  |  Player 1 (AI★) pays $6 rent
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 ACCEPTS the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 21
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$509  |  Properties=7  |  Monopolies=2  |  Net Worth=$2159
+    Player 2: Cash=$759  |  Properties=6  |  Monopolies=0  |  Net Worth=$2394
+    Player 3: Cash=$749  |  Properties=7  |  Monopolies=0  |  Net Worth=$2924
+
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 2  (total: 3)
+  Player 2 lands on Community Chest
+    ► Card: "You are assessed for street repairs – $40 per house, $115 per hotel"
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Baltic Avenue  |  Requesting: $60
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 5  (total: 9)
+  Player 3 lands on Community Chest
+    ► Card: "Income tax refund – Collect $20"
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Marvin Gardens  |  Requesting: $350
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Baltic Avenue  |  Requesting: $60
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 4  (total: 6)
+  Player 1 (AI★) lands on Electric Company
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 DECLINES the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 22
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$626  |  Properties=7  |  Monopolies=2  |  Net Worth=$2066
+    Player 2: Cash=$759  |  Properties=6  |  Monopolies=0  |  Net Worth=$2394
+    Player 3: Cash=$769  |  Properties=7  |  Monopolies=0  |  Net Worth=$2944
+
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 3  (total: 8)
+  Player 2 lands on B&O Railroad
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Baltic Avenue  |  Requesting: $60
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 6 and a 4  (total: 10)
+  Player 3 lands on Ventnor Avenue
+    → Player 3 owns this property
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Indiana Avenue  |  Requesting: $165
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: Tennessee Avenue  |  Offering: $135
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 3 and a 6  (total: 9)
+  Player 1 (AI★) lands on Kentucky Avenue
+    → Owned by Player 2  |  Player 1 (AI★) pays $18 rent
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) ends their turn
+  Player 2 ACCEPTS the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 23
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$402  |  Properties=8  |  Monopolies=2  |  Net Worth=$2052
+    Player 2: Cash=$912  |  Properties=5  |  Monopolies=0  |  Net Worth=$2412
+    Player 3: Cash=$769  |  Properties=7  |  Monopolies=0  |  Net Worth=$2944
+
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 2  (total: 6)
+  Player 2 lands on Pacific Avenue
+    → Unowned  |  Price: $300
+  Player 2 BUYS Pacific Avenue for $300
+    → Cash remaining: $612
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Virginia Avenue  |  Offering: $120
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 2 and a 1  (total: 3)
+  Player 3 lands on Go To Jail → sent directly to Jail!
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Short Line Railroad  |  Offering: $200
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: Pacific Avenue  |  Offering: $300
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 2  (total: 4)
+  Player 1 (AI★) lands on B&O Railroad
+    → Owned by Player 2  |  Player 1 (AI★) pays $25 rent
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) ends their turn
+  Player 2 DECLINES the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 24
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$538  |  Properties=8  |  Monopolies=2  |  Net Worth=$1888
+    Player 2: Cash=$637  |  Properties=6  |  Monopolies=0  |  Net Worth=$2587
+    Player 3: Cash=$769  |  Properties=7  |  Monopolies=0  |  Net Worth=$2944
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 6  (total: 8)
+  Player 2 lands on Boardwalk
+    → Unowned  |  Price: $400
+  Player 2 BUYS Boardwalk for $400
+    → Cash remaining: $237
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: New York Avenue  |  Offering: $150
+  Player 1 (AI★) ends their turn
+  Player 3 pays $50 bail — released from Jail
+  Player 3 ends their turn
+  Player 3 rolls a 2 and a 1  (total: 3)
+  Player 3 lands on States Avenue
+    → Owned by Player 2  |  Player 3 pays $10 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Electric Company  |  Requesting: $187
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Ventnor Avenue  |  Offering: $325
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 5  (total: 9)
+  Player 1 (AI★) lands on Pennsylvania Avenue
+    → Owned by Player 3  |  Player 1 (AI★) pays $28 rent
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 DECLINES the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 25
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$260  |  Properties=8  |  Monopolies=2  |  Net Worth=$1910
+    Player 2: Cash=$247  |  Properties=7  |  Monopolies=0  |  Net Worth=$2797
+    Player 3: Cash=$737  |  Properties=7  |  Monopolies=0  |  Net Worth=$2912
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 3  (total: 5)
+  Player 2 lands on Income Tax — pays $200
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: States Avenue  |  Offering: $140
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 3 and a 1  (total: 4)
+  Player 3 lands on Community Chest
+    ► Card: "Get Out of Jail Free"
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Ventnor Avenue  |  Offering: $260
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: Pacific Avenue  |  Offering: $225
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 5  (total: 9)
+  Player 1 (AI★) lands on Baltic Avenue
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) ends their turn
+  Player 2 ACCEPTS the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 26
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$113  |  Properties=9  |  Monopolies=2  |  Net Worth=$2318
+    Player 2: Cash=$472  |  Properties=6  |  Monopolies=0  |  Net Worth=$2572
+    Player 3: Cash=$737  |  Properties=7  |  Monopolies=0  |  Net Worth=$2912
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 5  (total: 8)
+  Player 2 lands on Electric Company
+    → Owned by Player 1 (AI★)  |  Player 2 pays $80 rent
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Water Works  |  Requesting: $150
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 5 and a 3  (total: 8)
+  Player 3 lands on B&O Railroad
+    → Owned by Player 2  |  Player 3 pays $25 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Vermont Avenue  |  Requesting: $100
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Indiana Avenue  |  Requesting: $220
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) mortgages Pacific Avenue — receives $150
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) lifts mortgage on Pacific Avenue — pays $165
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages Pacific Avenue — receives $150
+  Player 1 (AI★) lifts mortgage on Pacific Avenue — pays $165
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 6  (total: 8)
+  Player 1 (AI★) lands on St. Charles Place
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) mortgages Pacific Avenue — receives $150
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) lifts mortgage on Pacific Avenue — pays $165
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) ends their turn
+  Player 2 DECLINES the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 27
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$197  |  Properties=9  |  Monopolies=2  |  Net Worth=$2147
+    Player 2: Cash=$417  |  Properties=6  |  Monopolies=0  |  Net Worth=$2517
+    Player 3: Cash=$712  |  Properties=7  |  Monopolies=0  |  Net Worth=$2887
+
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 5  (total: 10)
+  Player 2 lands on Chance
+    ► Card: "Advance to Illinois Ave."
+    → Moves to Illinois Avenue
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: St. Charles Place  |  Requesting: $175
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 6  (total: 10)
+  Player 3 lands on Short Line Railroad
+    → Player 3 owns this property
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Tennessee Avenue  |  Requesting: $180
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 2:
+    ► Wants: States Avenue  |  Offering: $175
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages Pacific Avenue — receives $150
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 4  (total: 9)
+  Player 1 (AI★) lands on Free Parking
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) lifts mortgage on Indiana Avenue — pays $121
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) ends their turn
+  Player 2 DECLINES the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 28
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$38  |  Properties=9  |  Monopolies=2  |  Net Worth=$2078
+    Player 2: Cash=$417  |  Properties=6  |  Monopolies=0  |  Net Worth=$2517
+    Player 3: Cash=$712  |  Properties=7  |  Monopolies=0  |  Net Worth=$2887
+
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 4  (total: 8)
+  Player 2 lands on North Carolina Ave
+    → Unowned  |  Price: $300
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Vermont Avenue  |  Requesting: $75
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 1  (total: 5)
+  Player 3 lands on Go
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Water Works  |  Requesting: $150
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Baltic Avenue  |  Requesting: $60
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) lifts mortgage on Pacific Avenue — pays $165
+  Player 1 (AI★) mortgages Pacific Avenue — receives $150
+  Player 1 (AI★) lifts mortgage on Pacific Avenue — pays $165
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) mortgages Pacific Avenue — receives $150
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 4 and a 6  (total: 10)
+  Player 1 (AI★) lands on Go To Jail → sent directly to Jail!
+  Player 1 (AI★) lifts mortgage on Pacific Avenue — pays $165
+  Player 1 (AI★) mortgages Pacific Avenue — receives $150
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) lifts mortgage on Pacific Avenue — pays $165
+  Player 1 (AI★) mortgages Pacific Avenue — receives $150
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) mortgages Indiana Avenue — receives $110
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) lifts mortgage on Pacific Avenue — pays $165
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) mortgages Pacific Avenue — receives $150
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) ends their turn
+  Player 2 DECLINES the trade offer
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 29
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$101  |  Properties=9  |  Monopolies=2  |  Net Worth=$1751
+    Player 2: Cash=$417  |  Properties=6  |  Monopolies=0  |  Net Worth=$2517
+    Player 3: Cash=$912  |  Properties=7  |  Monopolies=0  |  Net Worth=$3087
+
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 1  (total: 5)
+  Player 2 lands on Park Place
+    → Owned by Player 3  |  Player 2 pays $35 rent
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Baltic Avenue  |  Requesting: $60
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 2 and a 1  (total: 3)
+  Player 3 lands on Baltic Avenue
+    → Owned by Player 1 (AI★)  |  Player 3 pays $4 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Water Works  |  Requesting: $150
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Oriental Avenue  |  Offering: $75
+  Player 1 (AI★) lifts mortgage on Vermont Avenue — pays $55
+  Player 1 (AI★) mortgages Vermont Avenue — receives $50
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 2 and a 4  (total: 6)
+  Player 1 (AI★) is in Jail
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) lifts mortgage on Water Works — pays $82
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) mortgages Marvin Gardens — receives $140
+  Player 1 (AI★) mortgages Water Works — receives $75
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) lifts mortgage on Electric Company — pays $82
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 ACCEPTS the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 30
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$87  |  Properties=10  |  Monopolies=2  |  Net Worth=$1782
+    Player 2: Cash=$382  |  Properties=6  |  Monopolies=0  |  Net Worth=$2482
+    Player 3: Cash=$1018  |  Properties=6  |  Monopolies=0  |  Net Worth=$3043
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 1  (total: 3)
+  Player 2 lands on Go
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Vermont Avenue  |  Requesting: $125
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 3 and a 5  (total: 8)
+  Player 3 lands on St. Charles Place
+    → Owned by Player 1 (AI★)  |  Player 3 pays $0 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Baltic Avenue  |  Requesting: $60
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Vermont Avenue  |  Requesting: $125
+  Player 1 (AI★) pays $50 bail — released from Jail
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 1  (total: 2)
+  Player 1 (AI★) lands on Electric Company
+    → Player 1 (AI★) owns this property
+  Player 1 (AI★) mortgages Baltic Avenue — receives $30
+  Player 1 (AI★) mortgages Electric Company — receives $75
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 ACCEPTS the trade offer
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 31
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$234  |  Properties=9  |  Monopolies=2  |  Net Worth=$1704
+    Player 2: Cash=$582  |  Properties=6  |  Monopolies=0  |  Net Worth=$2682
+    Player 3: Cash=$893  |  Properties=7  |  Monopolies=0  |  Net Worth=$2993
+
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 5  (total: 6)
+  Player 2 lands on Oriental Avenue
+    → Owned by Player 1 (AI★)  |  Player 2 pays $6 rent
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Oriental Avenue  |  Requesting: $100
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 2 and a 5  (total: 7)
+  Player 3 lands on Tennessee Avenue
+    → Owned by Player 1 (AI★)  |  Player 3 pays $14 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Electric Company  |  Requesting: $187
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 1 and a 3  (total: 4)
+  Player 1 (AI★) lands on St. James Place
+    → Unowned  |  Price: $180
+  Player 1 (AI★) lifts mortgage on Marvin Gardens — pays $154
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) mortgages St. Charles Place — receives $70
+  Player 1 (AI★) mortgages Oriental Avenue — receives $50
+  Player 1 (AI★) mortgages Tennessee Avenue — receives $90
+  Player 1 (AI★) lifts mortgage on St. Charles Place — pays $77
+  Player 1 (AI★) lifts mortgage on Baltic Avenue — pays $33
+  Player 1 (AI★) ends their turn
+  Player 2 ends their turn
+  Player 3 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 32
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): Cash=$123  |  Properties=9  |  Monopolies=2  |  Net Worth=$1743
+    Player 2: Cash=$576  |  Properties=6  |  Monopolies=0  |  Net Worth=$2676
+    Player 3: Cash=$879  |  Properties=7  |  Monopolies=0  |  Net Worth=$2979
+
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 1  (total: 6)
+  Player 2 lands on Electric Company
+    → Owned by Player 1 (AI★)  |  Player 2 pays $0 rent
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 3:
+    ► Offering: Baltic Avenue  |  Requesting: $75
+  Player 1 (AI★) ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 1 and a 2  (total: 3)
+  Player 3 lands on Kentucky Avenue
+    → Owned by Player 2  |  Player 3 pays $18 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+  Player 1 (AI★) sends a BUY offer to Player 3:
+    ► Wants: Mediterranean Avenue  |  Offering: $45
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) sends a SELL offer to Player 2:
+    ► Offering: Tennessee Avenue  |  Requesting: $180
+  Player 1 (AI★) lifts mortgage on Tennessee Avenue — pays $99
+  Player 1 (AI★) ends their turn
+  Player 1 (AI★) rolls a 5 and a 4  (total: 9)
+  Player 1 (AI★) lands on B&O Railroad
+    → Owned by Player 2  |  Player 1 (AI★) pays $24 rent
+  💀 Player 1 (AI★) has gone BANKRUPT and is eliminated!
+────────────────────────────────────────────────────────────
+  ROUND 33
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$618  |  Properties=6  |  Monopolies=0  |  Net Worth=$2718
+    Player 3: Cash=$861  |  Properties=7  |  Monopolies=0  |  Net Worth=$2961
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 6  (total: 8)
+  Player 2 lands on Free Parking
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 3 and a 3  (total: 6)
+  Player 3 lands on Ventnor Avenue
+    → Player 3 owns this property
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 34
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$618  |  Properties=6  |  Monopolies=0  |  Net Worth=$2718
+    Player 3: Cash=$861  |  Properties=7  |  Monopolies=0  |  Net Worth=$2961
+
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 3  (total: 8)
+  Player 2 lands on Water Works
+    → Unowned  |  Price: $150
+  Player 2 BUYS Water Works for $150
+    → Cash remaining: $468
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 1  (total: 5)
+  Player 3 lands on North Carolina Ave
+    → Unowned  |  Price: $300
+  Player 3 BUYS North Carolina Ave for $300
+    → Cash remaining: $561
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 35
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$468  |  Properties=7  |  Monopolies=0  |  Net Worth=$2793
+    Player 3: Cash=$561  |  Properties=8  |  Monopolies=0  |  Net Worth=$3111
+
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 4  (total: 5)
+  Player 2 lands on Community Chest
+    ► Card: "You are assessed for street repairs – $40 per house, $115 per hotel"
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 4  (total: 8)
+  Player 3 lands on Go
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 36
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$468  |  Properties=7  |  Monopolies=0  |  Net Worth=$2793
+    Player 3: Cash=$761  |  Properties=8  |  Monopolies=0  |  Net Worth=$3311
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 1  (total: 4)
+  Player 2 lands on Park Place
+    → Owned by Player 3  |  Player 2 pays $35 rent
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 2 and a 1  (total: 3)
+  Player 3 lands on Baltic Avenue
+    → Unowned  |  Price: $60
+  Player 3 BUYS Baltic Avenue for $60
+    → Cash remaining: $736
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 37
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$433  |  Properties=7  |  Monopolies=0  |  Net Worth=$2758
+    Player 3: Cash=$736  |  Properties=9  |  Monopolies=2  |  Net Worth=$3436
+
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 3  (total: 9)
+  Player 2 lands on Oriental Avenue
+    → Unowned  |  Price: $100
+  Player 2 BUYS Oriental Avenue for $100
+    → Cash remaining: $533
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 builds a HOUSE on Mediterranean Avenue  (1 house(s))
+  Player 3 builds a HOUSE on Mediterranean Avenue  (2 house(s))
+  Player 3 builds a HOUSE on Mediterranean Avenue  (3 house(s))
+  Player 3 builds a HOUSE on Mediterranean Avenue  (4 house(s))
+  Player 3 builds a HOTEL on Mediterranean Avenue!
+  Player 3 builds a HOUSE on Baltic Avenue  (1 house(s))
+  Player 3 builds a HOUSE on Baltic Avenue  (2 house(s))
+  Player 3 builds a HOUSE on Baltic Avenue  (3 house(s))
+  Player 3 builds a HOUSE on Baltic Avenue  (4 house(s))
+  Player 3 builds a HOTEL on Baltic Avenue!
+  Player 3 ends their turn
+  Player 3 rolls a 6 and a 3  (total: 9)
+  Player 3 lands on Electric Company
+    → Unowned  |  Price: $150
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 38
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$533  |  Properties=8  |  Monopolies=0  |  Net Worth=$3008
+    Player 3: Cash=$236  |  Properties=9  |  Monopolies=2  |  Net Worth=$3436
+
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 6  (total: 10)
+  Player 2 lands on St. James Place
+    → Unowned  |  Price: $180
+  Player 2 BUYS St. James Place for $180
+    → Cash remaining: $353
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 2 and a 5  (total: 7)
+  Player 3 lands on New York Avenue
+    → Owned by Player 2  |  Player 3 pays $16 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 39
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$369  |  Properties=9  |  Monopolies=0  |  Net Worth=$3114
+    Player 3: Cash=$220  |  Properties=9  |  Monopolies=2  |  Net Worth=$3420
+
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 2  (total: 3)
+  Player 2 lands on New York Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 5 and a 3  (total: 8)
+  Player 3 lands on Ventnor Avenue
+    → Player 3 owns this property
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 40
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$369  |  Properties=9  |  Monopolies=0  |  Net Worth=$3114
+    Player 3: Cash=$220  |  Properties=9  |  Monopolies=2  |  Net Worth=$3420
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 6  (total: 8)
+  Player 2 lands on Ventnor Avenue
+    → Owned by Player 3  |  Player 2 pays $22 rent
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 5 and a 1  (total: 6)
+  Player 3 lands on Community Chest
+    ► Card: "You inherit $100"
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 41
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$347  |  Properties=9  |  Monopolies=0  |  Net Worth=$3092
+    Player 3: Cash=$342  |  Properties=9  |  Monopolies=2  |  Net Worth=$3542
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 6  (total: 9)
+  Player 2 lands on Chance
+    ► Card: "Advance to St. Charles Place"
+    → Moves to St. Charles Place
+  Player 2 BUYS St. Charles Place for $140
+    → Cash remaining: $407
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 6 and a 3  (total: 9)
+  Player 3 lands on Community Chest
+    ► Card: "You inherit $100"
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 42
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$407  |  Properties=10  |  Monopolies=0  |  Net Worth=$3362
+    Player 3: Cash=$642  |  Properties=9  |  Monopolies=2  |  Net Worth=$3842
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 2  (total: 5)
+  Player 2 lands on St. James Place
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 3 and a 2  (total: 5)
+  Player 3 lands on Chance
+    ► Card: "Pay poor tax of $15"
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 43
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$407  |  Properties=10  |  Monopolies=0  |  Net Worth=$3362
+    Player 3: Cash=$627  |  Properties=9  |  Monopolies=2  |  Net Worth=$3827
+
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 2  (total: 8)
+  Player 2 lands on Illinois Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 5 and a 2  (total: 7)
+  Player 3 lands on Virginia Avenue
+    → Player 3 owns this property
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 44
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$407  |  Properties=10  |  Monopolies=0  |  Net Worth=$3362
+    Player 3: Cash=$627  |  Properties=9  |  Monopolies=2  |  Net Worth=$3827
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 4  (total: 6)
+  Player 2 lands on Go To Jail → sent directly to Jail!
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 6 and a 2  (total: 8)
+  Player 3 lands on Chance
+    ► Card: "Get Out of Jail Free"
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 45
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$407  |  Properties=10  |  Monopolies=0  |  Net Worth=$3362
+    Player 3: Cash=$627  |  Properties=9  |  Monopolies=2  |  Net Worth=$3827
+
+  Player 2 pays $50 bail — released from Jail
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 4  (total: 9)
+  Player 2 lands on New York Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 3 and a 6  (total: 9)
+  Player 3 lands on Pacific Avenue
+    → Unowned  |  Price: $300
+  Player 3 BUYS Pacific Avenue for $300
+    → Cash remaining: $327
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 46
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$357  |  Properties=10  |  Monopolies=0  |  Net Worth=$3312
+    Player 3: Cash=$327  |  Properties=10  |  Monopolies=5  |  Net Worth=$4437
+
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 1  (total: 2)
+  Player 2 lands on Kentucky Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 3 and a 4  (total: 7)
+  Player 3 lands on Luxury Tax — pays $100
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 47
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$357  |  Properties=10  |  Monopolies=0  |  Net Worth=$3312
+    Player 3: Cash=$227  |  Properties=10  |  Monopolies=5  |  Net Worth=$4337
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 2  (total: 5)
+  Player 2 lands on Atlantic Avenue
+    → Unowned  |  Price: $260
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 6 and a 5  (total: 11)
+  Player 3 lands on Connecticut Avenue
+    → Unowned  |  Price: $120
+  Player 3 BUYS Connecticut Avenue for $120
+    → Cash remaining: $307
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 48
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$357  |  Properties=10  |  Monopolies=0  |  Net Worth=$3312
+    Player 3: Cash=$307  |  Properties=11  |  Monopolies=5  |  Net Worth=$4597
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 4  (total: 7)
+  Player 2 lands on Community Chest
+    ► Card: "Pay hospital fees of $100"
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 3 and a 1  (total: 4)
+  Player 3 lands on States Avenue
+    → Owned by Player 2  |  Player 3 pays $10 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 49
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$267  |  Properties=10  |  Monopolies=0  |  Net Worth=$3222
+    Player 3: Cash=$297  |  Properties=11  |  Monopolies=5  |  Net Worth=$4587
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 1  (total: 3)
+  Player 2 lands on Chance
+    ► Card: "Go Back 3 Spaces"
+    → Moves to Community Chest
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 2  (total: 6)
+  Player 3 lands on New York Avenue
+    → Owned by Player 2  |  Player 3 pays $16 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 50
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$283  |  Properties=10  |  Monopolies=0  |  Net Worth=$3238
+    Player 3: Cash=$281  |  Properties=11  |  Monopolies=5  |  Net Worth=$4571
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 2  (total: 5)
+  Player 2 lands on Luxury Tax — pays $100
+  Player 2 mortgages Boardwalk — receives $200
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 5  (total: 9)
+  Player 3 lands on Water Works
+    → Owned by Player 2  |  Player 3 pays $36 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 51
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$419  |  Properties=10  |  Monopolies=0  |  Net Worth=$3074
+    Player 3: Cash=$245  |  Properties=11  |  Monopolies=5  |  Net Worth=$4535
+
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 1  (total: 6)
+  Player 2 lands on Income Tax — pays $200
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 6  (total: 10)
+  Player 3 lands on Luxury Tax — pays $100
+  Player 3 mortgages Ventnor Avenue — receives $130
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 52
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$419  |  Properties=10  |  Monopolies=0  |  Net Worth=$3074
+    Player 3: Cash=$275  |  Properties=11  |  Monopolies=5  |  Net Worth=$4370
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 6  (total: 9)
+  Player 2 lands on States Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 1 and a 6  (total: 7)
+  Player 3 lands on Reading Railroad
+    → Unowned  |  Price: $200
+  Player 3 BUYS Reading Railroad for $200
+    → Cash remaining: $275
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 53
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$419  |  Properties=10  |  Monopolies=0  |  Net Worth=$3074
+    Player 3: Cash=$275  |  Properties=12  |  Monopolies=5  |  Net Worth=$4670
+
+  Player 2 ends their turn
+  Player 2 rolls a 1 and a 4  (total: 5)
+  Player 2 lands on Tennessee Avenue
+    → Unowned  |  Price: $180
+  Player 2 BUYS Tennessee Avenue for $180
+    → Cash remaining: $239
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 6 and a 2  (total: 8)
+  Player 3 lands on States Avenue
+    → Owned by Player 2  |  Player 3 pays $10 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 54
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$249  |  Properties=11  |  Monopolies=3  |  Net Worth=$3454
+    Player 3: Cash=$265  |  Properties=12  |  Monopolies=5  |  Net Worth=$4660
+
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 2  (total: 6)
+  Player 2 lands on Illinois Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 6  (total: 10)
+  Player 3 lands on Indiana Avenue
+    → Unowned  |  Price: $220
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 55
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$249  |  Properties=11  |  Monopolies=3  |  Net Worth=$3454
+    Player 3: Cash=$265  |  Properties=12  |  Monopolies=5  |  Net Worth=$4660
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 1  (total: 4)
+  Player 2 lands on Water Works
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 6 and a 4  (total: 10)
+  Player 3 lands on Community Chest
+    ► Card: "You are assessed for street repairs – $40 per house, $115 per hotel"
+  Player 3 mortgages Virginia Avenue — receives $80
+  Player 3 mortgages Connecticut Avenue — receives $60
+  Player 3 mortgages Park Place — receives $175
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 56
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$249  |  Properties=11  |  Monopolies=3  |  Net Worth=$3454
+    Player 3: Cash=$350  |  Properties=12  |  Monopolies=5  |  Net Worth=$4272
+
+  Player 2 ends their turn
+  Player 2 rolls a 4 and a 6  (total: 10)
+  Player 2 lands on Luxury Tax — pays $100
+  Player 2 mortgages Water Works — receives $75
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 1 and a 6  (total: 7)
+  Player 3 lands on Go
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 57
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$224  |  Properties=11  |  Monopolies=3  |  Net Worth=$3316
+    Player 3: Cash=$550  |  Properties=12  |  Monopolies=5  |  Net Worth=$4472
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 2  (total: 4)
+  Player 2 lands on Community Chest
+    ► Card: "Get Out of Jail Free"
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 builds a HOUSE on Pacific Avenue  (1 house(s))
+  Player 3 ends their turn
+  Player 3 rolls a 1 and a 2  (total: 3)
+  Player 3 lands on Baltic Avenue
+    → Player 3 owns this property
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 58
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$424  |  Properties=11  |  Monopolies=3  |  Net Worth=$3516
+    Player 3: Cash=$350  |  Properties=12  |  Monopolies=5  |  Net Worth=$4472
+
+  Player 2 builds a HOUSE on St. James Place  (1 house(s))
+  Player 2 builds a HOUSE on St. James Place  (2 house(s))
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 4  (total: 9)
+  Player 2 lands on St. Charles Place
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 6 and a 2  (total: 8)
+  Player 3 lands on St. Charles Place
+    → Owned by Player 2  |  Player 3 pays $10 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 59
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$234  |  Properties=11  |  Monopolies=3  |  Net Worth=$3526
+    Player 3: Cash=$340  |  Properties=12  |  Monopolies=5  |  Net Worth=$4462
+
+  Player 2 ends their turn
+  Player 2 rolls a 5 and a 5  (total: 10)
+  Player 2 lands on Kentucky Avenue
+    → Player 2 owns this property
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 6  (total: 10)
+  Player 3 lands on Kentucky Avenue
+    → Owned by Player 2  |  Player 3 pays $18 rent
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 60
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$252  |  Properties=11  |  Monopolies=3  |  Net Worth=$3544
+    Player 3: Cash=$322  |  Properties=12  |  Monopolies=5  |  Net Worth=$4444
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 2  (total: 5)
+  Player 2 lands on Atlantic Avenue
+    → Unowned  |  Price: $260
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 5 and a 5  (total: 10)
+  Player 3 lands on Pacific Avenue
+    → Player 3 owns this property
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 61
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$252  |  Properties=11  |  Monopolies=3  |  Net Worth=$3544
+    Player 3: Cash=$322  |  Properties=12  |  Monopolies=5  |  Net Worth=$4444
+
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 1  (total: 3)
+  Player 2 lands on Marvin Gardens
+    → Unowned  |  Price: $280
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 1 and a 6  (total: 7)
+  Player 3 lands on Luxury Tax — pays $100
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 62
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$252  |  Properties=11  |  Monopolies=3  |  Net Worth=$3544
+    Player 3: Cash=$222  |  Properties=12  |  Monopolies=5  |  Net Worth=$4344
+
+  Player 2 ends their turn
+  Player 2 rolls a 6 and a 1  (total: 7)
+  Player 2 lands on Chance
+    ► Card: "Advance token to nearest Utility"
+    → Moves to Electric Company
+  Player 2 BUYS Electric Company for $150
+    → Cash remaining: $302
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 4 and a 2  (total: 6)
+  Player 3 lands on Income Tax — pays $200
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 63
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$302  |  Properties=12  |  Monopolies=5  |  Net Worth=$3932
+    Player 3: Cash=$222  |  Properties=12  |  Monopolies=5  |  Net Worth=$4344
+
+  Player 2 builds a HOUSE on St. James Place  (3 house(s))
+  Player 2 ends their turn
+  Player 2 rolls a 2 and a 1  (total: 3)
+  Player 2 lands on Pennsylvania Railroad
+    → Unowned  |  Price: $200
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 3 and a 2  (total: 5)
+  Player 3 lands on Connecticut Avenue
+    → Player 3 owns this property
+  Player 3 ends their turn
+  Player 2 ends their turn
+────────────────────────────────────────────────────────────
+  ROUND 64
+────────────────────────────────────────────────────────────
+
+  📊 Current standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Cash=$202  |  Properties=12  |  Monopolies=5  |  Net Worth=$3932
+    Player 3: Cash=$222  |  Properties=12  |  Monopolies=5  |  Net Worth=$4344
+
+  Player 2 ends their turn
+  Player 2 rolls a 3 and a 5  (total: 8)
+  Player 2 lands on Indiana Avenue
+    → Unowned  |  Price: $220
+  Player 2 ends their turn
+  Player 3 ends their turn
+  Player 3 ends their turn
+  Player 3 rolls a 2 and a 5  (total: 7)
+  Player 3 lands on St. James Place
+    → Owned by Player 2  |  Player 3 pays $222 rent
+  💀 Player 3 has gone BANKRUPT and is eliminated!
+
+════════════════════════════════════════════════════════════
+  GAME OVER
+════════════════════════════════════════════════════════════
+
+  🏆 WINNER: Player 2!
+
+  Final standings:
+    Player 1 (AI★): BANKRUPT
+    Player 2: Net Worth: $4154
+      Properties: States Avenue, Illinois Avenue, New York Avenue, B&O Railroad, Kentucky Avenue, Boardwalk, Water Works, Oriental Avenue, St. James Place, St. Charles Place, Tennessee Avenue, Electric Company
+    Player 3: BANKRUPT
+════════════════════════════════════════════════════════════

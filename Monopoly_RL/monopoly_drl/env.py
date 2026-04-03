@@ -18,7 +18,9 @@ from .constants import (
     BOARD, PROPERTIES, PROPERTY_IDS, REAL_ESTATE_IDS, COLOR_GROUPS,
     STARTING_CASH, GO_SALARY, JAIL_SQUARE, GO_TO_JAIL_SQUARE,
     INCOME_TAX_SQUARE, LUXURY_TAX_SQUARE, FREE_PARKING,
-    MAX_HOUSES, MAX_JAIL_TURNS, JAIL_BAIL, NUM_PLAYERS, TRADE_CASH_LEVELS
+    MAX_HOUSES, MAX_JAIL_TURNS, JAIL_BAIL, NUM_PLAYERS, TRADE_CASH_LEVELS,
+    CHANCE_CARDS, COMMUNITY_CHEST_CARDS, CHANCE_SQUARES, COMMUNITY_SQUARES,
+    RAILROAD_IDS, UTILITY_IDS
 )
 from .state import Player, Property, build_state_vector
 from .actions import ActionType, OFFSETS, ACTION_SPACE_SIZE, PROPERTY_IDS
@@ -439,6 +441,7 @@ class MonopolyEnv:
             player.cash += GO_SALARY
 
         player.position = new_pos
+        info["roll_landed_on"] = new_pos
         self._handle_landing(pid, d1 + d2, info)
 
     def _handle_landing(self, pid: int, dice_total: int, info: dict):
@@ -460,8 +463,16 @@ class MonopolyEnv:
             player.cash = max(0, player.cash - 100)
             return
 
+        if sq in CHANCE_SQUARES:
+            self._draw_chance_card(pid, dice_total, info)
+            return
+
+        if sq in COMMUNITY_SQUARES:
+            self._draw_community_card(pid, dice_total, info)
+            return
+
         if sq not in self.properties:
-            return  # Go, Jail, Free Parking, Chance, Community Chest
+            return  # Go, Jail, Free Parking
 
         prop = self.properties[sq]
 
@@ -484,6 +495,234 @@ class MonopolyEnv:
 
         if player.cash <= 0:
             self._do_bankrupt(pid)
+
+    def _nearest_square(self, start: int, candidates: List[int]) -> int:
+        """Return nearest candidate at or after start, wrapping around board."""
+        after = sorted([c for c in candidates if c >= start])
+        if after:
+            return after[0]
+        return min(candidates)
+
+    def _move_player_to(self, pid: int, target: int, info: dict):
+        player = self.players[pid]
+        if target < player.position:
+            player.cash += GO_SALARY
+        player.position = target
+        info["landed_on"] = target
+
+    def _resolve_forced_landing(self, pid: int, dice_total: int, info: dict):
+        """Resolve effects after a card forces movement to a new square."""
+        chain_depth = info.get("card_chain_depth", 0)
+        if chain_depth >= 3:
+            return
+        info["card_chain_depth"] = chain_depth + 1
+        self._handle_landing(pid, dice_total, info)
+
+    def _draw_chance_card(self, pid: int, dice_total: int, info: dict):
+        player = self.players[pid]
+        card = random.choice(CHANCE_CARDS)
+        info.setdefault("cards", []).append({"source": "Chance", "card": card})
+        info["card_source"] = "Chance"
+        info["card"] = card
+
+        if card == "Advance to Go (Collect $200)":
+            self._move_player_to(pid, 0, info)
+            self._resolve_forced_landing(pid, dice_total, info)
+            return
+
+        if card == "Advance to Illinois Ave.":
+            self._move_player_to(pid, 24, info)
+            self._resolve_forced_landing(pid, dice_total, info)
+            return
+
+        if card == "Advance to St. Charles Place":
+            self._move_player_to(pid, 11, info)
+            self._resolve_forced_landing(pid, dice_total, info)
+            return
+
+        if card == "Advance token to nearest Railroad":
+            target = self._nearest_square((player.position + 1) % 40, RAILROAD_IDS)
+            self._move_player_to(pid, target, info)
+            self._resolve_forced_landing(pid, dice_total, info)
+            return
+
+        if card == "Advance token to nearest Utility":
+            target = self._nearest_square((player.position + 1) % 40, UTILITY_IDS)
+            self._move_player_to(pid, target, info)
+            self._resolve_forced_landing(pid, dice_total, info)
+            return
+
+        if card == "Bank pays you dividend of $50":
+            player.cash += 50
+            return
+
+        if card == "Get Out of Jail Free":
+            player.gooj_card = True
+            return
+
+        if card == "Go Back 3 Spaces":
+            player.position = (player.position - 3) % 40
+            info["landed_on"] = player.position
+            self._resolve_forced_landing(pid, dice_total, info)
+            return
+
+        if card == "Go to Jail. Go directly to Jail.":
+            player.position = JAIL_SQUARE
+            player.in_jail = True
+            player.jail_turns = 0
+            info["landed_on"] = JAIL_SQUARE
+            return
+
+        if card == "Make general repairs on all your property – $25 per house, $100 per hotel":
+            houses = sum(1 for prop in player.properties if 1 <= prop.houses <= 4)
+            hotels = sum(1 for prop in player.properties if prop.houses == 5)
+            fee = houses * 25 + hotels * 100
+            player.cash -= fee
+            if player.cash <= 0:
+                self._do_bankrupt(pid)
+            return
+
+        if card == "Pay poor tax of $15":
+            player.cash -= 15
+            if player.cash <= 0:
+                self._do_bankrupt(pid)
+            return
+
+        if card == "Take a trip to Reading Railroad":
+            self._move_player_to(pid, 5, info)
+            self._resolve_forced_landing(pid, dice_total, info)
+            return
+
+        if card == "Take a walk on the Boardwalk":
+            self._move_player_to(pid, 39, info)
+            self._resolve_forced_landing(pid, dice_total, info)
+            return
+
+        if card == "You have been elected Chairman of the Board – Pay each player $50":
+            others = [i for i in range(NUM_PLAYERS) if i != pid and not self.players[i].bankrupt]
+            total = 50 * len(others)
+            payment = min(player.cash, total)
+            player.cash -= payment
+            if others and payment > 0:
+                share = payment // len(others)
+                rem = payment % len(others)
+                for i, other_pid in enumerate(others):
+                    self.players[other_pid].cash += share + (1 if i < rem else 0)
+            if player.cash <= 0:
+                self._do_bankrupt(pid)
+            return
+
+        if card == "Your building loan matures – Collect $150":
+            player.cash += 150
+            return
+
+        if card == "You have won a crossword competition – Collect $100":
+            player.cash += 100
+            return
+
+    def _draw_community_card(self, pid: int, dice_total: int, info: dict):
+        player = self.players[pid]
+        card = random.choice(COMMUNITY_CHEST_CARDS)
+        info.setdefault("cards", []).append({"source": "Community Chest", "card": card})
+        info["card_source"] = "Community Chest"
+        info["card"] = card
+
+        if card == "Advance to Go (Collect $200)":
+            self._move_player_to(pid, 0, info)
+            self._resolve_forced_landing(pid, dice_total, info)
+            return
+
+        if card == "Bank error in your favor – Collect $200":
+            player.cash += 200
+            return
+
+        if card == "Doctor's fees – Pay $50":
+            player.cash -= 50
+            if player.cash <= 0:
+                self._do_bankrupt(pid)
+            return
+
+        if card == "From sale of stock you get $50":
+            player.cash += 50
+            return
+
+        if card == "Get Out of Jail Free":
+            player.gooj_card = True
+            return
+
+        if card == "Go to Jail. Go directly to Jail.":
+            player.position = JAIL_SQUARE
+            player.in_jail = True
+            player.jail_turns = 0
+            info["landed_on"] = JAIL_SQUARE
+            return
+
+        if card == "Grand Opera Night – Collect $50 from every player":
+            others = [i for i in range(NUM_PLAYERS) if i != pid and not self.players[i].bankrupt]
+            for other_pid in others:
+                other = self.players[other_pid]
+                payment = min(50, other.cash)
+                other.cash -= payment
+                player.cash += payment
+                if other.cash <= 0:
+                    self._do_bankrupt(other_pid)
+            return
+
+        if card == "Holiday Fund matures – Receive $100":
+            player.cash += 100
+            return
+
+        if card == "Income tax refund – Collect $20":
+            player.cash += 20
+            return
+
+        if card == "It is your birthday – Collect $10 from every player":
+            others = [i for i in range(NUM_PLAYERS) if i != pid and not self.players[i].bankrupt]
+            for other_pid in others:
+                other = self.players[other_pid]
+                payment = min(10, other.cash)
+                other.cash -= payment
+                player.cash += payment
+                if other.cash <= 0:
+                    self._do_bankrupt(other_pid)
+            return
+
+        if card == "Life insurance matures – Collect $100":
+            player.cash += 100
+            return
+
+        if card == "Pay hospital fees of $100":
+            player.cash -= 100
+            if player.cash <= 0:
+                self._do_bankrupt(pid)
+            return
+
+        if card == "Pay school fees of $150":
+            player.cash -= 150
+            if player.cash <= 0:
+                self._do_bankrupt(pid)
+            return
+
+        if card == "Receive $25 consultancy fee":
+            player.cash += 25
+            return
+
+        if card == "You are assessed for street repairs – $40 per house, $115 per hotel":
+            houses = sum(1 for prop in player.properties if 1 <= prop.houses <= 4)
+            hotels = sum(1 for prop in player.properties if prop.houses == 5)
+            fee = houses * 40 + hotels * 115
+            player.cash -= fee
+            if player.cash <= 0:
+                self._do_bankrupt(pid)
+            return
+
+        if card == "You have won second prize in a beauty contest – Collect $10":
+            player.cash += 10
+            return
+
+        if card == "You inherit $100":
+            player.cash += 100
+            return
 
     def _do_buy(self, pid: int):
         player = self.players[pid]
@@ -523,19 +762,36 @@ class MonopolyEnv:
         s = self.players[sender]
         r = self.players[pid]
 
-        if offer.cash_offered and s.can_afford(offer.cash_offered):
+        if s.bankrupt or r.bankrupt:
+            return
+
+        if offer.cash_offered and not s.can_afford(offer.cash_offered):
+            return
+
+        if offer.cash_requested and not r.can_afford(offer.cash_requested):
+            return
+
+        if offer.offered_prop:
+            if offer.offered_prop.owner != sender or offer.offered_prop.houses > 0:
+                return
+
+        if offer.requested_prop:
+            if offer.requested_prop.owner != pid or offer.requested_prop.houses > 0:
+                return
+
+        if offer.cash_offered:
             s.cash -= offer.cash_offered
             r.cash += offer.cash_offered
-        if offer.cash_requested and r.can_afford(offer.cash_requested):
+        if offer.cash_requested:
             r.cash -= offer.cash_requested
             s.cash += offer.cash_requested
 
-        if offer.offered_prop and offer.offered_prop.owner == sender:
+        if offer.offered_prop:
             offer.offered_prop.owner = pid
             s.properties.remove(offer.offered_prop)
             r.properties.append(offer.offered_prop)
 
-        if offer.requested_prop and offer.requested_prop.owner == pid:
+        if offer.requested_prop:
             offer.requested_prop.owner = sender
             r.properties.remove(offer.requested_prop)
             s.properties.append(offer.requested_prop)
@@ -552,7 +808,7 @@ class MonopolyEnv:
         prop_idx   = rem // n_cash
         price_idx  = rem % n_cash
 
-        others     = [i for i in range(NUM_PLAYERS) if i != pid]
+        others     = [i for i in range(NUM_PLAYERS) if i != pid and not self.players[i].bankrupt]
         if player_idx >= len(others):
             return
         target_pid  = others[player_idx]
@@ -583,7 +839,7 @@ class MonopolyEnv:
         req_raw    = rem % (n_props - 1)
         req_idx    = req_raw if req_raw < offer_idx else req_raw + 1
 
-        others = [i for i in range(NUM_PLAYERS) if i != pid]
+        others = [i for i in range(NUM_PLAYERS) if i != pid and not self.players[i].bankrupt]
         if player_idx >= len(others):
             return
         target_pid   = others[player_idx]

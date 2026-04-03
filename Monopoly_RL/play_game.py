@@ -29,50 +29,6 @@ from monopoly_drl.constants import (
     REAL_ESTATE_IDS
 )
 
-# ── Chance / Community Chest cards ───────────────────────────────────────────
-
-CHANCE_CARDS = [
-    "Advance to Go (Collect $200)",
-    "Advance to Illinois Ave.",
-    "Advance to St. Charles Place",
-    "Advance token to nearest Railroad",
-    "Advance token to nearest Utility",
-    "Bank pays you dividend of $50",
-    "Get Out of Jail Free",
-    "Go Back 3 Spaces",
-    "Go to Jail. Go directly to Jail.",
-    "Make general repairs on all your property – $25 per house, $100 per hotel",
-    "Pay poor tax of $15",
-    "Take a trip to Reading Railroad",
-    "Take a walk on the Boardwalk",
-    "You have been elected Chairman of the Board – Pay each player $50",
-    "Your building loan matures – Collect $150",
-    "You have won a crossword competition – Collect $100",
-]
-
-COMMUNITY_CHEST_CARDS = [
-    "Advance to Go (Collect $200)",
-    "Bank error in your favor – Collect $200",
-    "Doctor's fees – Pay $50",
-    "From sale of stock you get $50",
-    "Get Out of Jail Free",
-    "Go to Jail. Go directly to Jail.",
-    "Grand Opera Night – Collect $50 from every player",
-    "Holiday Fund matures – Receive $100",
-    "Income tax refund – Collect $20",
-    "It is your birthday – Collect $10 from every player",
-    "Life insurance matures – Collect $100",
-    "Pay hospital fees of $100",
-    "Pay school fees of $150",
-    "Receive $25 consultancy fee",
-    "You are assessed for street repairs – $40 per house, $115 per hotel",
-    "You have won second prize in a beauty contest – Collect $10",
-    "You inherit $100",
-]
-
-CHANCE_SQUARES    = {7, 22, 36}
-COMMUNITY_SQUARES = {2, 17, 33}
-
 
 # ── Logger ────────────────────────────────────────────────────────────────────
 
@@ -118,25 +74,35 @@ def log_action(logger, pid, pname, action_idx, env, info):
         if atype == ActionType.ROLL_DICE:
             d1, d2 = env.last_dice
             lines.append(f"{pname} rolls a {d1} and a {d2}  (total: {d1+d2})")
+            roll_sq = info.get("roll_landed_on", env.players[pid].position)
             sq = env.players[pid].position
             sn = square_name(sq)
 
-            if sq == GO_TO_JAIL_SQUARE:
+            cards = info.get("cards", [])
+            card = info.get("card")
+            card_source = info.get("card_source")
+
+            if roll_sq == GO_TO_JAIL_SQUARE:
                 lines.append(f"{pname} lands on Go To Jail → sent directly to Jail!")
+            elif cards:
+                lines.append(f"{pname} lands on {cards[0]['source']}")
+                lines.append(f"  ► Card: \"{cards[0]['card']}\"")
+                for extra in cards[1:]:
+                    lines.append(f"  → Lands on {extra['source']}")
+                    lines.append(f"  ► Card: \"{extra['card']}\"")
+                if sq != roll_sq:
+                    lines.append(f"  → Moves to {square_name(sq)}")
+            elif card:
+                lines.append(f"{pname} lands on {card_source}")
+                lines.append(f"  ► Card: \"{card}\"")
+                if sq != roll_sq:
+                    lines.append(f"  → Moves to {square_name(sq)}")
             elif sq == JAIL_SQUARE and env.players[pid].in_jail:
                 lines.append(f"{pname} is in Jail")
-            elif sq == INCOME_TAX_SQUARE:
+            elif roll_sq == INCOME_TAX_SQUARE:
                 lines.append(f"{pname} lands on Income Tax — pays $200")
-            elif sq == LUXURY_TAX_SQUARE:
+            elif roll_sq == LUXURY_TAX_SQUARE:
                 lines.append(f"{pname} lands on Luxury Tax — pays $100")
-            elif sq in CHANCE_SQUARES:
-                card = random.choice(CHANCE_CARDS)
-                lines.append(f"{pname} lands on Chance")
-                lines.append(f"  ► Card: \"{card}\"")
-            elif sq in COMMUNITY_SQUARES:
-                card = random.choice(COMMUNITY_CHEST_CARDS)
-                lines.append(f"{pname} lands on Community Chest")
-                lines.append(f"  ► Card: \"{card}\"")
             elif sq in env.properties:
                 prop = env.properties[sq]
                 lines.append(f"{pname} lands on {prop.name}")
@@ -222,8 +188,8 @@ def log_action(logger, pid, pname, action_idx, env, info):
         rem        = local % (n * nc)
         prop       = env.properties[PROPERTY_IDS[rem // nc]]
         price_lvl  = [0.75, 1.0, 1.25][rem % nc]
-        others     = [i for i in range(NUM_PLAYERS) if i != pid]
-        target_pid = others[t_idx] if t_idx < len(others) else others[0]
+        others     = [i for i in range(NUM_PLAYERS) if i != pid and not env.players[i].bankrupt]
+        target_pid = others[t_idx] if others and t_idx < len(others) else (others[0] if others else pid)
         cash       = int(prop.price * price_lvl)
         target_pn  = _pname_from_pid(target_pid, env)
         lines.append(f"{pname} sends a BUY offer to {target_pn}:")
@@ -236,8 +202,8 @@ def log_action(logger, pid, pname, action_idx, env, info):
         rem        = local % (n * nc)
         prop       = env.properties[PROPERTY_IDS[rem // nc]]
         price_lvl  = [0.75, 1.0, 1.25][rem % nc]
-        others     = [i for i in range(NUM_PLAYERS) if i != pid]
-        target_pid = others[t_idx] if t_idx < len(others) else others[0]
+        others     = [i for i in range(NUM_PLAYERS) if i != pid and not env.players[i].bankrupt]
+        target_pid = others[t_idx] if others and t_idx < len(others) else (others[0] if others else pid)
         cash       = int(prop.price * price_lvl)
         target_pn  = _pname_from_pid(target_pid, env)
         lines.append(f"{pname} sends a SELL offer to {target_pn}:")
@@ -251,8 +217,8 @@ def log_action(logger, pid, pname, action_idx, env, info):
         oi         = rem // (n - 1)
         ri_raw     = rem % (n - 1)
         ri         = ri_raw if ri_raw < oi else ri_raw + 1
-        others     = [i for i in range(NUM_PLAYERS) if i != pid]
-        target_pid = others[t_idx] if t_idx < len(others) else others[0]
+        others     = [i for i in range(NUM_PLAYERS) if i != pid and not env.players[i].bankrupt]
+        target_pid = others[t_idx] if others and t_idx < len(others) else (others[0] if others else pid)
         offered    = env.properties[PROPERTY_IDS[oi]]
         requested  = env.properties[PROPERTY_IDS[ri]]
         target_pn  = _pname_from_pid(target_pid, env)
