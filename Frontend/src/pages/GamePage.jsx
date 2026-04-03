@@ -15,7 +15,8 @@ import TradeReviewModal from "../components/TradeReviewModal"
 import { chanceCards } from "../data/chanceCards";
 import ChanceModal from "../components/ChanceModal";
 import { executeAIAction } from "../services/aiExecutor";
-import { fetchAIMoveDummy } from "../services/aiDummyService";
+import { fetchAIPredict } from "../services/aiBackendService";
+import { decodeAction } from "../utils/actionDecoder";
 import GameLog from "../components/GameLog";
 import "../styles/game.css";
 
@@ -80,7 +81,7 @@ const [chanceIndex, setChanceIndex] = useState(0);
 const [chanceCard, setChanceCard] = useState(null);
 
 
-const isAI = players[currentPlayer]?.type === "ai";
+const isAI = (players[currentPlayer]?.type || "").toLowerCase() === "ai";
 
 const [isAITurn, setIsAITurn] = useState(false);
 const [gameLog, setGameLog] = useState([]);
@@ -121,9 +122,10 @@ useEffect(() => {
   }
 
   addLog("━━━━━━━━━━━━━━━━━━━━");
-  addLog(`🎲 ${player.name} (${player.type.toUpperCase()}) turn started`);
+  const playerType = (player.type || "").toLowerCase();
+  addLog(`🎲 ${player.name} (${playerType.toUpperCase() || "UNKNOWN"}) turn started`);
 
-  if (player.type === "ai" && !winner && !isAITurn) {
+  if (playerType === "ai" && !winner && !isAITurn) {
     runAITurn();
   }
 }, [currentPlayer]);
@@ -139,7 +141,7 @@ useEffect(() => {
   // ==========================
   function rollDice() {
       if (isAITurn) return;  // 🛑 BLOCK AI TURN
-     if (players[currentPlayer]?.type === "ai") return; // 🛑 BLOCK AI PLAYER
+    if ((players[currentPlayer]?.type || "").toLowerCase() === "ai") return; // 🛑 BLOCK AI PLAYER
      if (players[currentPlayer]?.inJail) return;
      if (rolling || hasRolled || players.length === 0) return;
 
@@ -494,7 +496,7 @@ function applyTrade(trade) {
 
   // 🔥 CRITICAL: trigger actual cell logic
   handleCellAction(boardCells[targetPosition], {
-  silent: players[currentPlayer]?.type === "ai"
+  silent: (players[currentPlayer]?.type || "").toLowerCase() === "ai"
 });
 
 }
@@ -766,17 +768,28 @@ async function runAITurn() {
     ownership,
     houses,
     mortgaged,
+    tradeAvailable: Boolean(pendingTrade),
+    propertyBuyAvailable: false,
   };
 
   try {
-    const aiResponse = await fetchAIMoveDummy(gameState);
+    const player = players[currentPlayer];
 
-    // 🔹 PRE-ROLL ACTIONS
-    for (const action of aiResponse.preRollActions || []) {
+    if (player?.inJail) {
+      let jailAction = null;
+
+      if (player.jailFreeCard) {
+        jailAction = { type: "jailUseCard" };
+      } else if (player.money >= 100) {
+        jailAction = { type: "jailPay" };
+      } else {
+        jailAction = { type: "jailStay" };
+      }
+
       await executeAIAction({
-        action,
+        action: jailAction,
         currentPlayer,
-        players , 
+        players,
         buildHouse,
         sellHouse,
         mortgageProperty,
@@ -786,21 +799,167 @@ async function runAITurn() {
         releaseFromJail,
         decrementJailTurn,
         endTurn,
-        delay ,
-        addLog
+        delay,
+        addLog,
       });
+
+      if (jailAction.type === "jailStay") {
+        await executeAIAction({
+          action: { type: "endTurn" },
+          currentPlayer,
+          players,
+          buildHouse,
+          sellHouse,
+          mortgageProperty,
+          unmortgageProperty,
+          setOwnership,
+          updateMoney,
+          releaseFromJail,
+          decrementJailTurn,
+          endTurn,
+          delay,
+          addLog,
+        });
+        setIsAITurn(false);
+        return;
+      }
     }
 
-  
-      // 🔹 ROLL (ONLY IF EXISTS)
-  if (aiResponse.roll) {
-    const { d1, d2 } = aiResponse.roll;
+    // 🔹 ROLL
+    let landingCellId = null;
+    {
+    const d1 = Math.floor(Math.random() * 6) + 1;
+    const d2 = Math.floor(Math.random() * 6) + 1;
+    const startPos = players[currentPlayer].position;
+    landingCellId = (startPos + d1 + d2) % 40;
     await rollDiceFromBackend(d1, d2);
-  }
+    }
 
+    // 🔹 POST-ROLL ACTIONS (BACKEND-MAPPED FIRST)
+    const landingCell =
+      landingCellId !== null ? boardCells[landingCellId] : null;
+    const propertyBuyAvailable = Boolean(
+      landingCell &&
+        ["property", "railroad", "utility"].includes(landingCell.type) &&
+        ownership[landingCell.id] === undefined
+    );
 
-    // 🔹 POST-ROLL ACTIONS
-    for (const action of aiResponse.postRollActions || []) {
+    if (landingCell) {
+      const ownerId = ownership[landingCell.id];
+      const ownerName =
+        ownerId === undefined ? "none" : players?.[ownerId]?.name || `Player ${Number(ownerId) + 1}`;
+
+      addLog(
+        `📌 AI landing context: ${landingCell.name} | type=${landingCell.type} | owner=${ownerName} | buyAvailable=${propertyBuyAvailable}`
+      );
+    }
+
+    addLog("🌐 Requesting backend prediction...");
+
+    let backendPrediction;
+    try {
+      backendPrediction = await fetchAIPredict({
+        ...gameState,
+        propertyBuyAvailable,
+      });
+    } catch (error) {
+      addLog(`❌ Backend prediction failed: ${error.message}`);
+      addLog("🔄 Falling back to end turn");
+      await executeAIAction({
+        action: { type: "endTurn" },
+        currentPlayer,
+        players,
+        buildHouse,
+        sellHouse,
+        mortgageProperty,
+        unmortgageProperty,
+        setOwnership,
+        updateMoney,
+        releaseFromJail,
+        decrementJailTurn,
+        endTurn,
+        delay,
+        addLog,
+      });
+      return;
+    }
+
+    addLog("🌐 Backend prediction received");
+
+    addLog(
+      `🧠 Backend model: ${backendPrediction.model_path} (${backendPrediction.model_algo || "unknown"})`
+    );
+    addLog(
+      `📥 Backend action received: ${backendPrediction.action}`
+    );
+    addLog(
+      `🧠 Backend decision: action=${backendPrediction.action}, source=${backendPrediction.decision_source}, model=${backendPrediction.model_path}`
+    );
+
+    const mappedPostRollActions = [];
+    const decoded = decodeAction(backendPrediction.action);
+
+    if (decoded.type === "buy_property" && propertyBuyAvailable && landingCell) {
+      mappedPostRollActions.push({ type: "buy", cellId: landingCell.id });
+      mappedPostRollActions.push({ type: "endTurn" });
+      addLog("✅ Executing: buy property");
+    } else if (decoded.type === "mortgage" && decoded.cellId) {
+      mappedPostRollActions.push({ type: "mortgage", cellId: decoded.cellId });
+      mappedPostRollActions.push({ type: "endTurn" });
+      addLog("✅ Executing: mortgage");
+    } else if (decoded.type === "unmortgage" && decoded.cellId) {
+      mappedPostRollActions.push({ type: "unmortgage", cellId: decoded.cellId });
+      mappedPostRollActions.push({ type: "endTurn" });
+      addLog("✅ Executing: unmortgage");
+    } else if (decoded.type === "build_house" && decoded.cellId) {
+      mappedPostRollActions.push({ type: "build", cellId: decoded.cellId });
+      mappedPostRollActions.push({ type: "endTurn" });
+      addLog("✅ Executing: build house");
+    } else if (decoded.type === "build_hotel" && decoded.cellId) {
+      mappedPostRollActions.push({ type: "build_hotel", cellId: decoded.cellId });
+      mappedPostRollActions.push({ type: "endTurn" });
+      addLog("✅ Executing: build hotel");
+    } else if (decoded.type === "sell_house" && decoded.cellId) {
+      mappedPostRollActions.push({ type: "sell", cellId: decoded.cellId });
+      mappedPostRollActions.push({ type: "endTurn" });
+      addLog("✅ Executing: sell house");
+    } else if (decoded.type === "sell_hotel" && decoded.cellId) {
+      mappedPostRollActions.push({ type: "sell_hotel", cellId: decoded.cellId });
+      mappedPostRollActions.push({ type: "endTurn" });
+      addLog("✅ Executing: sell hotel");
+    } else if (decoded.type === "sell_property" && decoded.cellId) {
+      mappedPostRollActions.push({ type: "sell_property", cellId: decoded.cellId });
+      mappedPostRollActions.push({ type: "endTurn" });
+      addLog("✅ Executing: sell property");
+    } else if (decoded.type === "buy_trade_offer" || decoded.type === "sell_trade_offer" || decoded.type === "exchange_trade_offer") {
+      mappedPostRollActions.push({ type: "endTurn" });
+      addLog(`🧾 Backend proposed a trade action (${decoded.description}); trade execution UI is not connected yet, so ending turn`);
+    } else if (decoded.type === "end_turn") {
+      mappedPostRollActions.push({ type: "endTurn" });
+      addLog("✅ Executing: end turn");
+    } else {
+      mappedPostRollActions.push({ type: "endTurn" });
+      addLog(`ℹ️ Backend action not yet mapped (${decoded.type}); defaulting to end turn`);
+    }
+
+    addLog(
+      `🧩 Frontend mapped action(s): ${mappedPostRollActions
+        .map((action) =>
+          action.cellId !== undefined
+            ? `${action.type}:${action.cellId}`
+            : action.type
+        )
+        .join(" -> ")}`
+    );
+
+    for (const action of mappedPostRollActions) {
+      addLog(
+        `▶️ Frontend executing action: ${
+          action.cellId !== undefined
+            ? `${action.type} (${boardCells[action.cellId]?.name || action.cellId})`
+            : action.type
+        }`
+      );
       await executeAIAction({
         action,
         currentPlayer,

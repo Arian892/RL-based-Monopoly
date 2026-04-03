@@ -19,3 +19,8 @@ dist/
 
 # Docker
 *.log
+Monopoly_RL/venv/
+Monopoly_RL/monopoly_drl/__pycache__/
+
+backend/__pycache__/
+

@@ -11,7 +11,7 @@ export default function StartPage() {
   const [money, setMoney] = useState(1500);
   const [playerData, setPlayerData] = useState([
     { name: "", type: "human" },
-    { name: "", type: "human" },
+    { name: "", type: "ai" },
   ]);
 
   function updatePlayerCount(count) {
@@ -19,7 +19,7 @@ export default function StartPage() {
 
     const updated = Array.from({ length: count }, (_, i) => ({
       name: "",
-      type: "human",
+      type: i === 0 ? "human" : "ai",
     }));
 
     setPlayerData(updated);
@@ -32,16 +32,21 @@ export default function StartPage() {
   }
 
   function startGame() {
-    const finalPlayers = playerData.map((p, i) => ({
-      id: i,
-      name: p.name || `Human-${i + 1}`,
-      type: p.type,
-      money,
-      position: 0,
-      inJail: false ,
-      jailTurnsLeft : 0,
-      jailFreeCard : false,
-    }));
+    const finalPlayers = playerData.map((p, i) => {
+      const normalizedType = (p.type || "human").toLowerCase() === "ai" ? "ai" : "human";
+      const inferredAI = normalizedType === "human" && /(^|\b)ai(\b|\d)/i.test(p.name || "");
+
+      return {
+        id: i,
+        name: p.name || `Human-${i + 1}`,
+        type: inferredAI ? "ai" : normalizedType,
+        money,
+        position: 0,
+        inJail: false,
+        jailTurnsLeft: 0,
+        jailFreeCard: false,
+      };
+    });
 
     setInitialMoney(money);
     setPlayers(finalPlayers);

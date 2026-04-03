@@ -158,6 +158,65 @@ export async function executeAIAction({
     }
 
     // =====================
+    // 🏨 BUILD HOTEL
+    // =====================
+    case "build_hotel": {
+      const cell = boardCells[action.cellId];
+      const hotelCost = cell.houseCost * 5; // 5x house cost for hotel
+
+      buildHouse(
+        action.cellId,
+        currentPlayer,
+        hotelCost
+      );
+
+      addLog?.(
+        `🤖 ${playerName} built a HOTEL on ${cell.name} for ${hotelCost} gold`
+      );
+      break;
+    }
+
+    // =====================
+    // 🏢 SELL HOTEL
+    // =====================
+    case "sell_hotel": {
+      const cell = boardCells[action.cellId];
+      const refund = Math.floor((cell.houseCost * 5) / 2);
+
+      sellHouse(
+        action.cellId,
+        currentPlayer,
+        refund
+      );
+
+      addLog?.(
+        `🤖 ${playerName} sold a HOTEL on ${cell.name} for ${refund} gold`
+      );
+      break;
+    }
+
+    // =====================
+    // 💰 SELL PROPERTY TO BANK
+    // =====================
+    case "sell_property": {
+      const cell = boardCells[action.cellId];
+      const mortgageValue = cell.mortgageValue || Math.floor(cell.price / 2);
+
+      setOwnership(prev => {
+        const updated = { ...prev };
+        delete updated[action.cellId];
+        return updated;
+      });
+
+      updateMoney(currentPlayer, mortgageValue);
+
+      addLog?.(
+        `🤖 ${playerName} sold ${cell.name} back to bank for ${mortgageValue} gold`
+      );
+      break;
+    }
+
+    // =====================
     // 🔚 END TURN
     // =====================
     case "endTurn": {
@@ -167,6 +226,7 @@ export async function executeAIAction({
     }
 
     default:
+      addLog?.(`ℹ️ [${type}] action not yet implemented`);
       break;
   }
 
