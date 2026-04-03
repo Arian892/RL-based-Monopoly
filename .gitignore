@@ -19,3 +19,5 @@ dist/
 
 # Docker
 *.log
+Monopoly_RL/venv/
+Monopoly_RL/monopoly_drl/__pycache__/__init__.cpython-312.pyc
