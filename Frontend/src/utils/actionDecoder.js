@@ -151,7 +151,7 @@ export function decodeAction(actionIndex) {
     const propIdx = Math.floor(rem / nCashLevels);
     const priceLevel = rem % nCashLevels;
 
-    const priceLevels = [0.5, 0.75, 1.0];
+    const priceLevels = [0.75, 1.0, 1.25];
 
     return {
       type: "buy_trade_offer",
@@ -174,7 +174,7 @@ export function decodeAction(actionIndex) {
     const propIdx = Math.floor(rem / nCashLevels);
     const priceLevel = rem % nCashLevels;
 
-    const priceLevels = [0.5, 0.75, 1.0];
+    const priceLevels = [0.75, 1.0, 1.25];
 
     return {
       type: "sell_trade_offer",

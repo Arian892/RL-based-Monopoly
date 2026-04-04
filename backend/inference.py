@@ -5,6 +5,7 @@ try:
     from backend.model_loader import load_model
 except ModuleNotFoundError:
     from model_loader import load_model
+from monopoly_drl.constants import PROPERTIES
 from monopoly_drl.actions import ActionType
 
 
@@ -58,10 +59,32 @@ def predict_action(state):
         raise
 
 
+def _property_value(cell_id: int) -> float:
+    return float(PROPERTIES.get(int(cell_id), {}).get("price", 0))
+
+
+def _evaluate_trade_offer(trade_offer: dict | None) -> int:
+    if not trade_offer:
+        return int(ActionType.DECLINE_TRADE)
+
+    give_props = trade_offer.get("giveProperties", []) or []
+    take_props = trade_offer.get("takeProperties", []) or []
+    give_money = float(trade_offer.get("giveMoney", 0) or 0)
+    take_money = float(trade_offer.get("takeMoney", 0) or 0)
+
+    value_to_ai = sum(_property_value(pid) for pid in give_props) + give_money
+    value_from_ai = sum(_property_value(pid) for pid in take_props) + take_money
+
+    # Small acceptance bias so AI doesn't reject every fair trade.
+    accept = value_to_ai >= (value_from_ai * 0.95)
+    return int(ActionType.ACCEPT_TRADE if accept else ActionType.DECLINE_TRADE)
+
+
 def predict_action_hybrid(
     state,
     trade_available: bool = False,
     property_buy_available: bool = False,
+    trade_offer: dict | None = None,
 ):
     decision_source = "model"
 
@@ -70,14 +93,15 @@ def predict_action_hybrid(
         {
             "trade_available": trade_available,
             "property_buy_available": property_buy_available,
+            "trade_offer": trade_offer,
         },
         flush=True,
     )
 
     if trade_available:
-        action = int(ActionType.ACCEPT_TRADE)
-        decision_source = "rule_trade"
-        print("[BACKEND] hybrid branch: trade ->", action, flush=True)
+        action = _evaluate_trade_offer(trade_offer)
+        decision_source = "rule_trade_offer"
+        print("[BACKEND] hybrid branch: trade_offer ->", action, flush=True)
         return {
             "action": action,
             "decision_source": decision_source,

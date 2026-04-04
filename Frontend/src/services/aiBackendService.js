@@ -39,6 +39,7 @@ export async function fetchAIPredict(gameState) {
     state,
     trade_available: Boolean(gameState?.tradeAvailable),
     property_buy_available: Boolean(gameState?.propertyBuyAvailable),
+    trade_offer: gameState?.tradeOffer ?? null,
   };
 
   console.log("[AI->Backend] Predict request", {

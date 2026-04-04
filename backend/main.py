@@ -29,6 +29,7 @@ class PredictRequest(BaseModel):
     state: list[float]
     trade_available: bool = False
     property_buy_available: bool = False
+    trade_offer: dict | None = None
 
 
 @app.get("/")
@@ -62,6 +63,7 @@ def predict(payload: PredictRequest):
             state=payload.state,
             trade_available=payload.trade_available,
             property_buy_available=payload.property_buy_available,
+            trade_offer=payload.trade_offer,
         )
 
         if not isinstance(result.get("action"), int) or result["action"] < 0:

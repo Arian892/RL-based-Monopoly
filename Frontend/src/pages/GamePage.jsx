@@ -71,9 +71,9 @@ const [tradeWith, setTradeWith] = useState(null);
 
 const [tradeOffer, setTradeOffer] = useState({
   giveProperties: [],
-  giveGold: 0,
+  giveMoney: 0,
   takeProperties: [],
-  takeGold: 0,
+  takeMoney: 0,
 });
 
 const [pendingTrade, setPendingTrade] = useState(null);
@@ -129,6 +129,58 @@ useEffect(() => {
     runAITurn();
   }
 }, [currentPlayer]);
+
+useEffect(() => {
+  if (!pendingTrade) return;
+
+  const recipient = players[pendingTrade.to];
+  if (!recipient || (recipient.type || "").toLowerCase() !== "ai") return;
+
+  let cancelled = false;
+
+  async function resolveAITrade() {
+    addLog(
+      `🤖 ${recipient.name} is evaluating trade offer from ${players[pendingTrade.from]?.name || `Player ${pendingTrade.from + 1}`}`
+    );
+
+    try {
+      const decision = await fetchAIPredict({
+        players,
+        currentPlayer: pendingTrade.to,
+        ownership,
+        houses,
+        mortgaged,
+        tradeAvailable: true,
+        tradeOffer: pendingTrade.offer,
+        propertyBuyAvailable: false,
+      });
+
+      if (cancelled) return;
+
+      addLog(
+        `🧠 Trade decision: action=${decision.action}, source=${decision.decision_source}, model=${decision.model_path}`
+      );
+
+      if (decision.action === 7) {
+        addLog(`🤝 ${recipient.name} accepted the trade`);
+        applyTrade(pendingTrade);
+      } else {
+        addLog(`❌ ${recipient.name} rejected the trade`);
+        setPendingTrade(null);
+      }
+    } catch (error) {
+      if (cancelled) return;
+      addLog(`❌ Trade evaluation failed: ${error.message}`);
+      setPendingTrade(null);
+    }
+  }
+
+  resolveAITrade();
+
+  return () => {
+    cancelled = true;
+  };
+}, [pendingTrade, players, ownership, houses, mortgaged]);
     
 
   // keep displayPositions synced with real positions
@@ -414,10 +466,17 @@ function canSellHere(cell) {
 function handleConfirmTrade() {
   if (tradeWith === null) return;
 
+  const normalizedOffer = {
+    giveProperties: tradeOffer.giveProperties || [],
+    takeProperties: tradeOffer.takeProperties || [],
+    giveMoney: Number(tradeOffer.giveMoney) || 0,
+    takeMoney: Number(tradeOffer.takeMoney) || 0,
+  };
+
   setPendingTrade({
     from: currentPlayer,
     to: tradeWith,
-    offer: tradeOffer,
+    offer: normalizedOffer,
   });
 
   // close trade builder
@@ -427,6 +486,27 @@ function handleConfirmTrade() {
 
 function applyTrade(trade) {
   const { from, to, offer } = trade;
+  const giveMoney = Number(offer.giveMoney) || 0;
+  const takeMoney = Number(offer.takeMoney) || 0;
+
+  const fromMoney = players[from]?.money ?? 0;
+  const toMoney = players[to]?.money ?? 0;
+
+  if (giveMoney > fromMoney) {
+    addLog(
+      `❌ Trade cancelled: ${players[from]?.name || `Player ${from + 1}`} cannot pay ${giveMoney} gold`
+    );
+    setPendingTrade(null);
+    return;
+  }
+
+  if (takeMoney > toMoney) {
+    addLog(
+      `❌ Trade cancelled: ${players[to]?.name || `Player ${to + 1}`} cannot pay ${takeMoney} gold`
+    );
+    setPendingTrade(null);
+    return;
+  }
 
   // 1️⃣ Transfer properties
   setOwnership(prev => {
@@ -444,14 +524,14 @@ function applyTrade(trade) {
   });
 
   // 2️⃣ Transfer money
-  if (offer.giveMoney > 0) {
-    updateMoney(from, -offer.giveMoney);
-    updateMoney(to, offer.giveMoney);
+  if (giveMoney > 0) {
+    updateMoney(from, -giveMoney);
+    updateMoney(to, giveMoney);
   }
 
-  if (offer.takeMoney > 0) {
-    updateMoney(to, -offer.takeMoney);
-    updateMoney(from, offer.takeMoney);
+  if (takeMoney > 0) {
+    updateMoney(to, -takeMoney);
+    updateMoney(from, takeMoney);
   }
 
   // 3️⃣ Cleanup
@@ -768,7 +848,7 @@ async function runAITurn() {
     ownership,
     houses,
     mortgaged,
-    tradeAvailable: Boolean(pendingTrade),
+    tradeAvailable: Boolean(pendingTrade && pendingTrade.to === currentPlayer),
     propertyBuyAvailable: false,
   };
 
@@ -898,6 +978,31 @@ async function runAITurn() {
 
     const mappedPostRollActions = [];
     const decoded = decodeAction(backendPrediction.action);
+    const otherPlayers = players
+      .map((_, idx) => idx)
+      .filter((idx) => idx !== currentPlayer && !bankruptPlayers.includes(idx));
+
+    function resolveTradeTarget(otherPlayerSlot) {
+      if (otherPlayers.length === 0) return currentPlayer;
+      const slot = Number.isFinite(otherPlayerSlot)
+        ? Math.abs(otherPlayerSlot) % otherPlayers.length
+        : 0;
+      return otherPlayers[slot];
+    }
+
+    function getTradablePropertyIds(playerIdx) {
+      return Object.entries(ownership)
+        .filter(([cellId, owner]) => Number(owner) === playerIdx)
+        .map(([cellId]) => Number(cellId))
+        .filter((cellId) => {
+          const cell = boardCells[cellId];
+          if (!cell) return false;
+          if (!["property", "railroad", "utility"].includes(cell.type)) return false;
+          if (mortgaged[cellId]) return false;
+          if (cell.type === "property" && (houses[cellId] || 0) > 0) return false;
+          return true;
+        });
+    }
 
     if (decoded.type === "buy_property" && propertyBuyAvailable && landingCell) {
       mappedPostRollActions.push({ type: "buy", cellId: landingCell.id });
@@ -931,9 +1036,139 @@ async function runAITurn() {
       mappedPostRollActions.push({ type: "sell_property", cellId: decoded.cellId });
       mappedPostRollActions.push({ type: "endTurn" });
       addLog("✅ Executing: sell property");
-    } else if (decoded.type === "buy_trade_offer" || decoded.type === "sell_trade_offer" || decoded.type === "exchange_trade_offer") {
+    } else if (
+      (decoded.type === "accept_trade" || decoded.type === "decline_trade") &&
+      pendingTrade &&
+      pendingTrade.to === currentPlayer
+    ) {
+      if (decoded.type === "accept_trade") {
+        addLog(`🤝 AI accepted trade from ${players[pendingTrade.from]?.name || `Player ${pendingTrade.from + 1}`}`);
+        applyTrade(pendingTrade);
+      } else {
+        addLog(`❌ AI rejected trade from ${players[pendingTrade.from]?.name || `Player ${pendingTrade.from + 1}`}`);
+        setPendingTrade(null);
+      }
       mappedPostRollActions.push({ type: "endTurn" });
-      addLog(`🧾 Backend proposed a trade action (${decoded.description}); trade execution UI is not connected yet, so ending turn`);
+    } else if (decoded.type === "buy_trade_offer") {
+      const targetPlayer = resolveTradeTarget(decoded.targetPlayer);
+
+      const targetTradable = getTradablePropertyIds(targetPlayer);
+      const requestedProperty =
+        ownership[decoded.property] === targetPlayer
+          ? decoded.property
+          : targetTradable[0];
+      const property = requestedProperty !== undefined ? boardCells[requestedProperty] : null;
+
+      if (targetPlayer === currentPlayer) {
+        addLog(`🧾 AI trade skipped: no valid target player`);
+      } else if (requestedProperty !== undefined) {
+        const rawPrice = Math.max(
+          1,
+          Math.floor((property?.price || 100) * (decoded.priceLevel || 1))
+        );
+        const estimatedPrice = Math.min(rawPrice, Math.max(players[currentPlayer]?.money || 0, 0));
+
+        if (estimatedPrice <= 0) {
+          addLog(`🧾 AI trade skipped: AI has no cash to propose buy trade`);
+        } else {
+          setPendingTrade({
+            from: currentPlayer,
+            to: targetPlayer,
+            offer: {
+              giveProperties: [],
+              takeProperties: [requestedProperty],
+              giveMoney: estimatedPrice,
+              takeMoney: 0,
+            },
+          });
+
+          addLog(`🧾 AI proposed trade to ${players[targetPlayer]?.name || `Player ${targetPlayer + 1}`}: buy ${property?.name || requestedProperty} for ${estimatedPrice} gold`);
+        }
+      } else {
+        addLog(`🧾 AI trade skipped: target player has no tradable properties`);
+      }
+
+      mappedPostRollActions.push({ type: "endTurn" });
+    } else if (decoded.type === "sell_trade_offer") {
+      const targetPlayer = resolveTradeTarget(decoded.targetPlayer);
+
+      const aiTradable = getTradablePropertyIds(currentPlayer);
+      const offeredProperty =
+        ownership[decoded.property] === currentPlayer
+          ? decoded.property
+          : aiTradable[0];
+      const property = offeredProperty !== undefined ? boardCells[offeredProperty] : null;
+
+      if (targetPlayer === currentPlayer) {
+        addLog(`🧾 AI trade skipped: no valid target player`);
+      } else if (offeredProperty !== undefined) {
+        const rawPrice = Math.max(
+          1,
+          Math.floor((property?.price || 100) * (decoded.priceLevel || 1))
+        );
+        const estimatedPrice = Math.min(rawPrice, Math.max(players[targetPlayer]?.money || 0, 0));
+
+        if (estimatedPrice <= 0) {
+          addLog(`🧾 AI trade skipped: ${players[targetPlayer]?.name || `Player ${targetPlayer + 1}`} has no cash to buy`);
+        } else {
+          setPendingTrade({
+            from: currentPlayer,
+            to: targetPlayer,
+            offer: {
+              giveProperties: [offeredProperty],
+              takeProperties: [],
+              giveMoney: 0,
+              takeMoney: estimatedPrice,
+            },
+          });
+
+          addLog(`🧾 AI proposed trade to ${players[targetPlayer]?.name || `Player ${targetPlayer + 1}`}: sell ${property?.name || offeredProperty} for ${estimatedPrice} gold`);
+        }
+      } else {
+        addLog(`🧾 AI trade skipped: AI has no tradable properties to sell`);
+      }
+
+      mappedPostRollActions.push({ type: "endTurn" });
+    } else if (decoded.type === "exchange_trade_offer") {
+      const targetPlayer = resolveTradeTarget(decoded.targetPlayer);
+
+      const aiTradable = getTradablePropertyIds(currentPlayer);
+      const targetTradable = getTradablePropertyIds(targetPlayer);
+      const offeredPropertyId =
+        ownership[decoded.offeredProperty] === currentPlayer
+          ? decoded.offeredProperty
+          : aiTradable[0];
+
+      const requestedPropertyId =
+        ownership[decoded.requestedProperty] === targetPlayer
+          ? decoded.requestedProperty
+          : targetTradable.find((id) => id !== offeredPropertyId) ?? targetTradable[0];
+
+      const offeredProperty =
+        offeredPropertyId !== undefined ? boardCells[offeredPropertyId] : null;
+      const requestedProperty =
+        requestedPropertyId !== undefined ? boardCells[requestedPropertyId] : null;
+
+      if (targetPlayer === currentPlayer) {
+        addLog(`🧾 AI trade skipped: no valid target player`);
+      } else if (offeredPropertyId !== undefined && requestedPropertyId !== undefined) {
+        setPendingTrade({
+          from: currentPlayer,
+          to: targetPlayer,
+          offer: {
+            giveProperties: [offeredPropertyId],
+            takeProperties: [requestedPropertyId],
+            giveMoney: 0,
+            takeMoney: 0,
+          },
+        });
+
+        addLog(`🧾 AI proposed exchange to ${players[targetPlayer]?.name || `Player ${targetPlayer + 1}`}: ${offeredProperty?.name || offeredPropertyId} ↔ ${requestedProperty?.name || requestedPropertyId}`);
+      } else {
+        addLog(`🧾 AI exchange skipped: one side has no tradable properties`);
+      }
+
+      mappedPostRollActions.push({ type: "endTurn" });
     } else if (decoded.type === "end_turn") {
       mappedPostRollActions.push({ type: "endTurn" });
       addLog("✅ Executing: end turn");
@@ -1009,12 +1244,14 @@ return (
     <div className="center-panel">
 
       {pendingTrade && (
+        (players[pendingTrade.to]?.type || "").toLowerCase() !== "ai" ? (
         <TradeReviewModal
           trade={pendingTrade}
           players={players}
           onAccept={() => applyTrade(pendingTrade)}
           onReject={() => setPendingTrade(null)}
         />
+        ) : null
       )}
 
       {showTrade && (
